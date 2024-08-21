@@ -51,14 +51,20 @@
             <div class="position-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#jadwal.html">Jadwal</a>
+                        <a class="nav-link" href="#jadwal.html">Akun Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#Pengumuman">Aktivitas</a>
+                        <a class="nav-link" href="#jadwal.html">Akun Siswa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#Home">Kelas</a>
-                    </li>    
+                        <a class="nav-link" href="#jadwal.html">Jadwal Guru</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#jadwal.html">Jadwal Siswa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Pengumuman">Rapot</a>
+                    </li>  
                 </ul>
             </div>
         </nav>
