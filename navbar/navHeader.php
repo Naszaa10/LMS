@@ -53,10 +53,10 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pengumuman.php">Pengumuman</a>
+                        <a class="nav-link" href="pengumuman.php">Jadwal</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jadwal.php">Jadwal</a>
+                        <a class="nav-link" href="jadwal.php">Nilai</a>
                     </li>
                 </ul>
             </div>

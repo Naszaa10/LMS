@@ -29,25 +29,6 @@ $result = $stmt->get_result();
 <body>
     <?php include '../navbar/navHeader.php'; ?>
     <div id="mainContent" class="container mt-4">
-        <!-- Seksi Tugas yang Akan Datang -->
-        <section class="tasks mb-4">
-            <h3>Tugas yang Akan Datang</h3>
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Tugas 1
-                    <span class="badge bg-primary rounded-pill">Segera</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Tugas 2
-                    <span class="badge bg-warning rounded-pill">Sedang Proses</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Tugas 3
-                    <span class="badge bg-success rounded-pill">Selesai</span>
-                </li>
-            </ul>
-        </section>
-
         <!-- Seksi Tambah Card -->
         <div class="btn-card mb-4">
             <p>Tambah Card</p>
