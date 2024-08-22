@@ -35,7 +35,7 @@
                         <img src="https://via.placeholder.com/30" class="rounded-circle" alt="Profile Image">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="profileSiswa.php">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../Index.php">Logout</a></li>
@@ -56,7 +56,7 @@
                         <a class="nav-link" href="pengumuman.php">Jadwal</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jadwal.php">Nilai</a>
+                        <a class="nav-link" href="nilaiSiswa.php">Nilai</a>
                     </li>
                 </ul>
             </div>

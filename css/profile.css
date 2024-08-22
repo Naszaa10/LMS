@@ -1,0 +1,80 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+
+/* Jarak antar card */
+.container .row {
+    margin-left: 100px;
+    margin-right: 10px;
+}
+
+.col-md-4, .col-md-8 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/* foto kiri */
+.profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Nama Siswa */
+.foto h4 {
+    font-weight: bold; 
+}
+
+.foto p {
+    font-style: italic;  
+}
+
+
+.foto .list-group-item {
+    background-color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #333;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.foto .list-group-item:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.foto .list-group-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* card kanan */
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.card label {
+    margin-left: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
