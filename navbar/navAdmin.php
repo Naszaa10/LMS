@@ -60,6 +60,9 @@
                         <a class="nav-link" href="dataSiswa.php">Akun Siswa</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="tambah_mapel.php">Menambah Mata Pelajaran</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="kelolaJadwal.php">Kelola Jadwal</a>
                     <li class="nav-item">
                         <a class="nav-link" href="rapot.php">Rapot</a>

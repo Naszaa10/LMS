@@ -1,59 +1,41 @@
 <?php
 session_start();
-include '../db.php';
+include '../db.php'; // Menghubungkan dengan database
 
-// Ambil ID mata pelajaran dari URL
-$mapel_id = isset($_GET['id']) ? $_GET['id'] : 0;
-
-// Ambil data mata pelajaran berdasarkan ID
-$sql_mapel = "SELECT * FROM mata_pelajaran WHERE id = ?";
-$stmt_mapel = $conn->prepare($sql_mapel);
-$stmt_mapel->bind_param("i", $mapel_id);
-$stmt_mapel->execute();
-$result_mapel = $stmt_mapel->get_result();
-$mapel = $result_mapel->fetch_assoc();
-
-// Ambil kelas yang diajar oleh guru untuk mata pelajaran ini
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas FROM guru_mapel_kelas 
-              JOIN kelas ON guru_mapel_kelas.kelas_id = kelas.id 
-              WHERE guru_mapel_kelas.mata_pelajaran_id = ? AND guru_mapel_kelas.guru_id = ?";
-$stmt_kelas = $conn->prepare($sql_kelas);
-$stmt_kelas->bind_param("is", $mapel_id, $_SESSION['teacher_nip']);
-$stmt_kelas->execute();
-$result_kelas = $stmt_kelas->get_result();
-
-// Jika form materi/tugas disubmit
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $topik_id = $_POST['topik_id'];
-    $judul = $_POST['judul'];
-    $deadline = $_POST['deadline'];
-    $jenis = $_POST['jenis']; // 'materi' atau 'tugas'
-    $jenis_upload = $_POST['jenis_upload']; // 'text' atau 'file'
-    $content = $_POST['content'];
-    $file = $_FILES['file']['name'];
-    $hide = isset($_POST['hide']) ? 1 : 0;
-    $kelas_ids = $_POST['kelas'];
-
-    // Upload file jika ada
-    if ($jenis_upload == 'file' && $file) {
-        $target_dir = "../uploads/$jenis/";
-        $target_file = $target_dir . basename($file);
-        move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
-        $content = $file; // Simpan nama file di database
-    }
-
-    // Simpan materi atau tugas untuk setiap kelas yang dipilih
-    foreach ($kelas_ids as $kelas_id) {
-        $sql = "INSERT INTO $jenis (mata_pelajran_id, topik_id, kelas_id, judul, content, deadline, hide) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iiisssi", $mapel_id, $topik_id, $kelas_id, $judul, $content, $deadline, $hide);
-        $stmt->execute();
-    }
-
-    header("Location: detail_mapel.php?id=$mapel_id");
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
     exit();
 }
+
+$mapel_id = $_GET['mapel_id'];
+$topik_id = $_GET['topik_id'];
+
+// Query untuk mendapatkan topik
+$sqlTopik = "SELECT * FROM topik WHERE id = ?";
+$stmtTopik = $conn->prepare($sqlTopik);
+$stmtTopik->bind_param("i", $topik_id);
+$stmtTopik->execute();
+$topik = $stmtTopik->get_result()->fetch_assoc();
+
+// Query untuk mendapatkan materi dan tugas berdasarkan mata pelajaran dan topik
+$sqlMateri = "
+    SELECT * FROM materi 
+    WHERE mata_pelajaran_id = ? AND topik_id = ?
+";
+$stmtMateri = $conn->prepare($sqlMateri);
+$stmtMateri->bind_param("ii", $mapel_id, $topik_id);
+$stmtMateri->execute();
+$resultMateri = $stmtMateri->get_result();
+
+$sqlTugas = "
+    SELECT * FROM tugas 
+    WHERE mata_pelajaran_id = ? AND topik_id = ?
+";
+$stmtTugas = $conn->prepare($sqlTugas);
+$stmtTugas->bind_param("ii", $mapel_id, $topik_id);
+$stmtTugas->execute();
+$resultTugas = $stmtTugas->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -67,136 +49,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <?php include '../navbar/navHeader.php'; ?>
-
     <div id="mainContent" class="container mt-4">
-        <h1>Detail Mata Pelajaran: <?php echo htmlspecialchars($mapel['nama_mapel']); ?></h1>
-
-        <!-- Seksi menampilkan 16 topik -->
-        <div class="row mt-4">
-            <?php for ($i = 1; $i <= 16; $i++): ?>
-                <div class="col-md-3 mb-3">
-                    <div class="card custom-card">
+        <h2>Detail Mata Pelajaran</h2>
+        <h4>Topik: <?php echo htmlspecialchars($topik['nama_topik']); ?></h4>
+        <a href="tambah_materi_tugas.php?mapel_id=<?php echo $mapel_id; ?>&topik_id=<?php echo $topik_id; ?>" class="btn btn-primary mb-3">Tambah Materi/Tugas</a>
+        
+        <h5>Materi</h5>
+        <div class="row">
+            <?php while ($row = $resultMateri->fetch_assoc()): ?>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="Gambar Placeholder">
                         <div class="card-body">
-                            <h5 class="card-title">Topik <?php echo $i; ?></h5>
-                            <!-- Tombol untuk membuka form upload materi/tugas -->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal" data-topik="<?php echo $i; ?>">
-                                Tambah Materi/Tugas
-                            </button>
+                            <h5 class="card-title"><?php echo htmlspecialchars($row['judul']); ?></h5>
+                            <p class="card-text"><?php echo htmlspecialchars($row['keterangan']); ?></p>
+                            <?php if ($row['file_path']): ?>
+                                <a href="<?php echo htmlspecialchars($row['file_path']); ?>" class="btn btn-primary" target="_blank">Lihat File</a>
+                            <?php endif; ?>
+                            <p class="card-text"><small class="text-muted">Tanggal Tenggat: <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></small></p>
                         </div>
                     </div>
                 </div>
-            <?php endfor; ?>
+            <?php endwhile; ?>
         </div>
-
-        <!-- Modal Upload Materi/Tugas -->
-        <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="detail_mapel.php?id=<?php echo $mapel_id; ?>" method="post" enctype="multipart/form-data">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="uploadModalLabel">Tambah Materi/Tugas</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        
+        <h5>Tugas</h5>
+        <div class="row">
+            <?php while ($row = $resultTugas->fetch_assoc()): ?>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($row['judul']); ?></h5>
+                            <p class="card-text"><?php echo htmlspecialchars($row['keterangan']); ?></p>
+                            <p class="card-text">Opsi Tugas: <?php echo htmlspecialchars($row['opsi_tugas']); ?></p>
+                            <p class="card-text"><small class="text-muted">Tanggal Tenggat: <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></small></p>
                         </div>
-                        <div class="modal-body">
-                            <input type="hidden" id="topik_id" name="topik_id">
-                            <div class="mb-3">
-                                <label for="judul" class="form-label">Judul</label>
-                                <input type="text" class="form-control" id="judul" name="judul" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="jenis" class="form-label">Jenis</label>
-                                <select class="form-select" id="jenis" name="jenis" required>
-                                    <option value="materi">Materi</option>
-                                    <option value="tugas">Tugas</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="jenis_upload" class="form-label">Jenis Upload</label>
-                                <select class="form-select" id="jenis_upload" name="jenis_upload" required>
-                                    <option value="text">Teks</option>
-                                    <option value="file">File</option>
-                                </select>
-                            </div>
-                            <div class="mb-3" id="content_input">
-                                <label for="content" class="form-label">Konten</label>
-                                <textarea class="form-control" id="content" name="content" rows="3"></textarea>
-                            </div>
-                            <div class="mb-3" id="file_input" style="display:none;">
-                                <label for="file" class="form-label">File</label>
-                                <input type="file" class="form-control" id="file" name="file">
-                            </div>
-                            <div class="mb-3" id="deadline_input" style="display:none;">
-                                <label for="deadline" class="form-label">Deadline</label>
-                                <input type="datetime-local" class="form-control" id="deadline" name="deadline">
-                            </div>
-                            <div class="mb-3">
-                                <label for="kelas" class="form-label">Pilih Kelas</label>
-                                <?php while ($kelas = $result_kelas->fetch_assoc()): ?>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="kelas[]" value="<?php echo $kelas['id']; ?>" id="kelas<?php echo $kelas['id']; ?>">
-                                        <label class="form-check-label" for="kelas<?php echo $kelas['id']; ?>">
-                                            <?php echo htmlspecialchars($kelas['nama_kelas']); ?>
-                                        </label>
-                                    </div>
-                                <?php endwhile; ?>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="hide" name="hide">
-                                <label class="form-check-label" for="hide">Sembunyikan</label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            <?php endwhile; ?>
         </div>
-
     </div>
-
     <?php include '../navbar/navFooter.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Mengatur modal dengan data topik yang dipilih
-        var uploadModal = document.getElementById('uploadModal')
-        uploadModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget
-            var topik = button.getAttribute('data-topik')
-            var modalTitle = uploadModal.querySelector('.modal-title')
-            var topikInput = uploadModal.querySelector('#topik_id')
-
-            modalTitle.textContent = 'Tambah Materi/Tugas untuk Topik ' + topik
-            topikInput.value = topik
-        })
-
-        // Menyesuaikan input berdasarkan jenis upload yang dipilih
-        document.getElementById('jenis_upload').addEventListener('change', function () {
-            var jenis_upload = this.value
-            var content_input = document.getElementById('content_input')
-            var file_input = document.getElementById('file_input')
-
-            if (jenis_upload === 'file') {
-                content_input.style.display = 'none'
-                file_input.style.display = 'block'
-            } else {
-                content_input.style.display = 'block'
-                file_input.style.display = 'none'
-            }
-        })
-
-        // Tampilkan/Non-aktifkan input deadline berdasarkan jenis yang dipilih
-        document.getElementById('jenis').addEventListener('change', function () {
-            var jenis = this.value
-            var deadline_input = document.getElementById('deadline_input')
-
-            if (jenis === 'tugas') {
-                deadline_input.style.display = 'block'
-            } else {
-                deadline_input.style.display = 'none'
-            }
-        })
-    </script>
 </body>
 </html>
+
+<?php
+// Tutup koneksi database
+$conn->close();
+?>
