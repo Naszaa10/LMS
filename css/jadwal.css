@@ -1,0 +1,150 @@
+/* Jadwal guru/siswa */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.main-container {
+    padding-top: 20px;
+    margin-left: 60px;
+}
+
+.container h2 {
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+}
+
+#searchInput {
+    width: 400px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+}
+
+/* Table Styles */
+.table {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ced4da;
+}
+
+.table tbody td {
+    text-align: center;
+    padding: 5px;
+    border: none;
+    vertical-align: middle;
+    border: 1px solid #ced4da;
+}
+
+.table tbody tr:hover {
+    background-color: #000000;
+}
+
+/* kelas siswa */
+.container p {
+    color: #000000;
+    text-align: center;
+}
+
+
+
+
+
+
+/* Untuk Admin */
+/* Styling untuk label*/
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    border-color: #0e6fcf;
+}
+
+/* untuk selection */
+.form-select {
+    border: 1px solid #0e6fcf;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-select:focus {
+    border-color: #80bdff;
+    outline: 2;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+/* Styling untuk tombol edit dan hapus */
+.btn-edit {
+    width: 65px;
+    background-color: #ffc107; /* Warna kuning */
+    border: none;
+    color: #000000;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    transition: background-color 0.2s ease;
+    margin-bottom: 5px;
+}
+
+.btn-edit:hover {
+    background-color: #405d04; /* Warna kuning gelap saat hover */
+}
+
+.btn-delete {
+    width: 65px;
+    background-color: #dc3545; /* Warna merah */
+    border: none;
+    color: #000000;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    transition: background-color 0.2s ease;
+    margin-bottom: 5px;
+}
+
+.btn-delete:hover {
+    background-color: #54020b; /* Warna merah gelap saat hover */
+}
+
+
+
+/* Table */
+.table {
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: center;
+}
+
+.table tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table tbody td .btn {
+    margin-right: 5px;
+}
+
+
+
