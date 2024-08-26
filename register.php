@@ -58,17 +58,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $success_message = "Error: " . $stmt_student->error;
         }
 
+    } elseif ($role === 'admin') {
+        // Query untuk insert ke tabel admins
+        $sql_admin = "INSERT INTO admin (username, password, nama) VALUES (?, ?, ?)";
+        $stmt_admin = $conn->prepare($sql_admin);
+        
+        // Bind parameter (sss -> string, string, string)
+        $stmt_admin->bind_param("sss", $username, $password, $nama);
+        
+        // Eksekusi statement dan cek hasilnya
+        if ($stmt_admin->execute()) {
+            $success_message = "Admin registration successful!";
+        } else {
+            $success_message = "Error: " . $stmt_admin->error;
+        }
+
     } else {
         $success_message = "Invalid role selected!";
     }
 }
 ?>
 
-
 <body>
     <div class="card">
         <img src="gambar/logo.png" alt="Logo" class="card-logo">
         <h2 class="card-title">Register</h2>
+        <?php if ($success_message): ?>
+            <div class="success-message"><?php echo $success_message; ?></div>
+        <?php endif; ?>
         <form action="register.php" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>
@@ -79,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="password">Nama:</label>
+                <label for="nama">Nama:</label>
                 <input type="text" class="form-control" id="nama" name="nama" required>
             </div>
             <div class="form-group">

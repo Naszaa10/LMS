@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navbar with Profile and Sidebar Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <!-- Top Navbar -->
@@ -53,7 +53,7 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jadwal.php">Jadwal</a>
+                        <a class="nav-link" href="jadwalSiswa.php">Jadwal</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="nilaiSiswa.php">Nilai</a>

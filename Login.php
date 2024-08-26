@@ -49,6 +49,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $error = "Siswa tidak ditemukan.";
         }
+    } elseif ($user_type === 'admin') {
+        // Query untuk mendapatkan data admin berdasarkan username
+        $sql = "SELECT * FROM admin WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $admin = $result->fetch_assoc();
+            if (password_verify($password, $admin['password'])) {
+                $_SESSION['admin_username'] = $admin['username']; // Simpan username admin di session
+                header("Location: Admin/index.php"); // Redirect ke dashboard admin
+                exit();
+            } else {
+                $error = "Password salah.";
+            }
+        } else {
+            $error = "Admin tidak ditemukan.";
+        }
     } else {
         $error = "Tipe pengguna tidak valid.";
     }
@@ -70,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h2>Login</h2>
             <form action="login.php" method="post">
                 <div class="form-group">
-                    <label for="username">Username (NIP/NIS):</label>
+                    <label for="username">Username (NIP/NIS/Username Admin):</label>
                     <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 <div class="form-group">
@@ -82,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <select class="form-control" id="user_type" name="user_type" required>
                         <option value="guru">Guru</option>
                         <option value="siswa">Siswa</option>
+                        <option value="admin">Admin</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
