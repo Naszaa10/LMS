@@ -1,213 +1,282 @@
+<?php
+include '../db.php';
+
+// Menangani form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'];
+
+    if ($action == 'add') {
+        $guru = $_POST['guru'];
+        $mapel = $_POST['mapel'];
+        $hari = $_POST['hari'];
+        $kelas = $_POST['kelas'];
+        $startTime = $_POST['start_time'];
+        $endTime = $_POST['end_time'];
+
+        $sql = "INSERT INTO jadwal (nip_guru, kode_mapel, hari, id_kelas, waktu_mulai, waktu_selesai) 
+                VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssss', $guru, $mapel, $hari, $kelas, $startTime, $endTime);
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+        }
+        $stmt->close();
+    } elseif ($action == 'update') {
+        $id = $_POST['id'];
+        $guru = $_POST['guru'];
+        $mapel = $_POST['mapel'];
+        $hari = $_POST['hari'];
+        $kelas = $_POST['kelas'];
+        $startTime = $_POST['start_time'];
+        $endTime = $_POST['end_time'];
+
+        $sql = "UPDATE jadwal SET nip_guru=?, kode_mapel=?, hari=?, id_kelas=?, waktu_mulai=?, waktu_selesai=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssssi', $guru, $mapel, $hari, $kelas, $startTime, $endTime, $id);
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+        }
+        $stmt->close();
+    } elseif ($action == 'delete') {
+        $id = $_POST['id'];
+
+        $sql = "DELETE FROM jadwal WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $id);
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+        }
+        $stmt->close();
+    }
+}
+
+// Fetch data for dropdowns
+$gurus = $conn->query("SELECT nip, nama_guru FROM guru");
+$mapels = $conn->query("SELECT kode_mapel, nama_mapel FROM mata_pelajaran");
+$kelas = $conn->query("SELECT id, nama_kelas FROM kelas");
+
+// Fetch schedule data
+$sql = "SELECT j.id, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
+        FROM jadwal j
+        JOIN guru g ON j.nip_guru = g.nip
+        JOIN mata_pelajaran m ON j.kode_mapel = m.kode_mapel
+        JOIN kelas k ON j.id_kelas = k.id";
+$result = $conn->query($sql);
+
+if (!$result) {
+    die('Query failed: ' . $conn->error);
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Guru dan Murid</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Jadwal Pengajaran</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/jadwal.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
-    <!-- Top Navbar -->
-    <?php
-    include '../navbar/navAdmin.php';
-    ?>
-
-
-        <div id="mainContent" class="container">
-        <h2 class="mb-4">Kelola Jadwal</h2>
-        <!-- Form Tambah/Edit Jadwal -->
-        <div class="mb-4">
-            <form id="scheduleForm">
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <label for="guru" class="form-label">Nama Guru</label>
-                        <select id="guru" class="form-select" placeholder="Masukkan nama guru">
-                            <option value="Tirta">Tirta</option>
-                            <option value="Permata">Permata</option>
-                            <option value="Susilo">Susilo</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="mapel" class="form-label">Mata Pelajaran</label>
-                        <select id="mapel" class="form-select" placeholder="Masukkan mata pelajaran">
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Inggris">Inggris</option>
-                            <option value="India">India</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="hari" class="form-label">Hari</label>
-                        <select id="hari" class="form-select" placeholder="Masukkan hari">
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                            <option value="Sabtu">Sabtu</option>
-                            <option value="Minggu">Minggu</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <label for="kelas" class="form-label">Kelas</label>
-                        <select id="kelas" class="form-select" placeholder="Masukkan kelas">
-                            <option value="kelas1">Kelas 1</option>
-                            <option value="kelas2">Kelas 2</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="start-time" class="form-label">Waktu Mulai</label>
-                        <input type="time" id="start-time" class="form-control" placeholder="Masukkan waktu mulai">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="end-time" class="form-label">Waktu Selesai</label>
-                        <input type="time" id="end-time" class="form-control" placeholder="Masukkan waktu selesai">
-                    </div>
-                </div>
-                <button type="button" id="addScheduleBtn" class="btn btn-primary">Tambah Jadwal</button>
-                <button type="button" id="updateScheduleBtn" class="btn btn-success d-none">Update Jadwal</button>
-            </form> 
+<div class="container mt-5">
+    <h2>Tambah/Edit Jadwal</h2>
+    <form id="scheduleForm">
+        <input type="hidden" id="scheduleId" name="id" value="">
+        <div class="form-group">
+            <label for="guru">Guru:</label>
+            <select class="form-control" id="guru" name="guru" required>
+                <option value="">Pilih Guru</option>
+                <?php while ($row = $gurus->fetch_assoc()): ?>
+                    <option value="<?php echo $row['nip']; ?>"><?php echo $row['nama_guru']; ?></option>
+                <?php endwhile; ?>
+            </select>
         </div>
-        <!-- Tabel Jadwal -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Guru</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Hari</th>
-                    <th>Kelas</th>
-                    <th>Jam</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody id="scheduleTable">
-                <!-- Data Jadwal Mengajar -->
-            </tbody>
-        </table>
+        <div class="form-group">
+            <label for="mapel">Mata Pelajaran:</label>
+            <select class="form-control" id="mapel" name="mapel" required>
+                <option value="">Pilih Mata Pelajaran</option>
+                <?php while ($row = $mapels->fetch_assoc()): ?>
+                    <option value="<?php echo $row['kode_mapel']; ?>"><?php echo $row['nama_mapel']; ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="hari">Hari:</label>
+            <select class="form-control" id="hari" name="hari" required>
+                <option value="">Pilih Hari</option>
+                <option value="Senin">Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+                <option value="Kamis">Kamis</option>
+                <option value="Jumat">Jumat</option>
+                <option value="Sabtu">Sabtu</option>
+                <option value="Minggu">Minggu</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="kelas">Kelas:</label>
+            <select class="form-control" id="kelas" name="kelas" required>
+                <option value="">Pilih Kelas</option>
+                <?php while ($row = $kelas->fetch_assoc()): ?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $row['nama_kelas']; ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="start-time">Waktu Mulai:</label>
+            <input type="time" class="form-control" id="start-time" name="start_time" required>
+        </div>
+        <div class="form-group">
+            <label for="end-time">Waktu Selesai:</label>
+            <input type="time" class="form-control" id="end-time" name="end_time" required>
+        </div>
+        <button type="button" id="addScheduleBtn" class="btn btn-primary">Tambah Jadwal</button>
+        <button type="button" id="updateScheduleBtn" class="btn btn-warning hidden">Update Jadwal</button>
+    </form>
+    <hr>
+    <h2>Daftar Jadwal</h2>
+    <div class="form-group">
+        <label for="searchTeacher">Cari Berdasarkan Nama Guru:</label>
+        <input type="text" class="form-control" id="searchTeacher" placeholder="Masukkan nama guru">
     </div>
+    <table id="scheduleTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama Guru</th>
+                <th>Mata Pelajaran</th>
+                <th>Hari</th>
+                <th>Kelas</th>
+                <th>Waktu</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['nama_guru']; ?></td>
+                    <td><?php echo $row['nama_mapel']; ?></td>
+                    <td><?php echo $row['hari']; ?></td>
+                    <td><?php echo $row['nama_kelas']; ?></td>
+                    <td><?php echo $row['waktu_mulai'] . ' - ' . $row['waktu_selesai']; ?></td>
+                    <td>
+                        <button class="btn btn-edit btn-sm btn-warning">Edit</button>
+                        <button class="btn btn-delete btn-sm btn-danger">Hapus</button>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</div>
 
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Fungsi untuk menambahkan jadwal
-            function addSchedule() {
-                const guru = document.getElementById('guru').value;
-                const mapel = document.getElementById('mapel').value;
-                const hari = document.getElementById('hari').value;
-                const kelas = document.getElementById('kelas').value;
-                const startTime = document.getElementById('start-time').value;
-                const endTime = document.getElementById('end-time').value;
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('scheduleForm');
+    const addBtn = document.getElementById('addScheduleBtn');
+    const updateBtn = document.getElementById('updateScheduleBtn');
+    const scheduleTable = document.getElementById('scheduleTable');
+    const searchTeacher = document.getElementById('searchTeacher');
 
-                if (guru && mapel && hari && kelas && startTime && endTime) {
-                    const row = document.createElement('tr');
+    addBtn.addEventListener('click', function() {
+        submitForm('add');
+    });
 
-                    row.innerHTML = `
-                        <td>${guru}</td>
-                        <td>${mapel}</td>
-                        <td>${hari}</td>
-                        <td>${kelas}</td>
-                        <td>${startTime} - ${endTime}</td>
-                        <td><button class="btn btn-edit btn-sm edit-btn">Edit</button> 
-                            <button class="btn btn-delete btn-sm delete-btn">Hapus</button>
-                        </td>
-                    `;
+    updateBtn.addEventListener('click', function() {
+        submitForm('update');
+    });
 
-                    scheduleTable.appendChild(row);
+    scheduleTable.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-edit')) {
+            const row = e.target.closest('tr');
+            const id = row.children[0].textContent;
+            const guru = row.children[1].textContent;
+            const mapel = row.children[2].textContent;
+            const hari = row.children[3].textContent;
+            const kelas = row.children[4].textContent;
+            const waktu = row.children[5].textContent.split(' - ');
 
-                    // Reset form setelah menambahkan
-                    document.getElementById('scheduleForm').reset();
-                    $('.form-select').val(null).trigger('change'); // Reset Select2
-                    addScheduleBtn.classList.remove('d-none');
-                    updateScheduleBtn.classList.add('d-none');
-                } else {
-                    alert('Semua kolom harus diisi.');
-                }
-            }
+            document.getElementById('scheduleId').value = id;
+            document.getElementById('guru').value = guru;
+            document.getElementById('mapel').value = mapel;
+            document.getElementById('hari').value = hari;
+            document.getElementById('kelas').value = kelas;
+            document.getElementById('start-time').value = waktu[0];
+            document.getElementById('end-time').value = waktu[1];
 
-            // Fungsi untuk mengedit jadwal
-            function editSchedule(row) {
-                const cells = row.querySelectorAll('td');
-                document.getElementById('guru').value = cells[0].innerText;
-                document.getElementById('mapel').value = cells[1].innerText;
-                document.getElementById('hari').value = cells[2].innerText;
-                document.getElementById('kelas').value = cells[3].innerText;
-                const [startTime, endTime] = cells[4].innerText.split(' - ');
-                document.getElementById('start-time').value = startTime;
-                document.getElementById('end-time').value = endTime;
-
-                // Update tombol
-                addScheduleBtn.classList.add('d-none');
-                updateScheduleBtn.classList.remove('d-none');
-
-                selectedRow = row;
-            }
-
-            // Fungsi untuk memperbarui jadwal
-            function updateSchedule() {
-                if (selectedRow) {
-                    const guru = document.getElementById('guru').value;
-                    const mapel = document.getElementById('mapel').value;
-                    const hari = document.getElementById('hari').value;
-                    const kelas = document.getElementById('kelas').value;
-                    const startTime = document.getElementById('start-time').value;
-                    const endTime = document.getElementById('end-time').value;
-
-                    selectedRow.innerHTML = `
-                        <td>${guru}</td>
-                        <td>${mapel}</td>
-                        <td>${hari}</td>
-                        <td>${kelas}</td>
-                        <td>${startTime} - ${endTime}</td>
-                         <td><button class="btn btn-edit btn-sm edit-btn">Edit</button>
-                             <button class="btn btn-delete btn-sm delete-btn">Hapus</button>
-                        </td>
-                    `;
-
-                    // Reset form setelah memperbarui
-                    document.getElementById('scheduleForm').reset();
-                    $('.form-select').val(null).trigger('change'); // Reset Select2
-                    addScheduleBtn.classList.remove('d-none');
-                    updateScheduleBtn.classList.add('d-none');
-                    selectedRow = null;
-                } else {
-                    alert('Tidak ada jadwal yang dipilih untuk diperbarui.');
-                }
-            }
-
-            // Event listener untuk tombol tambah
-            addScheduleBtn.addEventListener('click', addSchedule);
-
-            // Event listener untuk tombol update
-            updateScheduleBtn.addEventListener('click', updateSchedule);
-
-            // Event listener untuk edit dan hapus
-            scheduleTable.addEventListener('click', function (e) {
-                if (e.target.classList.contains('edit-btn')) {
-                    editSchedule(e.target.closest('tr'));
-                }
-
-                if (e.target.classList.contains('delete-btn')) {
-                    if (confirm('Anda yakin ingin menghapus jadwal ini?')) {
-                        scheduleTable.removeChild(e.target.closest('tr'));
+            addBtn.classList.add('hidden');
+            updateBtn.classList.remove('hidden');
+        } else if (e.target.classList.contains('btn-delete')) {
+            const row = e.target.closest('tr');
+            const id = row.children[0].textContent;
+            if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
+                fetch('kelolaJadwal.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        action: 'delete',
+                        id: id,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        row.remove();
+                    } else {
+                        alert('Gagal menghapus jadwal: ' + data.message);
                     }
-                }
-            });
-        });
-    </script>
+                });
+            }
+        }
+    });
 
+    searchTeacher.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        filterTable(query);
+    });
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebarMenu');
-    
-        sidebarToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('show');
+    function filterTable(query) {
+        const rows = scheduleTable.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const teacherName = row.children[1].textContent.toLowerCase();
+            if (teacherName.includes(query)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
         });
-    });</script>
+    }
+
+    function submitForm(action) {
+        const formData = new FormData(form);
+        formData.append('action', action);
+
+        fetch('kelolaJadwal.php', {
+            method: 'POST',
+            body: new URLSearchParams(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Jadwal berhasil ' + (action === 'add' ? 'ditambahkan' : 'diperbarui'));
+                location.reload();
+            } else {
+                alert('Gagal ' + (action === 'add' ? 'menambahkan' : 'memperbarui') + ' jadwal: ' + data.message);
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>

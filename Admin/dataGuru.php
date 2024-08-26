@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Menyusun perintah SQL untuk memasukkan data
-    $sql = "INSERT INTO guru (nip, nama, password, email, jurusan) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO guru (nip, nama_guru, password, email, jurusan) VALUES (?, ?, ?, ?, ?)";
 
     // Menyiapkan statement
     $stmt = $conn->prepare($sql);
