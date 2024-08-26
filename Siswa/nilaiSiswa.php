@@ -80,16 +80,6 @@
         });
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebarMenu');
-    
-        sidebarToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('show');
-        });
-    });</script>
-
 <?php
     include '../navbar/navFooter.php';
     ?>

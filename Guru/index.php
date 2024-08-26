@@ -1,18 +1,25 @@
 <?php
-session_start(); // Pastikan sesi dimulai
+session_start();
+include '../db.php'; // Menghubungkan dengan database
 
-include '../db.php'; // Sertakan koneksi database
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
-// Ambil teacher_nip dari sesi
-$teacher_nip = $_SESSION['teacher_nip']; // Pastikan ini adalah ID yang benar dari sesi
+$nip = $_SESSION['teacher_nip'];
 
-// Ambil data mata pelajaran yang diajarkan oleh guru
-$sql = "SELECT s.id, s.subject_name 
-        FROM teacher_subjects ts
-        JOIN subjects s ON ts.subject_id = s.id
-        WHERE ts.teacher_nip = ?";
+// Query untuk mendapatkan daftar mata pelajaran yang diajar oleh guru berdasarkan NIP
+$sql = "
+    SELECT DISTINCT mata_pelajaran.id, mata_pelajaran.nama_mapel
+    FROM guru_mapel_kelas 
+    JOIN mata_pelajaran ON guru_mapel_kelas.mata_pelajaran_id = mata_pelajaran.id 
+    JOIN guru ON guru_mapel_kelas.guru_id = guru.id 
+    WHERE guru.nip = ?
+";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $teacher_nip); // Bind teacher_nip secara dinamis
+$stmt->bind_param("s", $nip);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -29,22 +36,16 @@ $result = $stmt->get_result();
 <body>
     <?php include '../navbar/navHeader.php'; ?>
     <div id="mainContent" class="container mt-4">
-        <!-- Seksi Tambah Card -->
-        <div class="btn-card mb-4">
-            <p>Tambah Card</p>
-            <button type="button" class="btn btn-primary btn-sm">Tambah</button>
-            <button type="button" class="btn btn-secondary btn-sm">Hapus</button>
-        </div>
-
+        <h2>Daftar Mata Pelajaran yang Diajar</h2>
         <!-- Seksi Menampilkan Card Mata Pelajaran -->
         <div class="row justify-content-center">
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="col-md-6 mb-3">
-                    <a href="detail_card.php?id=<?php echo $row['id']; ?>" class="card-link text-decoration-none">
+                    <a href="detail_mapel.php?mapel_id=<?php echo $row['id']; ?>" class="card-link text-decoration-none">
                         <div class="card custom-card">
                             <img src="https://via.placeholder.com/150" class="card-img-top" alt="Gambar Placeholder">
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($row['subject_name']); ?></h5>
+                                <h5 class="card-title"><?php echo htmlspecialchars($row['nama_mapel']); ?></h5>
                             </div>
                         </div>
                     </a>

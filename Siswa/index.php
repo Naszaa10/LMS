@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php
-    include '../navbar/navHeader.php';
+    include '../navbar/navSiswa.php';
     ?>
         <!-- Main Content -->
         <div id="mainContent">

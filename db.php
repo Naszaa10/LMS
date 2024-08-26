@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lmsaf";
+$dbname = "lms_alfalah";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

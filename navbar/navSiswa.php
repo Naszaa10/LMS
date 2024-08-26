@@ -38,7 +38,7 @@
                         <li><a class="dropdown-item" href="profileSiswa.php">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../Index.php">Logout</a></li>
+                        <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -53,7 +53,7 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pengumuman.php">Jadwal</a>
+                        <a class="nav-link" href="jadwal.php">Jadwal</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="nilaiSiswa.php">Nilai</a>
