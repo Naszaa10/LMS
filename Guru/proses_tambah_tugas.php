@@ -1,27 +1,20 @@
 <?php
+session_start();
 include '../db.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $tugas_name = $_POST['tugas_name'];
-    $tugas_type = $_POST['tugas_type'];
-    $topik_id = $_POST['topik_id'];
-    $deadline = $_POST['deadline'];
+$topik_id = $_POST['topik_id'] ?? '';
+$kode_mapel = $_POST['kode_mapel'] ?? '';
+$kelas_id = $_POST['kelas_id'] ?? '';
+$judul_tugas = $_POST['judul_tugas'] ?? '';
+$keterangan_tugas = $_POST['keterangan_tugas'] ?? '';
+$opsi_tugas = $_POST['opsi_tugas'] ?? '';
+$tanggal_tenggat = $_POST['tanggal_tenggat'] ?? '';
 
-    if ($tugas_type == 'text') {
-        $text_content = $_POST['text_content_tugas'];
-        $query = "INSERT INTO Tugas (topik_id, tugas_name, tugas_type, text_content, deadline) VALUES ('$topik_id', '$tugas_name', 'text', '$text_content', '$deadline')";
-    } else if ($tugas_type == 'file') {
-        $file_content = $_FILES['file_content_tugas']['name'];
-        $target_dir = "../uploads/";
-        $target_file = $target_dir . basename($file_content);
-        move_uploaded_file($_FILES['file_content_tugas']['tmp_name'], $target_file);
-        $query = "INSERT INTO Tugas (topik_id, tugas_name, tugas_type, path_file, deadline) VALUES ('$topik_id', '$tugas_name', 'file', '$target_file', '$deadline')";
-    }
+$sqlTugas = "INSERT INTO tugas (topik_id, judul, keterangan, opsi_tugas, tanggal_tenggat) VALUES (?, ?, ?, ?, ?)";
+$stmtTugas = $conn->prepare($sqlTugas);
+$stmtTugas->bind_param("sssss", $topik_id, $judul_tugas, $keterangan_tugas, $opsi_tugas, $tanggal_tenggat);
+$stmtTugas->execute();
 
-    if ($conn->query($query) === TRUE) {
-        header("Location: detail_mata_pelajaran.php?id=$topik_id");
-    } else {
-        echo "Error: " . $conn->error;
-    }
-}
+header("Location: materi_tugas.php?topik_id=$topik_id&kode_mapel=$kode_mapel&kelas_id=$kelas_id");
+exit();
 ?>

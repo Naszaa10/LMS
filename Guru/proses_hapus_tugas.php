@@ -1,14 +1,17 @@
 <?php
+session_start();
 include '../db.php';
 
-$id = $_GET['id'];
-$topik_id = $_GET['topik_id'];
+$tugas_id = $_GET['tugas_id'] ?? '';
+$topik_id = $_GET['topik_id'] ?? '';
 
-$query = "DELETE FROM Tugas WHERE id='$id'";
+// Hapus tugas
+$sqlTugas = "DELETE FROM tugas WHERE id = ?";
+$stmtTugas = $conn->prepare($sqlTugas);
+$stmtTugas->bind_param("i", $tugas_id);
+$stmtTugas->execute();
 
-if ($conn->query($query) === TRUE) {
-    header("Location: detail_mata_pelajaran.php?id=$topik_id");
-} else {
-    echo "Error: " . $conn->error;
-}
+// Redirect kembali ke halaman materi
+header("Location: materi_tugas.php?topik_id=$topik_id");
+exit();
 ?>

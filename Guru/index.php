@@ -10,13 +10,11 @@ if (!isset($_SESSION['teacher_nip'])) {
 
 $nip = $_SESSION['teacher_nip'];
 
-// Query untuk mendapatkan daftar mata pelajaran yang diajar oleh guru berdasarkan NIP
+// Query untuk mendapatkan data jadwal berdasarkan NIP guru
 $sql = "
-    SELECT DISTINCT mata_pelajaran.id, mata_pelajaran.nama_mapel
-    FROM guru_mapel_kelas 
-    JOIN mata_pelajaran ON guru_mapel_kelas.mata_pelajaran_id = mata_pelajaran.id 
-    JOIN guru ON guru_mapel_kelas.guru_id = guru.id 
-    WHERE guru.nip = ?
+    SELECT jadwal.id, kelas.nama_kelas, mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, jadwal.id_kelas, jadwal.hari, jadwal.waktu_mulai, jadwal.waktu_selesai
+    FROM jadwal, kelas, mata_pelajaran
+    WHERE jadwal.id_kelas = kelas.id AND jadwal.kode_mapel = mata_pelajaran.kode_mapel AND jadwal.nip_guru = ? 
 ";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $nip);
@@ -24,37 +22,36 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasbor Mata Pelajaran</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
+
+<?php include '../navbar/navHeader.php'; ?>
 <body>
-    <?php include '../navbar/navHeader.php'; ?>
     <div id="mainContent" class="container mt-4">
-        <h2>Daftar Mata Pelajaran yang Diajar</h2>
-        <!-- Seksi Menampilkan Card Mata Pelajaran -->
+        <h2>Jadwal Mengajar</h2>
         <div class="row justify-content-center">
+        <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="col-md-6 mb-3">
-                    <a href="detail_mapel.php?mapel_id=<?php echo $row['id']; ?>" class="card-link text-decoration-none">
+                    <a href="detail_mapel.php?kode_mapel=<?php echo $row['kode_mapel']; ?>&kelas_id=<?php echo $row['id_kelas']; ?>">
                         <div class="card custom-card">
                             <img src="https://via.placeholder.com/150" class="card-img-top" alt="Gambar Placeholder">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_mapel']); ?></h5>
+                                <p class="card-text">Kelas: <?php echo htmlspecialchars($row['nama_kelas']); ?></p>
+                                <p class="card-text">Hari: <?php echo htmlspecialchars($row['hari']); ?></p>
+                                <p class="card-text">Waktu: <?php echo htmlspecialchars($row['waktu_mulai']) . " - " . htmlspecialchars($row['waktu_selesai']); ?></p>
                             </div>
                         </div>
                     </a>
                 </div>
             <?php endwhile; ?>
-        </div>
+        <?php else: ?>
+            <p>Tidak ada jadwal ditemukan.</p>
+        <?php endif; ?>
     </div>
-    <?php include '../navbar/navFooter.php'; ?>
+
+    </div>
 </body>
+<?php include '../navbar/navFooter.php'; ?>
 </html>
 
 <?php

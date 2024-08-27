@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result->num_rows > 0) {
             $siswa = $result->fetch_assoc();
             if (password_verify($password, $siswa['password'])) {
-                $_SESSION['student_nis'] = $siswa['nis']; // Simpan NIS siswa di session
+                $_SESSION['nis_siswa'] = $siswa['nis']; // Simpan NIS siswa di session
+                $_SESSION['kelas_id'] = $siswa['id_kelas'];
                 header("Location: Siswa/index.php"); // Redirect ke dashboard siswa
                 exit();
             } else {

@@ -72,6 +72,8 @@ $result = $conn->query($sql);
 if (!$result) {
     die('Query failed: ' . $conn->error);
 }
+
+$no = 1;
 ?>
 
 <!DOCTYPE html>
@@ -155,7 +157,7 @@ if (!$result) {
     <table id="scheduleTable" class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama Guru</th>
                 <th>Mata Pelajaran</th>
                 <th>Hari</th>
@@ -167,7 +169,7 @@ if (!$result) {
         <tbody>
             <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $no++; ?></td>
                     <td><?php echo $row['nama_guru']; ?></td>
                     <td><?php echo $row['nama_mapel']; ?></td>
                     <td><?php echo $row['hari']; ?></td>

@@ -18,7 +18,7 @@ html {
 body {
     background-color: #f8f9fa;
     margin: 0;
-    padding: 0;
+    padding-top: 70px; /* Adjusted to ensure content doesn't overlap with the navbar */
     display: flex;
     flex-direction: column;
     height: 100vh; /* Full viewport height */
@@ -28,7 +28,7 @@ body {
 .navbar {
     display: flex;
     justify-content: space-between;
-    padding: 0.1rem 2%;
+    padding: 0.5rem 2%; /* Adjusted padding for better spacing */
     background-color: #00b894;
     border-bottom: 1.4px solid rgb(0, 0, 0);
     position: fixed;
@@ -164,6 +164,8 @@ body {
 .sidebar.show + #mainContent {
     margin-left: 210px;
 }
+
+
 
 /* Style untuk Card */
 .card {
