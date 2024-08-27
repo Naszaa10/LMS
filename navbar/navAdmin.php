@@ -57,7 +57,7 @@
                         <a class="nav-link" href="dataGuru.php">Akun Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dataSiswa.php">Akun Siswa</a>
+                        <a class="nav-link" href="tambahKelas.php">Tambah Kelas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="tambah_mapel.php">Menambah Mata Pelajaran</a>
