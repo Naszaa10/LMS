@@ -67,19 +67,54 @@ body {
 
 /* Untuk Admin */
 /* Styling untuk label*/
-.form-label {
+
+.container h1 {
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container h3 {
+    font-size: 40px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    margin-top: 50px;
+}
+
+@media (max-width: 767.98px) {
+    .container h1 {
+        font-size: 1.5rem; /* Ukuran font lebih kecil di layar kecil */
+        margin-bottom: 0.75rem; /* Margin bawah lebih kecil */
+        margin-top: 50px;
+    }
+    .container h3 {
+        font-size: 1.5rem; /* Ukuran font lebih kecil di layar kecil */
+        margin-bottom: 0.75rem; /* Margin bawah lebih kecil */
+    }
+}
+
+.form-group {
+    width: 48%;
+    display: inline-block;
+    margin-right: 2%;
+    margin-bottom: 1rem;
+    vertical-align: top;
+}
+
+.form-group:nth-child(2n) {
+    margin-right: 0;
+}
+
+label {
     font-weight: 600;
-    color: #333;
+    color: #000000;
     margin-bottom: 0.5rem;
     display: block;
 }
 
-.form-control {
-    border-color: #0e6fcf;
-}
-
-/* untuk selection */
-.form-select {
+select.form-control {
     border: 1px solid #0e6fcf;
     border-radius: 0.375rem;
     padding: 0.375rem 0.75rem;
@@ -87,48 +122,96 @@ body {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.form-select:focus {
-    border-color: #80bdff;
-    outline: 2;
+select.form-control:focus {
+    border-color: #000000;
     box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
 }
 
-/* Styling untuk tombol edit dan hapus */
-.btn-edit {
-    width: 65px;
-    background-color: #ffc107; /* Warna kuning */
-    border: none;
-    color: #000000;
-    border-radius: 0.25rem;
+
+input.form-control {
+    border: 1px solid #0e6fcf;
+    border-radius: 0.375rem;
     padding: 0.375rem 0.75rem;
-    transition: background-color 0.2s ease;
-    margin-bottom: 5px;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input.form-control:focus {
+    border-color: #000000;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+
+
+/* Styling untuk tombol btn*/
+
+#addScheduleBtn {
+    background-color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+#updateScheduleBtn {
+    background-color: #ffc107;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+#updateScheduleBtn:hover {
+    background-color: #826305; /* Warna kuning gelap saat hover */
+}
+#addScheduleBtn:hover {
+    background-color:#054890; /* Warna kuning gelap saat hover */
+}
+
+td .btn {
+    margin: 0.25rem; /* Jarak antara tombol */
+    padding: 0.5rem 1rem; /* Padding di dalam tombol */
+    border-radius: 0.375rem; /* Sudut membulat */
+    font-size: 0.875rem; /* Ukuran font tombol */
+    font-weight: 300; /* Ketebalan font tombol */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Transisi untuk efek hover */
+}
+
+.btn-edit {
+    background-color: #ffc107; /* Warna latar belakang tombol Edit */
+    color: #212529; /* Warna teks tombol Edit */
 }
 
 .btn-edit:hover {
-    background-color: #405d04; /* Warna kuning gelap saat hover */
+    background-color: #e0a800; /* Warna latar belakang saat hover */
+    color: #000000; /* Warna teks saat hover */
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5); /* Efek bayangan saat hover */
 }
 
 .btn-delete {
-    width: 65px;
-    background-color: #dc3545; /* Warna merah */
-    border: none;
-    color: #000000;
-    border-radius: 0.25rem;
-    padding: 0.375rem 0.75rem;
-    transition: background-color 0.2s ease;
-    margin-bottom: 5px;
+    background-color: #dc3545; /* Warna latar belakang tombol Hapus */
+    color: #fff; /* Warna teks tombol Hapus */
 }
 
 .btn-delete:hover {
-    background-color: #54020b; /* Warna merah gelap saat hover */
+    background-color: #c82333; /* Warna latar belakang saat hover */
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5); /* Efek bayangan saat hover */
 }
 
+/* Style untuk tombol kecil */
+.btn-sm {
+    font-size: 0.75rem; /* Ukuran font tombol kecil */
+    padding: 0.25rem 0.5rem; /* Padding tombol kecil */
+}
+
+/* Tambahkan margin jika diperlukan untuk ruang antara tombol */
+td .btn {
+    margin-right: 0.5rem; /* Jarak kanan tombol */
+}
 
 
 /* Table */
 .table {
     margin-top: 20px;
+    margin-right: 10px;
 }
 
 .table thead th {

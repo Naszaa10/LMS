@@ -87,8 +87,12 @@ if (!$result) {
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Tambah/Edit Jadwal</h2>
+<?php
+    include '../navbar/navAdmin.php';
+?>
+        
+<div id="mainContent" class="container mt-5">
+    <h1>Tambah/Edit Jadwal</h1>
     <form id="scheduleForm">
         <input type="hidden" id="scheduleId" name="id" value="">
         <div class="form-group">
@@ -143,7 +147,7 @@ if (!$result) {
         <button type="button" id="updateScheduleBtn" class="btn btn-warning hidden">Update Jadwal</button>
     </form>
     <hr>
-    <h2>Daftar Jadwal</h2>
+    <h3>Daftar Jadwal</h3>
     <div class="form-group">
         <label for="searchTeacher">Cari Berdasarkan Nama Guru:</label>
         <input type="text" class="form-control" id="searchTeacher" placeholder="Masukkan nama guru">
@@ -278,5 +282,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+<?php
+include '../navbar/navFooter.php';
+?>
 </body>
 </html>

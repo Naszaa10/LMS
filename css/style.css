@@ -28,7 +28,7 @@ body {
 .navbar {
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 2%;
+    padding: 0.1rem 2%;
     background-color: #00b894;
     border-bottom: 1.4px solid rgb(0, 0, 0);
     position: fixed;
@@ -115,35 +115,37 @@ body {
 }
 
 
-/* Padding tambahan pada elemen nav-link di dalam sidebar */
+/* Gaya untuk item menu di sidebar */
 .sidebar .nav-link {
-    padding: 10px 25px;
-    color: #000000;
+    padding: 10px 25px; /* Padding di dalam link menu */
+    color: #000; /* Warna teks */
+    border-radius: 0.375rem; /* Sudut membulat */
+    transition: background-color 0.3s, color 0.3s; /* Transisi halus untuk efek hover */
+    text-decoration: none; /* Menghapus garis bawah default */
+}
+
+/* Gaya untuk item menu yang aktif */
+/* .sidebar .nav-link:active {
+    background-color: #27ae60; 
+    color: #ffffff;
+} */
+
+/* Gaya untuk item menu saat hover */
+.sidebar .nav-link:hover {
+    background-color: #27ae60;; /* Warna latar belakang saat hover */
+    color: #fff; /* Warna teks saat hover */
 }
 
 /* Jika perlu menambah jarak antara item dalam sidebar */
 .sidebar .nav-item {
-    margin-top: 10px; /* Memberikan jarak antara item */
+    margin-top: 10px; /* Jarak antara item menu */
 }
 
-
+/* Gaya untuk item menu di sidebar yang dalam mode show */
 .sidebar.show {
-    transform: translateX(0); /* Posisi terlihat */
+    transform: translateX(0); /* Posisi terlihat jika sidebar ditampilkan */
 }
 
-.sidebar .nav-link.active {
-    width: 90%;
-    background-color: #27ae60;
-    border-radius: 0.5rem;
-    color: #ffffff;
-}
-
-.sidebar .nav-link:hover {
-    background-color: #00b894;
-    color: #ffffff;
-    border-radius: 0.5rem;
-    width: 90%;
-}
 
 /* Style untuk Main Content */
 .main-container {
@@ -160,7 +162,7 @@ body {
 
 /* Ketika sidebar terlihat, beri ruang untuk sidebar */
 .sidebar.show + #mainContent {
-    margin-left: 250px;
+    margin-left: 210px;
 }
 
 /* Style untuk Card */

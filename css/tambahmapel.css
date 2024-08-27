@@ -1,93 +1,131 @@
-/* Reset default styling */
-body, h1, form {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+html, body {
+    height: 100%; /* Pastikan body memiliki tinggi 100% */
+    margin: 0; /* Menghapus margin default */
 }
 
-/* Body styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    flex-direction: column;
-}
-
-/* Heading styling */
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.container h1 {
+    font-weight: bold;
+    color: #007bff;
     text-align: center;
+    margin-top: 2rem; /* Jarak dari atas kontainer */
+    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
 }
 
-/* Form card container styling */
+/* Form Card Container */
 .form-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 500px;
-    width: 100%;
-    /* Menambahkan margin atas dan bawah untuk memastikan jarak yang cukup */
+    background-color: #ffffff; /* Warna latar belakang kartu */
+    border: 1px solid #ddd; /* Border abu-abu pada kartu */
+    border-radius: 0.5rem; /* Sudut membulat pada kartu */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bayangan halus di bawah kartu */
+    padding: 1.5rem; /* Jarak di dalam kartu */
+    max-width: 900px; /* Lebar maksimum kartu */
+    width: 80%; /* Lebar kartu 80% dari kontainer induk */
+    margin: 0 auto; /* Pusatkan kartu secara horizontal */
+}
+
+.form-card.hidden {
+    opacity: 0; /* Menyembunyikan formulir */
+    visibility: hidden; /* Menyembunyikan formulir */
+}
+
+.form-card.show {
+    opacity: 1; /* Menampilkan formulir */
+    visibility: visible; /* Menampilkan formulir */
+}
+
+/* Heading */
+.form-card h2 {
+    color: #007bff; /* Warna heading */
+    border-bottom: 2px solid #007bff; /* Garis bawah warna heading */
+    padding-bottom: 10px; /* Jarak bawah heading */
+    margin-bottom: 20px; /* Jarak bawah heading */
+    text-align: center; /* Menyentrasikan teks heading */
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 1rem; /* Jarak bawah setiap grup formulir */
+}
+
+.form-group label {
+    display: block; /* Menampilkan label sebagai blok */
+    margin-bottom: 0.5rem; /* Jarak bawah label */
+    font-weight: bold; /* Menebalkan font label */
+    color: #333; /* Warna teks label */
+}
+
+.form-group input,
+.form-group select {
+    height: 46px;
+    width: 100%; /* Lebar input dan select 100% dari kontainer */
+    padding: 0.75rem; /* Jarak di dalam input dan select */
+    border: 1px solid #ccc; /* Border abu-abu pada input dan select */
+    border-radius: 4px; /* Sudut membulat pada input dan select */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Bayangan dalam pada input dan select */
+    font-size: 1rem; /* Ukuran font input dan select */
+}
+
+/* Button */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem; /* Jarak dalam tombol */
+    font-size: 1rem; /* Ukuran font tombol */
+    font-weight: bold; /* Menebalkan font tombol */
+    color: #ffffff; /* Warna teks tombol */
+    background-color: #007bff; /* Warna latar belakang tombol */
+    border: none; /* Menghapus border tombol */
+    border-radius: 4px; /* Sudut membulat pada tombol */
+    cursor: pointer; /* Pointer saat hover pada tombol */
+    transition: background-color 0.3s ease; /* Transisi halus saat hover */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Warna latar belakang tombol saat hover */
+}
+
+/* Table Container */
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 20px 0;
 }
 
-/* Form field styling */
-label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
+/* Table */
+.table {
+    width: 90%; /* Ukuran tabel responsif, dapat diubah sesuai kebutuhan */
+    max-width: 1000px; /* Ukuran maksimum tabel */
+    margin-top: 20px;
+    border-collapse: separate; /* Memisahkan border untuk border-radius */
+    border-spacing: 0; /* Menghapus jarak antar sel tabel */
+    border-radius: 8px; /* Sudut membulat tabel */
+    overflow: hidden; /* Menyembunyikan bagian yang melebihi border-radius */
 }
 
-/* Input and select field styling */
-input[type="text"],
-textarea,
-select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-bottom: 15px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+/* Header Tabel */
+.table thead th {
+    background-color: #007bff;
+    color: #ffffff;
+    border: 1px solid #ced4da;
+    text-align: center;
+    padding: 5px;
+    white-space: nowrap; /* Mencegah pemecahan teks dalam header */
 }
 
-/* Styling for select field */
-select {
-    background-color: #fff;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTIvMCI+PHBhdGggZD0iTTAsMTJDMCAwLjM0MiwwLDEuNzgsMS42MjcsMi41NTkiIHN0cm9rZT0iIzMwMzAzMCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZG9saXQ9InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px;
-    appearance: none; /* Remove default arrow */
-    cursor: pointer;
+/* Sel Tabel */
+.table tbody td {
+    text-align: left; /* Memperbaiki typo */
+    padding: 5px;
+    border: 1px solid #ced4da;
+    white-space: nowrap; /* Mencegah pemecahan teks dalam sel */
 }
 
-/* Focus and hover styles for input and select */
-input[type="text"]:focus,
-textarea:focus,
-select:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
-    outline: none;
+/* Menyempitkan Kolom */
+.table th, .table td {
+    max-width: 150px; /* Atur lebar maksimum kolom */
+    overflow: hidden; /* Menyembunyikan teks yang melebihi lebar maksimum */
+    text-overflow: ellipsis; /* Menampilkan elipsis (...) jika teks terlalu panjang */
+    word-wrap: break-word; /* Memastikan teks panjang tetap dalam satu baris jika diperlukan */
 }
 
-input[type="submit"] {
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
