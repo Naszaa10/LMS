@@ -1,5 +1,38 @@
+<?php
+session_start();
+include '../db.php'; // Koneksi ke database
+
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+$nip = $_SESSION['teacher_nip'];
+
+// Ambil kelas yang diajar oleh guru
+$queryClasses = "SELECT DISTINCT kelas.id, kelas.nama_kelas 
+                 FROM kelas 
+                 JOIN jadwal ON kelas.id = jadwal.id_kelas 
+                 WHERE jadwal.nip_guru = ?";
+$stmtClasses = $conn->prepare($queryClasses);
+$stmtClasses->bind_param("s", $nip);
+$stmtClasses->execute();
+$resultClasses = $stmtClasses->get_result();
+
+// Ambil mata pelajaran yang diajar oleh guru
+$querySubjects = "SELECT DISTINCT mata_pelajaran.kode_mapel, mata_pelajaran.nama_mapel, mata_pelajaran.deskripsi, mata_pelajaran.jenis, mata_pelajaran.gambar, mata_pelajaran.tahun_ajaran 
+                  FROM mata_pelajaran 
+                  JOIN jadwal ON mata_pelajaran.kode_mapel = jadwal.kode_mapel 
+                  WHERE jadwal.nip_guru = ?";
+$stmtSubjects = $conn->prepare($querySubjects);
+$stmtSubjects->bind_param("s", $nip);
+$stmtSubjects->execute();
+$resultSubjects = $stmtSubjects->get_result();
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,74 +41,81 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/nilai.css">
 </head>
+<?php include '../navbar/navHeader.php'; ?>
 <body>
-<?php
-    include '../navbar/navHeader.php';
-    ?>
-        <div id="mainContent">
-            <div class="container mt-5">
-                <h2 class="mb-4">Input Nilai Siswa</h2>
-                <form id="nilaiForm">
-                    <div class="mb-3">
-                        <label for="kelas" class="form-label">Kelas</label>
-                        <select class="form-select" id="kelas">
-                            <option selected>Pilih Kelas</option>
-                            <option value="kelas1">Kelas 1</option>
-                            <option value="kelas2">Kelas 2</option>
-                            <!-- Tambahkan kelas lainnya di sini -->
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="mataPelajaran" class="form-label">Mata Pelajaran</label>
-                        <select class="form-select" id="mataPelajaran">
-                            <option selected>Pilih Mata Pelajaran</option>
-                            <option value="matematika">Matematika</option>
-                            <option value="bahasa_indonesia">Bahasa Indonesia</option>
-                            <!-- Tambahkan mata pelajaran lainnya di sini -->
-                        </select>
-                    </div>
-                    <div id="tableContainer">
-                        <!-- Tabel akan diisi dengan data siswa berdasarkan kelas yang dipilih -->
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-4">Simpan Nilai</button>
-                </form>
-            </div>
+    <div id="mainContent">
+        <div class="container mt-5">
+            <h2 class="mb-4">Input Nilai Siswa</h2>
+            <form id="nilaiForm" method="post" action="save_nilai.php">
+                <div class="mb-3">
+                    <label for="kelas" class="form-label">Kelas</label>
+                    <select class="form-select" id="kelas" name="kelas" required>
+                        <option value="">Pilih Kelas</option>
+                        <?php while ($row = $resultClasses->fetch_assoc()) { ?>
+                            <option value="<?php echo $row['id']; ?>"><?php echo $row['nama_kelas']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="mataPelajaran" class="form-label">Mata Pelajaran</label>
+                    <select class="form-select" id="mataPelajaran" name="mataPelajaran" required>
+                        <option value="">Pilih Mata Pelajaran</option>
+                        <?php while ($row = $resultSubjects->fetch_assoc()) { ?>
+                            <option value="<?php echo $row['kode_mapel']; ?>">
+                                <?php echo $row['nama_mapel'] . " - " . $row['deskripsi'] . " (" . $row['jenis'] . ")"; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div id="tableContainer">
+                    <!-- Tabel akan diisi dengan data siswa berdasarkan kelas yang dipilih -->
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Simpan Nilai</button>
+            </form>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const kelasSelect = document.getElementById('kelas');
-            const tableContainer = document.getElementById('tableContainer');
+    document.addEventListener('DOMContentLoaded', function () {
+        const kelasSelect = document.getElementById('kelas');
+        const mataPelajaranSelect = document.getElementById('mataPelajaran');
+        const tableContainer = document.getElementById('tableContainer');
 
-            kelasSelect.addEventListener('change', function () {
-                const selectedKelas = kelasSelect.value;
-                // Simulated data for students based on the selected class
-                const students = {
-                    kelas1: ['Siswa 1', 'Siswa 2', 'Siswa 3'],
-                    kelas2: ['Siswa 4', 'Siswa 5', 'Siswa 6']
-                };
+        function updateTable() {
+            const selectedKelas = kelasSelect.value;
+            const selectedMataPelajaran = mataPelajaranSelect.value;
 
-                const selectedStudents = students[selectedKelas] || [];
+            if (selectedKelas && selectedMataPelajaran) {
+                fetch(`fetch_students.php?kelas=${selectedKelas}&mata_pelajaran=${selectedMataPelajaran}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let tableHtml = '<table class="table table-bordered">';
+                        tableHtml += '<thead><tr><th>Nama Siswa</th><th>Nilai</th></tr></thead><tbody>';
 
-                // Generate table HTML
-                let tableHtml = '<table class="table table-bordered">';
-                tableHtml += '<thead><tr><th class="siswa">Nama Siswa</th><th class="nilai">Nilai</th></tr></thead><tbody>';
+                        data.forEach(student => {
+                            const readOnly = student.nilai !== null ? 'readonly' : '';
+                            const nilaiValue = student.nilai !== null ? student.nilai : '';
 
-                selectedStudents.forEach(student => {
-                    tableHtml += `<tr><td class="siswa">${student}</td><td class="nilai"><input type="number" class="form-control" name="${student}" min="0" max="100"></td></tr>`;
-                });
+                            tableHtml += `<tr>
+                                            <td>${student.nama_siswa}</td>
+                                            <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100" ${readOnly}></td>
+                                        </tr>`;
+                        });
 
-                tableHtml += '</tbody></table>';
+                        tableHtml += '</tbody></table>';
+                        tableContainer.innerHTML = tableHtml;
+                    });
+            } else {
+                tableContainer.innerHTML = '';
+            }
+        }
 
-                tableContainer.innerHTML = tableHtml;
-            });
-        });
+        kelasSelect.addEventListener('change', updateTable);
+        mataPelajaranSelect.addEventListener('change', updateTable);
+    });
     </script>
 
-<?php
-    include '../navbar/navFooter.php';
-    ?>
 </body>
+<?php include '../navbar/navFooter.php'; ?>
 </html>

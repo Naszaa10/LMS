@@ -1,27 +1,32 @@
 <?php
-include '../db.php';
-// proses_tambah_topik.php
+session_start();
+include '../db.php'; // Menghubungkan dengan database
 
-$topik_name = $_POST['topik_name'];
-$mata_pelajaran_id = $_POST['mata_pelajaran_id'];
-
-// Validasi data
-if (!empty($topik_name)) {
-    // Query untuk menambahkan topik ke database
-    $query = "INSERT INTO Topik (mata_pelajaran_id, topik_name) VALUES (?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('is', $mata_pelajaran_id, $topik_name);
-
-    if ($stmt->execute()) {
-        // Redirect ke halaman detail mata pelajaran setelah berhasil menambah topik
-        header('Location: detail_mapel.php?id=' . $mata_pelajaran_id);
-        exit();
-    } else {
-        echo "Terjadi kesalahan: " . $stmt->error;
-    }
-
-    $stmt->close();
-} else {
-    echo "Nama topik tidak boleh kosong.";
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
 }
+
+// Ambil data dari form
+$nama_topik = $_POST['nama_topik'];
+$kode_mapel = $_POST['kode_mapel'];
+$id_kelas = $_POST['id_kelas'];
+
+// Query untuk menambahkan topik
+$sql = "INSERT INTO topik (nama_topik, kode_mapel, kelas_id) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ssi", $nama_topik, $kode_mapel, $id_kelas);
+
+if ($stmt->execute()) {
+    // Redirect kembali ke halaman detail_mapel.php
+    header("Location: detail_mapel.php?kode_mapel=$kode_mapel&kelas_id=$id_kelas");
+    exit();
+} else {
+    echo "Gagal menambahkan topik: " . $conn->error;
+}
+
+// Tutup koneksi database
+$stmt->close();
+$conn->close();
 ?>

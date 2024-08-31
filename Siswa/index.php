@@ -1,82 +1,112 @@
-<?php
-session_start();
-include '../db.php';
-
-// Ambil kelas_id dari sesi siswa yang sedang login
-$kelas_id = $_SESSION['kelas_id'];
-$nis_siswa = $_SESSION['nis_siswa'];
-
-// Query untuk mendapatkan daftar mata pelajaran berdasarkan kelas
-$sql = "
-    SELECT mp.kode_mapel, mp.nama_mapel 
-    FROM mata_pelajaran mp
-    JOIN jadwal j ON mp.kode_mapel = j.kode_mapel
-    WHERE j.id_kelas = ?
-";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $kelas_id);
-$stmt->execute();
-$result = $stmt->get_result();
-?>
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Siswa</title>
+    <title>Index Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <?php include '../navbar/navSiswa.php'; ?>
-    <div id="mainContent" class="container mt-4">
-        <h2>Dashboard Siswa</h2>
-        <h4>Mata Pelajaran</h4>
-        <div class="row">
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($row['nama_mapel']); ?></h5>
-                            <a href="detail_mapel.php?kode_mapel=<?php echo $row['kode_mapel']; ?>&kelas_id=<?php echo $kelas_id; ?>" class="btn btn-primary">Lihat Detail</a>
-                        </div>
-                    </div>
-                </div>
-            <?php endwhile; ?>
-        </div>
-        
-        <h4>Tugas yang Belum Dikerjakan</h4>
-        <ul class="list-group">
-            <?php
-            // Query untuk mendapatkan tugas yang belum dikerjakan oleh siswa dan terkait dengan kelas siswa
-            $sql_tugas = "
-                SELECT t.id, t.judul, t.tanggal_tenggat, tp.nama_topik, t.topik_id, mp.kode_mapel
-                FROM tugas t
-                JOIN topik tp ON t.topik_id = tp.id
-                JOIN mata_pelajaran mp ON tp.kode_mapel = mp.kode_mapel
-                JOIN jadwal j ON mp.kode_mapel = j.kode_mapel
-                LEFT JOIN pengumpulan_tugas pt ON t.id = pt.topik_id AND pt.nis_siswa = ?
-                WHERE j.id_kelas = ? AND pt.id IS NULL AND tp.kelas_id = ?
-            ";
-            $stmt_tugas = $conn->prepare($sql_tugas);
-            $stmt_tugas->bind_param("sii", $nis_siswa, $kelas_id, $kelas_id);
-            $stmt_tugas->execute();
-            $result_tugas = $stmt_tugas->get_result();
+<?php
+session_start();
+include '../navbar/navSiswa.php';
+include '../db.php'; // File koneksi ke database
 
-            while ($tugas = $result_tugas->fetch_assoc()): ?>
-                <li class="list-group-item">
-                    <h6><?php echo htmlspecialchars($tugas['judul']); ?></h6>
-                    <p><?php echo htmlspecialchars($tugas['nama_topik']); ?> - Tenggat: <?php echo htmlspecialchars($tugas['tanggal_tenggat']); ?></p>
-                    <a href="detail_mapel.php?kode_mapel=<?php echo $tugas['kode_mapel']; ?>&kelas_id=<?php echo $kelas_id; ?>&topik_id=<?php echo $tugas['topik_id']; ?>" class="btn btn-secondary">Kerjakan Tugas</a>
+// Ambil NIS siswa yang login
+$nis_siswa = $_SESSION['nis_siswa']; // Sesuaikan dengan variabel session yang kamu gunakan
+
+// Query untuk mendapatkan tugas yang belum dikerjakan oleh siswa
+$query_tugas = "
+    SELECT * FROM tugas 
+    WHERE kelas_id IN (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa') 
+    AND id NOT IN (SELECT tugas_id FROM pengumpulan_tugas WHERE nis_siswa = '$nis_siswa')
+";
+$result_tugas = mysqli_query($conn, $query_tugas);
+
+// Query untuk mendapatkan mata pelajaran berdasarkan kelas siswa
+$query_mapel = "
+    SELECT mp.*, 
+        (SELECT COUNT(*) FROM materi m 
+            JOIN pengunduhan_materi pm ON m.id = pm.materi_id 
+            WHERE m.kode_mapel = mp.kode_mapel AND pm.nis = '$nis_siswa') AS total_materi_diunduh,
+        (SELECT COUNT(*) FROM tugas t 
+            WHERE t.kode_mapel = mp.kode_mapel 
+            AND t.id IN (SELECT tugas_id FROM pengumpulan_tugas WHERE nis_siswa = '$nis_siswa')) AS total_tugas_dikumpulkan,
+        (SELECT COUNT(*) FROM materi WHERE kode_mapel = mp.kode_mapel) AS total_materi,
+        (SELECT COUNT(*) FROM tugas WHERE kode_mapel = mp.kode_mapel) AS total_tugas,
+        (SELECT g.nama_guru FROM guru g 
+            JOIN jadwal j ON g.nip = j.nip_guru 
+            WHERE j.kode_mapel = mp.kode_mapel 
+            LIMIT 1) AS nama_guru
+    FROM mata_pelajaran mp 
+    WHERE mp.kode_mapel IN (
+        SELECT kode_mapel FROM jadwal 
+        WHERE id_kelas = (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa')
+    )
+";
+$result_mapel = mysqli_query($conn, $query_mapel);
+?>
+
+<!-- Main Content -->
+<div id="mainContent" class="container mt-4">
+    <!-- Upcoming Tasks -->
+    <section class="tasks mb-4">
+        <h3>Upcoming Tasks</h3>
+        <ul class="list-group">
+            <?php while ($row = mysqli_fetch_assoc($result_tugas)): ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <?php echo htmlspecialchars($row['judul']); ?>
+                    <span class="badge bg-primary rounded-pill">Due <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></span>
                 </li>
             <?php endwhile; ?>
         </ul>
+    </section>
+
+    <!-- Mata Pelajaran Cards -->
+    <div class="row justify-content-center pt-3">
+        <?php while ($row_mapel = mysqli_fetch_assoc($result_mapel)): 
+            // Hitung progres persentase
+            $total_materi = $row_mapel['total_materi'];
+            $total_tugas = $row_mapel['total_tugas'];
+            $total_materi_diunduh = $row_mapel['total_materi_diunduh'];
+            $total_tugas_dikumpulkan = $row_mapel['total_tugas_dikumpulkan'];
+            $progres_materi = $total_materi > 0 ? ($total_materi_diunduh / $total_materi) * 100 : 0;
+            $progres_tugas = $total_tugas > 0 ? ($total_tugas_dikumpulkan / $total_tugas) * 100 : 0;
+            $progres_total = ($progres_materi + $progres_tugas) / 2;
+        ?>
+            <div class="col-md-6 mb-3">
+                <a href="detail_mapel.php?kode_mapel=<?php echo htmlspecialchars($row_mapel['kode_mapel']); ?>" class="card-link">
+                    <div class="card custom-card">
+                        <?php if ($row_mapel['gambar']): ?>
+                            <img src="../gambar/<?php echo htmlspecialchars($row_mapel['gambar']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($row_mapel['nama_mapel']); ?>">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <p class="card-title"><?php echo htmlspecialchars($row_mapel['nama_mapel']); ?></p>
+                            <p class="card-text"><?php echo htmlspecialchars($row_mapel['deskripsi']); ?></p>
+                            <p class="card-text"><strong>Guru: </strong><?php echo htmlspecialchars($row_mapel['nama_guru']); ?></p>
+                            <div class="progress mb-2">
+                                <div class="progress-bar" role="progressbar" style="width: <?php echo htmlspecialchars($progres_total); ?>%;" aria-valuenow="<?php echo htmlspecialchars($progres_total); ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="card-persentase"><?php echo round($progres_total, 2); ?>% complete</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <?php endwhile; ?>
     </div>
-    <?php include '../navbar/navFooter.php'; ?>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebarMenu');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('show');
+        });
+    });
+</script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

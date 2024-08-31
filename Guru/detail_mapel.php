@@ -1,28 +1,29 @@
 <?php
 session_start();
-include '../db.php';
+include '../db.php'; // Menghubungkan dengan database
 
-$kode_mapel = $_GET['kode_mapel'] ?? '';
-$kelas_id = $_GET['kelas_id'] ?? ''; // Ambil ID Kelas dari Session
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
-// Query untuk mendapatkan detail mata pelajaran
-$sql = "SELECT * FROM mata_pelajaran WHERE kode_mapel = ?";
+$nip = $_SESSION['teacher_nip'];
+
+// Mendapatkan detail mata pelajaran
+$kode_mapel = $_GET['kode_mapel'];
+$id_kelas = $_GET['kelas_id'];
+
+$sql = "
+    SELECT mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, mata_pelajaran.tahun_ajaran
+    FROM mata_pelajaran
+    WHERE mata_pelajaran.kode_mapel = ?
+";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $kode_mapel);
 $stmt->execute();
 $result = $stmt->get_result();
 $mapel = $result->fetch_assoc();
-
-if (!$mapel) {
-    die('Data mata pelajaran tidak ditemukan.');
-}
-
-// Query untuk mendapatkan topik berdasarkan kode_mapel dan kelas_id
-$sqlTopik = "SELECT * FROM topik WHERE kode_mapel = ? AND kelas_id = ? ORDER BY nama_topik";
-$stmtTopik = $conn->prepare($sqlTopik);
-$stmtTopik->bind_param("si", $kode_mapel, $kelas_id);
-$stmtTopik->execute();
-$resultTopik = $stmtTopik->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -31,42 +32,170 @@ $resultTopik = $stmtTopik->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Mata Pelajaran</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <?php include '../navbar/navHeader.php'; ?>
+
     <div id="mainContent" class="container mt-4">
         <h2>Detail Mata Pelajaran</h2>
-        <h4>Nama Mata Pelajaran: <?php echo htmlspecialchars($mapel['nama_mapel']); ?></h4>
-        <a href="tambah_topik.php?kode_mapel=<?php echo urlencode($kode_mapel); ?>&kelas_id=<?php echo urlencode($kelas_id); ?>" class="btn btn-primary mb-3">Tambah Topik</a>
+        <p>Kode Mata Pelajaran: <?php echo htmlspecialchars($kode_mapel); ?></p>
+        <p>Nama Mata Pelajaran: <?php echo htmlspecialchars($mapel['nama_mapel']); ?></p>
+        <p>Tahun Ajaran: <?php echo htmlspecialchars($mapel['tahun_ajaran']); ?></p>
 
-        <!-- Menampilkan Topik -->
-        <?php if ($resultTopik->num_rows > 0): ?>
-            <h5>Topik</h5>
-            <div class="row">
-                <?php while ($topik = $resultTopik->fetch_assoc()): ?>
+        <!-- Button untuk membuka modal tambah topik -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahTopikModal">
+            Tambah Topik
+        </button>
+
+        <!-- Modal Tambah Topik -->
+        <div class="modal fade" id="tambahTopikModal" tabindex="-1" role="dialog" aria-labelledby="tambahTopikModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tambahTopikModalLabel">Tambah Topik</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="proses_tambah_topik.php" method="post">
+                            <div class="form-group">
+                                <label for="nama_topik">Nama Topik</label>
+                                <input type="text" class="form-control" id="nama_topik" name="nama_topik" required>
+                            </div>
+                            <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
+                            <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menampilkan topik yang ada -->
+        <?php
+        $sql = "SELECT * FROM topik WHERE kode_mapel = ? AND kelas_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $kode_mapel, $id_kelas);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        ?>
+        <div class="row mt-4">
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
                     <div class="col-md-4 mb-3">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($topik['nama_topik']); ?></h5>
-                                <a href="materi_tugas.php?topik_id=<?php echo urlencode($topik['id']); ?>&kode_mapel=<?php echo urlencode($kode_mapel); ?>&kelas_id=<?php echo urlencode($kelas_id); ?>" class="btn btn-primary">Lihat Materi & Tugas</a>
-                                <a href="hapus_topik.php?topik_id=<?php echo urlencode($topik['id']); ?>&kode_mapel=<?php echo urlencode($kode_mapel); ?>&kelas_id=<?php echo urlencode($kelas_id); ?>" class="btn btn-danger mt-2" onclick="return confirm('Apakah Anda yakin ingin menghapus topik ini?');">Hapus Topik</a>
+                                <h5 class="card-title"><?php echo htmlspecialchars($row['nama_topik']); ?></h5>
+                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#uploadMateriModal" data-topik-id="<?php echo $row['id']; ?>">
+                                    Upload Materi
+                                </a>
+                                <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#tugasModal" data-topik-id="<?php echo $row['id']; ?>">
+                                    Tugas
+                                </a><br><br>
+                                <a href="cek_materi.php?topik_id=<?php echo $row['id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-info">
+                                    Cek Materi
+                                </a>
+                                <a href="cek_pengumpulan_tugas.php?topik_id=<?php echo $row['id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-warning">
+                                    Cek Pengumpulan
+                                </a>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
-            </div>
-        <?php else: ?>
-            <p>Belum ada topik untuk mata pelajaran ini di kelas ini.
-        <?php endif; ?>
+            <?php else: ?>
+                <p>Tidak ada topik ditemukan.</p>
+            <?php endif; ?>
+        </div>
     </div>
-    <?php include '../navbar/navFooter.php'; ?>
+
+    <!-- Modal Upload Materi -->
+    <div class="modal fade" id="uploadMateriModal" tabindex="-1" role="dialog" aria-labelledby="uploadMateriModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadMateriModalLabel">Upload Materi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="proses_upload_materi.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
+                        <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                        <input type="hidden" name="topik_id" id="uploadMateriTopikId">
+                        <div class="form-group">
+                            <label for="nama_materi">Nama Materi</label>
+                            <input type="text" class="form-control" id="nama_materi" name="nama_materi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="file_materi">File Materi</label>
+                            <input type="file" class="form-control-file" id="file_materi" name="file_materi" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tugas -->
+    <div class="modal fade" id="tugasModal" tabindex="-1" role="dialog" aria-labelledby="tugasModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tugasModalLabel">Tambah Tugas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="proses_tambah_tugas.php" method="post" enctype="multipart/form-data">  
+                        <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
+                        <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                        <input type="hidden" name="topik_id" id="tugasTopikId">
+                        <div class="form-group">
+                            <label for="nama_tugas">Nama Tugas</label>
+                            <input type="text" class="form-control" id="nama_tugas" name="nama_tugas" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis_tugas">Jenis Tugas</label>
+                            <select class="form-control" id="jenis_tugas" name="jenis_tugas" required>
+                                <option value="upload">Upload File</option>
+                                <option value="teks">Ketik di Laman</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tenggat_waktu">Tenggat Waktu</label>
+                            <input type="date" class="form-control" id="tenggat_waktu" name="tenggat_waktu" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $('#uploadMateriModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Tombol yang diklik
+            var topikId = button.data('topik-id'); // Mendapatkan data-topik-id
+            var modal = $(this);
+            modal.find('#uploadMateriTopikId').val(topikId); // Menetapkan nilai pada input hidden
+        });
+
+        $('#tugasModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Tombol yang diklik
+            var topikId = button.data('topik-id'); // Mendapatkan data-topik-id
+            var modal = $(this);
+            modal.find('#tugasTopikId').val(topikId); // Menetapkan nilai pada input hidden
+        });
+    </script>
 </body>
+<?php include '../navbar/navFooter.php'; ?>
 </html>
-
-
-<?php
-// Tutup koneksi database
-$conn->close();
-?>

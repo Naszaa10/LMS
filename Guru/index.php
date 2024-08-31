@@ -12,7 +12,7 @@ $nip = $_SESSION['teacher_nip'];
 
 // Query untuk mendapatkan data jadwal berdasarkan NIP guru
 $sql = "
-    SELECT jadwal.id, kelas.nama_kelas, mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, jadwal.id_kelas, jadwal.hari, jadwal.waktu_mulai, jadwal.waktu_selesai
+    SELECT jadwal.id, kelas.nama_kelas, mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, mata_pelajaran.gambar, jadwal.id_kelas, jadwal.hari, jadwal.waktu_mulai, jadwal.waktu_selesai
     FROM jadwal, kelas, mata_pelajaran
     WHERE jadwal.id_kelas = kelas.id AND jadwal.kode_mapel = mata_pelajaran.kode_mapel AND jadwal.nip_guru = ? 
 ";
@@ -21,19 +21,18 @@ $stmt->bind_param("s", $nip);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
-
-
 <?php include '../navbar/navHeader.php'; ?>
 <body>
-    <div id="mainContent" class="container mt-4">
-        <h2>Jadwal Mengajar</h2>
+<div id="mainContent">
+        <div class="container mt-4">
+            <h2 class="mb-4">Daftar Mata Pelajaran</h2>
         <div class="row justify-content-center">
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="col-md-6 mb-3">
                     <a href="detail_mapel.php?kode_mapel=<?php echo $row['kode_mapel']; ?>&kelas_id=<?php echo $row['id_kelas']; ?>">
                         <div class="card custom-card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Gambar Placeholder">
+                            <img src="../gambar/<?php echo $row['gambar']; ?>" class="card-img-top" alt="<?php echo $row['nama_mapel']; ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_mapel']); ?></h5>
                                 <p class="card-text">Kelas: <?php echo htmlspecialchars($row['nama_kelas']); ?></p>

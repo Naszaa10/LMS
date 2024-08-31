@@ -31,11 +31,6 @@
                     </li>
                 </ul>
             </section>
-            <div class="btn-card">
-                <p>Tambah Card</p>
-                <button type="button" class="btn btn-primary btn-sm">Tambah</button>
-                <button type="button" class="btn btn-secondary btn-sm">Hapus</button>
-            </div>
             <div class="row justify-content-center pt-3">
                 <!-- Card 1 -->
                 <div class="col-md-6 mb-3">
