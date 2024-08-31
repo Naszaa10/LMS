@@ -1,8 +1,3 @@
-/* Nilai untuk Siswa */
-.main-container {
-    padding: 20px;
-}
-
 .container h2 {
     font-weight: bolder;
     margin-bottom: 20px; /* Spacing below the heading */
@@ -19,6 +14,11 @@
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
+
+.selected-value {
+    display: none;
+}
+
 
 /* Table Styles */
 .table {
@@ -75,65 +75,62 @@
 }
 
 
-
-/* Print Rapot */
 @media print {
-    /* Sembunyikan semua elemen kecuali tabel rapot dan elemen yang perlu ditampilkan */
     body * {
         visibility: hidden;
+        margin: 0;
     }
+    
+     /* Tampilkan elemen judul, informasi kelas, dan tabel rapot */
+     h2, 
+     p,
+     .selected-value, /* Untuk nilai siswa dan kelas yang dipilih */
+     .table, 
+     .table * {
+         visibility: visible;
+     }
 
-    /* Tampilkan elemen judul dan informasi kelas */
-    h2, 
-    .form-select,
-    .table, 
-    .table * {
-        visibility: visible;
-    }
-
-    /* Posisi dan pengaturan untuk judul (h2) */
-    h2 {
-        position: absolute;
-        top: 20px; /* Menempatkan judul di bagian atas */
-        left: 0;
-        width: 100%;
-        text-align: center; /* Pusatkan judul */
-        font-size: 24px; /* Ukuran font untuk judul */
-        padding: 10px 0;
-    }
-
-    /* Posisi dan pengaturan untuk paragraf (p) */
-    .form-select {
-        position: absolute;
-        top: 60px; /* Posisi di bawah judul */
-        left: 0;
-        width: 100%;
-        text-align: center; /* Pusatkan teks informasi kelas */
-        font-size: 18px; /* Ukuran font untuk informasi kelas */
-        padding: 5px 0;
-        border: none; /* Hilangkan border saat diprint */
-        background-color: transparent; /* Hilangkan background saat diprint */
-        -webkit-appearance: none; /* Hilangkan panah dropdown di Safari/Chrome */
-        -moz-appearance: none; /* Hilangkan panah dropdown di Firefox */
-        appearance: none; /* Hilangkan panah dropdown di browser lain */
-        pointer-events: none; /* Nonaktifkan interaksi */
-    }
-
-    /* Posisi dan pengaturan untuk tabel rapot */
-    .table {
-        position: absolute;
-        top: 100px; /* Posisi tabel di bawah paragraf */
-        left: 0;
-        width: 100%;
-        padding: 10px;
-    }
-
-    /* Sembunyikan kolom Nama Guru saat cetak */
-    .table th:nth-child(4), /* Header kolom ke-4 (Nama Guru) */
-    .table td:nth-child(4) { /* Isi kolom ke-4 (Nama Guru) */
+    .selectSiswa, .selectKelas, .selected-value, #printBtn, .navbar {
         display: none;
     }
+
+    .container h2 {
+        font-size: 15px;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: bolder;
+        
+    }
+
+    p {
+        font-size: 15px;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: bolder; 
+    }
+
+    table {
+        margin-top: 20px;
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table, th, td {
+        border: 1px solid #000;
+    }
+    th, td {
+        padding: 1px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    /* Menghilangkan kolom 'Nama Guru' */
+    @media print {
+        td:nth-child(4), th:nth-child(4) {
+            display: none;
+        }
+    }
 }
-
-
 
