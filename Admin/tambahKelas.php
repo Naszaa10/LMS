@@ -32,7 +32,7 @@
 
         <!-- Tabel Data Guru -->
         <div id="guruTable" class="table-container">
-            <h2 class="text-center mt-5">Daftar Guru</h2>
+            <h2 class="text-center mt-5">Daftar Kelas</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
