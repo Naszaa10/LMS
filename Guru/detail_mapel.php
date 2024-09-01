@@ -33,6 +33,7 @@ $mapel = $result->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Mata Pelajaran</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/detailMapel.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -85,11 +86,11 @@ $mapel = $result->fetch_assoc();
         <div class="row mt-4">
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-5">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_topik']); ?></h5>
-                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#uploadMateriModal" data-topik-id="<?php echo $row['id']; ?>">
+                                <a href="#" class="btn btn-custom upload" data-toggle="modal" data-target="#uploadMateriModal" data-topik-id="<?php echo $row['id']; ?>">
                                     Upload Materi
                                 </a>
                                 <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#tugasModal" data-topik-id="<?php echo $row['id']; ?>">

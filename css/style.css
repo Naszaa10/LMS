@@ -282,6 +282,114 @@ section, h1, h4 {
 }
 
 
+/* Guru Dashboard Topic Terbaru */
+/* Mengatur container utama */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Mengatur judul halaman */
+h2 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Gaya khusus untuk kartu */
+.card.custom-card {
+    background-color: #ffffff;
+    border: 1px solid #010101; /* Menambahkan border 1px solid */
+    border-radius: 0.5rem;
+    width: 100%; /* Lebar card mengikuti lebar container */
+    max-width: 30rem; /* Lebar maksimum card */
+    height: auto; /* Tinggi card akan disesuaikan secara otomatis */
+    margin: 15px auto; /* Menjaga card tetap berada di tengah dengan margin */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+/* Gambar pada kartu */
+.card.custom-card img {
+    width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
+    height: 14rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
+    object-fit: cover; /* Memastikan gambar menutupi area card */
+}
+
+/* Mengatur teks pada kartu */
+.card.custom-card .card-body {
+    padding: 15px;
+}
+
+/* Mengatur judul mata pelajaran */
+.card.custom-card .card-title {
+    font-size: 25px;
+    font-weight: bolder;
+    color: #2c3e50;
+}
+
+/* Teks informasi pada kartu */
+.card.custom-card .card-text {
+    font-size: 17px;
+    color: #555;
+}
+
+/* Mengatur elemen link agar seluruh kartu dapat diklik */
+.card.custom-card a {
+    text-decoration: none; /* Menghilangkan garis bawah pada teks */
+    color: inherit;
+}
+
+/* Efek saat hover pada kartu */
+.card.custom-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.2);
+    border-color: #0a02f3;
+}
+
+/* Efek saat hover pada gambar di dalam kartu */
+.card.custom-card:hover img {
+    filter: brightness(0.9);
+    opacity: 0.90;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Mengatur elemen link agar seluruh kartu dapat diklik dan menghilangkan garis bawah pada teks */
+.col-md-6 a {
+    text-decoration: none; /* Menghilangkan garis bawah pada teks */
+    color: inherit; /* Menjaga warna teks tetap sesuai dengan warna default */
+}
+
+.col-md-6 a:hover {
+    text-decoration: none; /* Menghilangkan garis bawah pada teks saat hover */
+    color: inherit; /* Menjaga warna teks tetap sesuai dengan warna default saat hover */
+}
+
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+    .card.custom-card img {
+        height: 150px;
+    }
+    
+    .card.custom-card .card-body {
+        padding: 10px;
+    }
+    
+    .card.custom-card .card-title {
+        font-size: 18px;
+    }
+    
+    .card.custom-card .card-text {
+        font-size: 14px; /* Ukuran teks lebih besar di layar kecil */
+    }
+}
+
+
+
+
 /* Responsive styling untuk sidebar */
 /* Style untuk Sidebar pada tampilan mobile */
 @media (max-width: 767.98px) {

@@ -33,6 +33,7 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cek Pengumpulan Tugas</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/detailMapel.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -40,6 +41,7 @@ $result = $stmt->get_result();
 
     <div id="mainContent" class="container mt-4">
         <h2>Pengumpulan Tugas</h2>
+        <div class="table-container">
         <table class="table">
             <thead>
                 <tr>
@@ -70,6 +72,7 @@ $result = $stmt->get_result();
                 <?php endwhile; ?>
             </tbody>
         </table>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
