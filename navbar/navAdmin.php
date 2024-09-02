@@ -63,7 +63,7 @@
                         <a class="nav-link" href="tambahKelas.php">Tambah Kelas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tambah_mapel.php">Menambah Mata Pelajaran</a>
+                        <a class="nav-link" href="tambah_matapelajaran.php">Menambah Mata Pelajaran</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="kelolaJadwal.php">Kelola Jadwal</a>

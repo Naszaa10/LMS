@@ -1,39 +1,53 @@
 <?php
 session_start();
-include '../db.php'; // Menghubungkan dengan database
+include '../db.php';
 
 // Pastikan siswa sudah login
-if (!isset($_SESSION['student_nis'])) {
+if (!isset($_SESSION['nis_siswa'])) {
     header("Location: ../login.php");
     exit();
 }
 
-$nis = $_SESSION['student_nis'];
+$nis_siswa = $_SESSION['nis_siswa'];
+$tugas_id = $_POST['tugas_id'];
 $topik_id = $_POST['topik_id'];
 $kode_mapel = $_POST['kode_mapel'];
 $id_kelas = $_POST['id_kelas'];
-$jenis_tugas = $_POST['jenis_tugas'];
+$jawaban = $_POST['jawaban'] ?? null;
 
-// Insert pengumpulan tugas
-$sql = "INSERT INTO pengumpulan_tugas (nis, topik_id, kode_mapel, id_kelas, jenis_tugas) VALUES (?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("siii", $nis, $topik_id, $kode_mapel, $id_kelas);
-$stmt->execute();
-
-// Jika jenis tugas adalah upload file
-if ($jenis_tugas == 'upload' && isset($_FILES['file_tugas']) && $_FILES['file_tugas']['error'] == UPLOAD_ERR_OK) {
-    $file_name = $_FILES['file_tugas']['name'];
-    $file_tmp = $_FILES['file_tugas']['tmp_name'];
-    $file_dest = "../uploads/" . $file_name;
-    move_uploaded_file($file_tmp, $file_dest);
-
-    // Update database dengan nama file
-    $sql = "UPDATE pengumpulan_tugas SET file_tugas = ? WHERE nis = ? AND topik_id = ? AND kode_mapel = ? AND id_kelas = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssiii", $file_name, $nis, $topik_id, $kode_mapel, $id_kelas);
+// Jika tipe tugas adalah teks
+if (isset($jawaban)) {
+    // Query untuk menyimpan jawaban teks
+    $query = "
+        INSERT INTO pengumpulan_tugas (nis_siswa, tugas_id, tugas_text, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
+        VALUES (?, ?, ?, ?, ?, ?, NOW())
+    ";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('sisisi', $nis_siswa, $tugas_id, $jawaban, $topik_id, $kode_mapel, $id_kelas);
     $stmt->execute();
 }
 
-header("Location: detail_mapel.php?kode_mapel=$kode_mapel&kelas_id=$id_kelas");
+// Jika tipe tugas adalah upload
+if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == UPLOAD_ERR_OK) {
+    $file_tmp = $_FILES['file_upload']['tmp_name'];
+    $file_name = basename($_FILES['file_upload']['name']);
+    $file_dest = '../uploads/tugas/' . $file_name;
+
+    // Pindahkan file dari lokasi sementara ke folder tujuan
+    if (move_uploaded_file($file_tmp, $file_dest)) {
+        // Query untuk menyimpan informasi file
+        $query = "
+            INSERT INTO pengumpulan_tugas (nis_siswa, tugas_id, file_path, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
+            VALUES (?, ?, ?, ?, ?, ?, NOW())
+        ";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('sissii', $nis_siswa, $tugas_id, $file_name, $topik_id, $kode_mapel, $id_kelas);
+        $stmt->execute();
+    } else {
+        echo "Gagal mengunggah file.";
+    }
+}
+
+header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
 exit();
 ?>

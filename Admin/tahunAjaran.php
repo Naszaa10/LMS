@@ -48,7 +48,5 @@
                 </tbody>
             </table>
         </div> -->
-
-        <?php include '../navbar/navFooter.php'; ?>
-</body>
+</body>        <?php include '../navbar/navFooter.php'; ?>
 </html>

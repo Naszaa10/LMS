@@ -63,7 +63,7 @@ $result_topik = mysqli_query($conn, $query_topik);
 
 // Query untuk mendapatkan tugas yang ada untuk mata pelajaran ini berdasarkan id_kelas
 $query_tugas = "
-    SELECT t.id, t.judul, t.keterangan, t.tanggal_tenggat, t.opsi_tugas
+    SELECT t.id, t.judul, t.keterangan, t.tanggal_tenggat, t.opsi_tugas, t.topik_id
     FROM tugas t
     WHERE t.kode_mapel = '$kode_mapel' AND t.kelas_id = $id_kelas
 ";
@@ -83,7 +83,7 @@ $result_tugas = mysqli_query($conn, $query_tugas);
 
     <!-- Topik dan Materi -->
     <div class="accordion" id="accordionExample">
-    <h3>Materi</h3>
+        <h3>Materi</h3>
         <?php
         $current_topic_id = null;
         $first_topic = true;
@@ -122,39 +122,85 @@ $result_tugas = mysqli_query($conn, $query_tugas);
     <!-- Tugas -->
     <section class="tugas mt-4">
         <h3>Tugas</h3>
-        <?php while ($row_tugas = mysqli_fetch_assoc($result_tugas)): ?>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title"><?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
-                    <p class="card-text"><?php echo htmlspecialchars($row_tugas['keterangan']); ?></p>
-                    <p class="card-text"><strong>Tanggal Tenggat:</strong> <?php echo htmlspecialchars($row_tugas['tanggal_tenggat']); ?></p>
-                    
-                    <?php if ($row_tugas['opsi_tugas'] == 'teks'): ?>
-                        <form action="kirim_tugas.php" method="post">
-                            <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($row_tugas['id']); ?>">
-                            <div class="mb-3">
-                                <label for="jawaban" class="form-label">Jawaban:</label>
-                                <textarea class="form-control" id="jawaban" name="jawaban" rows="4" required></textarea>
+        <?php if ($result_tugas && mysqli_num_rows($result_tugas) > 0): ?>
+            <?php while ($row_tugas = mysqli_fetch_assoc($result_tugas)): ?>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
+                        <p class="card-text"><?php echo htmlspecialchars($row_tugas['keterangan']); ?></p>
+                        <p class="card-text"><strong>Tanggal Tenggat:</strong> <?php echo htmlspecialchars($row_tugas['tanggal_tenggat']); ?></p>
+                        
+                        <?php if ($row_tugas['opsi_tugas'] == 'teks'): ?>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitTugasModal<?php echo $row_tugas['id']; ?>">Kumpulkan Tugas</button>
+                            <a href="#"class="btn btn-primary">Lihat Nilai Tugas</a>
+                            <!-- Modal for Text Submission -->
+                            <div class="modal fade" id="submitTugasModal<?php echo $row_tugas['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Kumpulkan Tugas: <?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="kirim_tugas.php" method="post">
+                                                <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($row_tugas['id']); ?>">
+                                                <input type="hidden" name="topik_id" value="<?php echo htmlspecialchars($row_tugas['topik_id']); ?>">
+                                                <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
+                                                <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                                                <input type="hidden" name="nis_siswa" value="<?php echo htmlspecialchars($nis_siswa); ?>">
+                                                <div class="mb-3">
+                                                    <label for="jawaban" class="form-label">Jawaban:</label>
+                                                    <textarea class="form-control" id="jawaban" name="jawaban" rows="4" required></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Kirim Jawaban</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Kirim Jawaban</button>
-                        </form>
-                    <?php elseif ($row_tugas['opsi_tugas'] == 'upload'): ?>
-                        <form action="kirim_tugas.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($row_tugas['id']); ?>">
-                            <div class="mb-3">
-                                <label for="file_upload" class="form-label">Unggah File:</label>
-                                <input class="form-control" type="file" id="file_upload" name="file_upload" required>
+                        <?php elseif ($row_tugas['opsi_tugas'] == 'upload'): ?>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadTugasModal<?php echo $row_tugas['id']; ?>">Unggah Tugas</button>
+                            <a href="#"class="btn btn-primary">Lihat Nilai Tugas</a>
+                
+                            <!-- Modal for File Upload -->
+                            <div class="modal fade" id="uploadTugasModal<?php echo $row_tugas['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Unggah Tugas: <?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="kirim_tugas.php" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($row_tugas['id']); ?>">
+                                                <input type="hidden" name="topik_id" value="<?php echo htmlspecialchars($row_tugas['topik_id']); ?>">
+                                                <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
+                                                <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                                                <input type="hidden" name="nis_siswa" value="<?php echo htmlspecialchars($nis_siswa); ?>">
+                                                <div class="mb-3">
+                                                    <label for="file_upload" class="form-label">Unggah File:</label>
+                                                    <input class="form-control" type="file" id="file_upload" name="file_upload" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Kirim Tugas</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Kirim Tugas</button>
-                        </form>
-                    <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
-        <?php endwhile; ?>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <p>Tidak ada tugas untuk mata pelajaran ini.</p>
+        <?php endif; ?>
     </section>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
-<?php include '../navbar/navFooter.php'; ?>
+<?php
+    include '../navbar/navFooter.php';
+    ?>
 </html>

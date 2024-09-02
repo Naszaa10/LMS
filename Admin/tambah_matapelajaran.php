@@ -39,6 +39,7 @@ $conn->close();
     <link rel="stylesheet" href="../css/tambahmapel.css"> <!-- Pastikan path ke file CSS benar -->
 </head>
 <body>
+<?php include '../navbar/navAdmin.php'; ?>
     <h1>Formulir Tambah Mata Pelajaran</h1>
     <div class="form-card">
         <form action="tambah_mapel.php" method="post">
@@ -64,5 +65,5 @@ $conn->close();
             <input type="submit" value="Tambah Mata Pelajaran">
         </form>
     </div>
-</body>
+</body> <?php include '../navbar/navFooter.php'; ?>
 </html>
