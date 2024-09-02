@@ -151,13 +151,13 @@ body {
 .main-container {
     display: flex;
     flex: 1;
-    transition: margin-left 0.3s ease; /* Transisi margin saat sidebar terbuka/tertutup */
+    padding-left: 0;
 }
 
 #mainContent {
-    flex: 1; /* Memastikan main content menggunakan sisa ruang yang tersedia */
+    flex: 1;
     padding: 1rem;
-    margin-left: 0; /* Default tanpa margin */
+    transition: none; /* Default tanpa margin */
 }
 
 /* Ketika sidebar terlihat, beri ruang untuk sidebar */

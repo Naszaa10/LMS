@@ -6,5 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sidebarBtn.addEventListener('click', function () {
         sidebar.classList.toggle('show'); // Toggle visibility of sidebar
+        // Tidak ada perubahan pada mainContent
     });
 });
