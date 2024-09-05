@@ -1,22 +1,39 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style untuk container utama */
+#mainContent {
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+/* Style untuk card utama */
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Untuk lebar penuh kontainer induk */
+    max-width: 1000px; /* Sesuaikan dengan lebar maksimum yang diinginkan */
+    margin: 20px auto; /* Mengatur margin untuk memusatkan card */
+    padding: 20px; /* Menambah padding di dalam card */
+}
+
+/* Layout untuk card-header dan konten lainnya di dalam card */
+.row.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.card-header {
+    text-align: center;
+    background-color: #ffffff;
+    margin-bottom: 20px;
 }
 
 
-/* Jarak antar card */
-.container .row {
-    margin-left: 100px;
-    margin-right: 10px;
-}
-
-.col-md-4, .col-md-8 {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-
-/* foto kiri */
 .profile-img {
     width: 150px;
     height: 150px;
@@ -24,54 +41,43 @@ body {
     border-radius: 50%;
 }
 
-/* Nama Siswa */
-.foto h4 {
-    font-weight: bold; 
-}
-
-.foto p {
-    font-style: italic;  
-}
-
-
-.foto .list-group-item {
+/* Style untuk list item dalam sidebar */
+.list-group-item {
     background-color: #ffffff;
     border: none;
     padding: 10px 15px;
     font-size: 1rem;
     color: #333;
     transition: background-color 0.2s, color 0.2s;
+    margin: 5px;
 }
 
-.foto .list-group-item:hover {
+.list-group-item:hover {
     background-color: #007bff;
     color: white;
 }
 
-.foto .list-group-item a {
+.list-group-item a {
     text-decoration: none;
     color: inherit;
     display: block;
 }
 
-/* card kanan */
-.card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Style untuk form */
+label {
+    margin-top: 10px;
+    padding-left: 5px;
 }
 
-.card h3 {
-    font-size: 1.4rem;
-    font-weight: bold;
+.form-control {
+    margin-bottom: 1rem;
 }
 
-.card label {
-    margin-left: 5px;
-}
-
+/* Style untuk tombol simpan */
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
+    padding: 10px 20px;
 }
 
 .btn-primary:hover {

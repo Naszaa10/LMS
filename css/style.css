@@ -89,15 +89,37 @@ body {
     margin-left: 50px;
 }
 
-.dropdown-menu {
-    margin-right: 50px;
-    background-color: #030303;
-    opacity: 70%;
+/* Hover effect for dropdown item */
+.dropdown-item {
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dropdown-item {
-    color: white;
+.dropdown-item:hover {
+    background-color: #007bff; /* Warna latar belakang saat di-hover */
+    color: #ffffff; /* Ubah teks jadi putih saat di-hover */
+    border-radius: 4px; /* Tambahkan sedikit border-radius saat hover */
 }
+
+/* Hover effect for dropdown menu */
+.dropdown-menu {
+    margin-right: 50px;
+    background-color: #ffffff;
+    opacity: 70%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu:hover {
+    opacity: 90%; /* Tingkatkan opacity saat di-hover */
+    transform: scale(1.02); /* Sedikit perbesar ukuran dropdown saat hover */
+}
+
+
+/* Hilangkan caret dari dropdown-toggle */
+.navbar-nav .dropdown-toggle::after {
+    display: none;
+}
+
 
 /* Style untuk Sidebar (Navbar Vertikal) */
 /* Style untuk Sidebar (Navbar Vertikal) */

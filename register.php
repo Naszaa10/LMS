@@ -21,6 +21,7 @@ $success_message = ""; // Variabel untuk pesan sukses
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $email = $_POST['email']; // Ambil email dari input
     $role = $_POST['role'];
     $nama = $_POST['nama']; // Ambil nama dari input
 
@@ -28,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nip = $_POST['nip']; // Ambil NIP dari input
 
         // Query untuk insert ke tabel teachers
-        $sql_teacher = "INSERT INTO teachers (username, password, nip, nama) VALUES (?, ?, ?, ?)";
+        $sql_teacher = "INSERT INTO teachers (username, password, email, nip, nama) VALUES (?, ?, ?, ?, ?)";
         $stmt_teacher = $conn->prepare($sql_teacher);
         
-        // Bind parameter (ssss -> string, string, string, string)
-        $stmt_teacher->bind_param("ssss", $username, $password, $nip, $nama);
+        // Bind parameter (sssss -> string, string, string, string, string)
+        $stmt_teacher->bind_param("sssss", $username, $password, $email, $nip, $nama);
         
         // Eksekusi statement dan cek hasilnya
         if ($stmt_teacher->execute()) {
@@ -45,11 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nis = $_POST['nis']; // Ambil NIS dari input
 
         // Query untuk insert ke tabel students
-        $sql_student = "INSERT INTO students (username, password, nis, nama) VALUES (?, ?, ?, ?)";
+        $sql_student = "INSERT INTO students (username, password, email, nis, nama) VALUES (?, ?, ?, ?, ?)";
         $stmt_student = $conn->prepare($sql_student);
         
-        // Bind parameter (ssss -> string, string, string, string)
-        $stmt_student->bind_param("ssss", $username, $password, $nis, $nama);
+        // Bind parameter (sssss -> string, string, string, string, string)
+        $stmt_student->bind_param("sssss", $username, $password, $email, $nis, $nama);
         
         // Eksekusi statement dan cek hasilnya
         if ($stmt_student->execute()) {
@@ -60,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } elseif ($role === 'admin') {
         // Query untuk insert ke tabel admins
-        $sql_admin = "INSERT INTO admin (username, password, nama) VALUES (?, ?, ?)";
+        $sql_admin = "INSERT INTO admin (username, password, email, nama) VALUES (?, ?, ?, ?)";
         $stmt_admin = $conn->prepare($sql_admin);
         
-        // Bind parameter (sss -> string, string, string)
-        $stmt_admin->bind_param("sss", $username, $password, $nama);
+        // Bind parameter (ssss -> string, string, string, string)
+        $stmt_admin->bind_param("ssss", $username, $password, $email, $nama);
         
         // Eksekusi statement dan cek hasilnya
         if ($stmt_admin->execute()) {
@@ -78,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 
 <body>
     <div class="card">
@@ -99,6 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="nama">Nama:</label>
                 <input type="text" class="form-control" id="nama" name="nama" required>
             </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
             <div class="form-group">
                 <label for="role">Role:</label>
                 <select class="form-control" id="role" name="role" onchange="toggleFields()" required>
@@ -122,7 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <button type="submit" class="btn-primary">Register</button>
+            
         </form>
+        <a href="login.php">Sudah Mempunyai Akun? Login Disini</a>
     </div>
 
     <!-- JavaScript untuk menampilkan/menyembunyikan NIP dan NIS -->
