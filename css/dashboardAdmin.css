@@ -1,0 +1,76 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.main-container {
+    margin-left: 60px;
+}
+
+p {
+    margin-left: 12px;
+}
+
+
+#wrapper {
+    display: flex;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+    height: 100vh;
+}
+
+#page-content-wrapper {
+    flex: 1;
+    padding: 20px;
+}
+
+.card {
+    border-radius: 10px;
+    text-align: left;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .nav-link {
+    color: #333;
+}
+
+#menu-toggle {
+    margin-right: 10px;
+}
+
+
+
+
+/* 
+Warna Latar Belakang (bg-*)
+bg-primary: Biru utama
+bg-secondary: Abu-abu sekunder
+bg-success: Hijau (untuk indikasi keberhasilan)
+bg-danger: Merah (untuk indikasi bahaya)
+bg-warning: Kuning (untuk indikasi peringatan)
+bg-info: Biru muda (untuk informasi)
+bg-light: Abu-abu terang
+bg-dark: Hitam atau abu-abu gelap
+bg-white: Putih
+
+
+
+Warna Teks (text-*)
+text-primary: Warna teks biru utama
+text-secondary: Warna teks abu-abu sekunder
+text-success: Warna teks hijau
+text-danger: Warna teks merah
+text-warning: Warna teks kuning
+text-info: Warna teks biru muda
+text-light: Warna teks putih
+text-dark: Warna teks hitam atau abu-abu gelap
+text-muted: Warna teks abu-abu muda
+text-white: Warna teks putih */

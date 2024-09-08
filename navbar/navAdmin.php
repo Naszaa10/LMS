@@ -67,6 +67,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="kelolaJadwal.php">Kelola Jadwal</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="rapot.php">Rapot</a>
                     </li>  

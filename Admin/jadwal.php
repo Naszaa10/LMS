@@ -36,7 +36,7 @@ $no = 1;
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
         
-<div id="mainContent" class="container mt-2">
+<div id="mainContent" class="container mt-5">
     <h1>Tambah/Edit Jadwal</h1>
     <form id="scheduleForm">
         <input type="hidden" id="scheduleId" name="id" value="">
@@ -107,7 +107,7 @@ $no = 1;
     <h3>Daftar Jadwal</h3>
     <div class="form-group">
         <label for="searchTeacher">Cari Berdasarkan Nama Guru:</label>
-        <input type="text" class="form-control" id="searchTeacher" placeholder="Masukkan Nama Guru">
+        <input type="text" class="form-control" id="searchTeacher" placeholder="Masukkan nama guru">
     </div>
     <!-- Tabel awalnya disembunyikan -->
     <table id="scheduleTable" class="table table-striped hidden">
@@ -119,7 +119,6 @@ $no = 1;
                 <th>Hari</th>
                 <th>Kelas</th>
                 <th>Waktu</th>
-                <th>Tahun Ajaran</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -132,7 +131,6 @@ $no = 1;
                     <td><?php echo htmlspecialchars($row['hari']); ?></td>
                     <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
                     <td><?php echo htmlspecialchars($row['waktu_mulai'] . ' - ' . $row['waktu_selesai']); ?></td>
-                    <td><?php echo htmlspecialchars($row['tahun_ajaran']); ?></td>
                     <td>
                         <button class="btn btn-edit btn-sm btn-warning">Edit</button>
                         <button class="btn btn-delete btn-sm btn-danger">Hapus</button>
