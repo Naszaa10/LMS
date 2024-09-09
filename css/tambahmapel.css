@@ -5,7 +5,7 @@ html, body {
 
 .container h1 {
     font-weight: bold;
-    color: #007bff;
+    color: #000000;
     text-align: center;
     margin-top: 2rem; /* Jarak dari atas kontainer */
     margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
@@ -35,7 +35,7 @@ html, body {
 
 /* Heading */
 .form-card h2 {
-    color: #007bff; /* Warna heading */
+    color: #000000; /* Warna heading */
     border-bottom: 2px solid #007bff; /* Garis bawah warna heading */
     padding-bottom: 10px; /* Jarak bawah heading */
     margin-bottom: 20px; /* Jarak bawah heading */

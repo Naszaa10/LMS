@@ -135,6 +135,7 @@ $conn->close();
             max-width: 900px; /* Lebar maksimum kartu */
             width: 80%; /* Lebar kartu 80% dari kontainer induk */
             margin: 0 auto; /* Pusatkan kartu secara horizontal */
+            margin-top: 20px;
         }
         .hidden {
             display: none;
@@ -147,11 +148,13 @@ $conn->close();
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div id="mainContent" class="container mt-5">
-        <h1 class="text-center mb-4">Formulir Tambah Akun</h1>
-        <div class="text-center mb-4">
-            <button id="showGuruForm" class="btn btn-info">Tambah Akun Guru</button>
-            <button id="showSiswaForm" class="btn btn-info">Formulir Akun Siswa</button>
+    <div id="mainContent" class="container mt-1">
+        <div class="form-card">
+            <h2>Formulir Tambah Akun</h2>
+                <div class="text-center mb-4">
+                    <button id="showGuruForm" class="btn btn-info">Tambah Akun Guru</button>
+                    <button id="showSiswaForm" class="btn btn-info">Formulir Akun Siswa</button>
+                </div>
         </div>
         
         <!-- Formulir Akun Guru -->
