@@ -12,33 +12,40 @@
 <body>
     <!-- Top Navbar -->
     <?php include '../navbar/navAdmin.php'; ?>
+    <?php include '../db.php'; // File koneksi database ?>
 
     <div id="mainContent">
         <div class="container mt-5">
             <h2>RAPOT SISWA</h2>
+            
+            <!-- Dropdown untuk memilih Siswa dan Kelas -->
             <div class="selectSiswa mb-3">
-                <label for="siswa" class="form-label">Siswa</label>
-                <select class="form-select" id="siswa">
+                <label for="nis" class="form-label">Siswa</label>
+                <select class="form-select" id="nis">
                     <option value="">Pilih Siswa</option>
-                    <option value="Ajan">Ajan</option>
-                    <option value="Mila">Mila</option>
-                    <!-- Tambahkan siswa lainnya di sini -->
+                    <?php
+                    // Query untuk mengambil data siswa
+                    $querySiswa = "SELECT nis, nama_siswa FROM siswa";
+                    $resultSiswa = mysqli_query($conn, $querySiswa);
+                    while ($rowSiswa = mysqli_fetch_assoc($resultSiswa)) {
+                        echo '<option value="'.$rowSiswa['nis'].'">'.$rowSiswa['nama_siswa'].'</option>';
+                    }
+                    ?>
                 </select>
             </div>
-            <div class="selectKelas">
+            <div class="selectKelas mb-3">
                 <label for="kelas" class="form-label">Kelas</label>
                 <select class="form-select" id="kelas">
                     <option value="">Pilih Kelas</option>
-                    <option value="kelas1">Kelas 1</option>
-                    <option value="kelas2">Kelas 2</option>
-                    <!-- Tambahkan kelas lainnya di sini -->
+                    <?php
+                    // Query untuk mengambil data kelas
+                    $queryKelas = "SELECT id, nama_kelas FROM kelas";
+                    $resultKelas = mysqli_query($conn, $queryKelas);
+                    while ($rowKelas = mysqli_fetch_assoc($resultKelas)) {
+                        echo '<option value="'.$rowKelas['id'].'">'.$rowKelas['nama_kelas'].'</option>';
+                    }
+                    ?>
                 </select>
-            </div>
-
-            <!-- Elemen baru untuk menampilkan nilai yang dipilih -->
-            <div class="selected-value mb-3">
-                <span id="selected-siswa"></span> - 
-                <span id="selected-kelas"></span>
             </div>
 
             <!-- Elemen untuk menampilkan nama dan kelas pada rapot -->
@@ -50,90 +57,74 @@
             <P>SMK Al FALAH</P>
             <P>TAHUN AJARAN 2021/2023</P>
 
-            <table class="table">
+            <!-- Tabel nilai siswa yang ditampilkan setelah memilih siswa dan kelas -->
+            <table class="table" id="nilaiTable" style="display:none;">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Mata Pelajaran</th>
                         <th>Nilai</th>
-                        <th>Index</th>
-                        <th>Nama Guru</th>
+                        <th>Pengetahuan</th>
+                        <th>Keterampilan</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Nilai Akhir</th>
+                        <th>Predikat</th>
                     </tr>
                 </thead>
                 <tbody id="nilaiTableBody">
-                    <!-- Data Nilai Ajan di Kelas 1 -->
-                    <tr data-siswa="Ajan" data-kelas="kelas1">
-                        <td>Matematika</td>
-                        <td contenteditable="true">85</td>
-                        <td contenteditable="true">A</td>
-                        <td>Pak Budi</td>
-                    </tr>
-                    <tr data-siswa="Ajan" data-kelas="kelas1">
-                        <td>Fisika</td>
-                        <td contenteditable="true">90</td>
-                        <td contenteditable="true">A</td>
-                        <td>Bu Nina</td>
-                    </tr>
-                    <!-- Data Nilai Mila di Kelas 2 -->
-                    <tr data-siswa="Mila" data-kelas="kelas2">
-                        <td>Biologi</td>
-                        <td contenteditable="true">80</td>
-                        <td contenteditable="true">B</td>
-                        <td>Pak Rudi</td>
-                    </tr>
-                    <tr data-siswa="Mila" data-kelas="kelas2">
-                        <td>Kimia</td>
-                        <td contenteditable="true">88</td>
-                        <td contenteditable="true">A</td>
-                        <td>Bu Sari</td>
-                    </tr>
-                    <!-- Tambahkan data nilai lainnya sesuai dengan kelas dan siswa -->
+                    <!-- Data akan diambil berdasarkan siswa dan kelas yang dipilih -->
                 </tbody>
             </table>
+
             <button class="btn btn-primary" id="printBtn">Cetak Rapot</button>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const siswaSelect = document.getElementById('siswa');
+            const siswaSelect = document.getElementById('nis');
             const kelasSelect = document.getElementById('kelas');
-            const selectedSiswa = document.getElementById('selected-siswa');
-            const selectedKelas = document.getElementById('selected-kelas');
-            const printSiswa = document.getElementById('print-siswa');
-            const printKelas = document.getElementById('print-kelas');
-            const tableBody = document.getElementById('nilaiTableBody');
+            const nilaiTable = document.getElementById('nilaiTable');
+            const nilaiTableBody = document.getElementById('nilaiTableBody');
             const printBtn = document.getElementById('printBtn');
 
-            function filterTable() {
-                const siswaValue = siswaSelect.value;
-                const kelasValue = kelasSelect.value;
-
-                selectedSiswa.textContent = siswaValue;
-                selectedKelas.textContent = kelasValue;
-                printSiswa.textContent = `Nama Siswa: ${siswaValue}`;
-                printKelas.textContent = `Kelas: ${kelasValue}`;
-
-                Array.from(tableBody.children).forEach(row => {
-                    const rowSiswa = row.getAttribute('data-siswa');
-                    const rowKelas = row.getAttribute('data-kelas');
-                    if ((siswaValue === '' || rowSiswa === siswaValue) &&
-                        (kelasValue === '' || rowKelas === kelasValue)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+            // Fungsi untuk memuat data nilai berdasarkan pilihan siswa dan kelas
+            function loadTable() {
+                const nis = siswaSelect.value;
+                const kelasId = kelasSelect.value;
+                
+                if (nis && kelasId) {
+                    fetch(`getNilai.php?nis=${nis}&kelas_id=${kelasId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            nilaiTableBody.innerHTML = '';
+                            data.forEach(row => {
+                                nilaiTableBody.innerHTML += `
+                                    <tr>
+                                        <td>${row.kode_mapel}</td>
+                                        <td contenteditable="true">${row.nilai}</td>
+                                        <td>${row.tahun_ajaran}</td>
+                                        <td>${row.tanggal_input}</td>
+                                    </tr>`;
+                            });
+                            nilaiTable.style.display = 'table';
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                } else {
+                    nilaiTable.style.display = 'none';
+                }
             }
 
-            siswaSelect.addEventListener('change', filterTable);
-            kelasSelect.addEventListener('change', filterTable);
+            siswaSelect.addEventListener('change', loadTable);
+            kelasSelect.addEventListener('change', loadTable);
 
             printBtn.addEventListener('click', () => {
                 window.print();
             });
         });
     </script>
-
-        <?php include '../navbar/navFooter.php'; ?>
 </body>
+<?php
+include '../navbar/navFooter.php';
+?>
 </html>

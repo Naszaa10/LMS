@@ -15,7 +15,7 @@ $kode_mapel = $_GET['kode_mapel'];
 $id_kelas = $_GET['kelas_id'];
 
 $sql = "
-    SELECT mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, mata_pelajaran.tahun_ajaran
+    SELECT mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel
     FROM mata_pelajaran
     WHERE mata_pelajaran.kode_mapel = ?
 ";

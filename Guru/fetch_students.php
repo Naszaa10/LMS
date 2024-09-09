@@ -1,24 +1,23 @@
 <?php
 include '../db.php'; // Koneksi ke database
 
-if (isset($_GET['kelas']) && isset($_GET['mata_pelajaran'])) {
-    $kelas = $_GET['kelas'];
-    $kode_mapel = $_GET['mata_pelajaran'];
+$kelas = $_GET['kelas'];
+$mata_pelajaran = $_GET['mata_pelajaran'];
 
-    $query = "SELECT siswa.nis, siswa.nama_siswa, nilai.nilai 
-              FROM siswa 
-              LEFT JOIN nilai ON siswa.nis = nilai.nis AND nilai.kode_mapel = ? 
-              WHERE siswa.id_kelas = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("si", $kode_mapel, $kelas);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$query = "SELECT siswa.nama_siswa, siswa.tahun_ajaran, nilai.pengetahuan, nilai.keterampilan, nilai.predikat, nilai.nilai, nilai.tanggal_input, siswa.nis
+          FROM siswa
+          LEFT JOIN nilai ON siswa.nis = nilai.nis AND nilai.kode_mapel = ? AND nilai.id_kelas = ?
+          WHERE siswa.id_kelas = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ssi", $mata_pelajaran, $kelas, $kelas);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    $students = [];
-    while ($row = $result->fetch_assoc()) {
-        $students[] = $row;
-    }
-
-    echo json_encode($students);
+$students = [];
+while ($row = $result->fetch_assoc()) {
+    $students[] = $row;
 }
+
+header('Content-Type: application/json');
+echo json_encode($students);
 ?>

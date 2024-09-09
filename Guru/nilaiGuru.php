@@ -21,7 +21,7 @@ $stmtClasses->execute();
 $resultClasses = $stmtClasses->get_result();
 
 // Ambil mata pelajaran yang diajar oleh guru
-$querySubjects = "SELECT DISTINCT mata_pelajaran.kode_mapel, mata_pelajaran.nama_mapel, mata_pelajaran.deskripsi, mata_pelajaran.jenis, mata_pelajaran.gambar, mata_pelajaran.tahun_ajaran 
+$querySubjects = "SELECT DISTINCT mata_pelajaran.kode_mapel, mata_pelajaran.nama_mapel, mata_pelajaran.deskripsi, mata_pelajaran.jenis, mata_pelajaran.gambar
                   FROM mata_pelajaran 
                   JOIN jadwal ON mata_pelajaran.kode_mapel = jadwal.kode_mapel 
                   WHERE jadwal.nip_guru = ?";
@@ -75,7 +75,6 @@ $resultSubjects = $stmtSubjects->get_result();
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const kelasSelect = document.getElementById('kelas');
@@ -91,15 +90,19 @@ $resultSubjects = $stmtSubjects->get_result();
                     .then(response => response.json())
                     .then(data => {
                         let tableHtml = '<table class="table table-bordered">';
-                        tableHtml += '<thead><tr><th>Nama Siswa</th><th>Nilai</th></tr></thead><tbody>';
+                        tableHtml += '<thead><tr><th>Nama Siswa</th><th>Pengetahuan</th><th>Keterampilan</th><th>Nilai</th><th>Predikat</th></tr></thead><tbody>';
 
                         data.forEach(student => {
-                            const readOnly = student.nilai !== null ? 'readonly' : '';
+                            const pengetahuanValue = student.pengetahuan !== null ? student.pengetahuan : '';
+                            const keterampilanValue = student.keterampilan !== null ? student.keterampilan : '';
                             const nilaiValue = student.nilai !== null ? student.nilai : '';
-
+                            const predikatValue = student.predikat !== null ? student.predikat : '';
                             tableHtml += `<tr>
                                             <td>${student.nama_siswa}</td>
-                                            <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100" ${readOnly}></td>
+                                            <td><input type="number" class="form-control" name="pengetahuan[${student.nis}]" value="${pengetahuanValue}" min="0" max="100"></td>
+                                            <td><input type="number" class="form-control" name="keterampilan[${student.nis}]" value="${keterampilanValue}" min="0" max="100"></td>
+                                            <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
+                                            <td><input type="text" class="form-control" name="predikat[${student.nis}]" value="${predikatValue}"></td>
                                         </tr>`;
                         });
 
@@ -115,7 +118,10 @@ $resultSubjects = $stmtSubjects->get_result();
         mataPelajaranSelect.addEventListener('change', updateTable);
     });
     </script>
-
-</body>
 <?php include '../navbar/navFooter.php'; ?>
 </html>
+
+<?php
+// Tutup koneksi database
+$conn->close();
+?>

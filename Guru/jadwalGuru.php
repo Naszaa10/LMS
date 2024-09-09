@@ -62,7 +62,6 @@ $result = $stmt->get_result();
         </table>
     </div>
 <?php include '../navbar/navFooter.php'; ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function() {
         let filter = this.value.toLowerCase();

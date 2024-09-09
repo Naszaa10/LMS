@@ -62,7 +62,7 @@ $mapels = $conn->query("SELECT kode_mapel, nama_mapel FROM mata_pelajaran");
 $kelas = $conn->query("SELECT id, nama_kelas FROM kelas");
 
 // Fetch schedule data
-$sql = "SELECT j.id, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
+$sql = "SELECT j.id, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, m.kode_mapel, k.id, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
         FROM jadwal j
         JOIN guru g ON j.nip_guru = g.nip
         JOIN mata_pelajaran m ON j.kode_mapel = m.kode_mapel
@@ -139,11 +139,11 @@ $no = 1;
         </div>
         <div class="form-group">
             <label for="start-time">Waktu Mulai:</label>
-            <input type="time" class="form-control" id="start-time" name="start_time" required>
+            <input type="text" class="form-control" id="start-time" name="start_time" required>
         </div>
         <div class="form-group">
             <label for="end-time">Waktu Selesai:</label>
-            <input type="time" class="form-control" id="end-time" name="end_time" required>
+            <input type="text" class="form-control" id="end-time" name="end_time" required>
         </div>
         <button type="button" id="addScheduleBtn" class="btn btn-primary">Tambah Jadwal</button>
         <button type="button" id="updateScheduleBtn" class="btn btn-warning hidden">Update Jadwal</button>
@@ -178,6 +178,7 @@ $no = 1;
                     <td>
                         <button class="btn btn-edit btn-sm btn-warning">Edit</button>
                         <button class="btn btn-delete btn-sm btn-danger">Hapus</button>
+                        <button class="btn btn-topik btn-sm btn-success" data-mapel="<?php echo $row['kode_mapel']; ?>" data-kelas="<?php echo $row['id']; ?>">Tambah Topik</button> 
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -244,6 +245,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
+        }
+    });
+
+        // Handle "Tambah Topik" button click
+        scheduleTable.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-topik')) {
+            const row = e.target.closest('tr');
+            const mapel = row.querySelector('.btn-topik').dataset.mapel; // Get the mapel from data attribute
+            const kelas = row.querySelector('.btn-topik').dataset.kelas; // Get the kelas from data attribute
+
+            // Redirect to the 'topik_guru.php' page with query parameters
+            window.location.href = `topik_guru.php?mapel=${encodeURIComponent(mapel)}&kelas=${encodeURIComponent(kelas)}`;
         }
     });
 

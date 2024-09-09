@@ -7,4 +7,5 @@
         sidebarToggle.addEventListener('click', function () {
             sidebar.classList.toggle('show');
         });
-    });</script>
+    });
+</script>
