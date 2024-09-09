@@ -57,7 +57,7 @@
                         <a class="nav-link" href="tahunAjaran.php">Tahun Ajaran</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dataGuru.php">Akun Guru</a>
+                        <a class="nav-link" href="dataGuru.php">Tambah Akun</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="tambahKelas.php">Tambah Kelas</a>

@@ -38,16 +38,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['password'];
         $email = $_POST['email'];
         $id_kelas = $_POST['kelas'];
+        $walikelas = $_POST['nama_wali_kelas'];
+        $jurusan = $_POST['jurusan'];
+        $angkatan = $_POST['angkatan'];
+
 
         // Hash password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Menyusun perintah SQL untuk memasukkan data
-        $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas, nama_wali_kelas, jurusan, angkatan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Menyiapkan statement
         if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("sssss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas);
+            $stmt->bind_param("ssssisss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas, $walikelas, $jurusan, $angkatan);
 
             // Menjalankan statement
             if ($stmt->execute()) {
@@ -64,14 +68,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Mengambil data kelas untuk dropdown
-$kelas_options = "";
-$sql = "SELECT id, nama_kelas FROM kelas";
+//Mengambil Data Jurusan
+$jurusan_options = "";
+$sql = "SELECT nama_jurusan FROM jurusan";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $kelas_options .= "<option value='" . htmlspecialchars($row['id']) . "'>" . htmlspecialchars($row['nama_kelas']) . "</option>";
+        $jurusan_options .= "<option value='" . htmlspecialchars($row['nama_jurusan']) . "'>" . htmlspecialchars($row['nama_jurusan']) ."</option>";
+    }
+} else {
+    $jurusan_options = "<option value=''>Tidak ada kelas tersedia</option>";
+}
+
+// Mengambil data kelas untuk dropdown
+$kelas_options = "";
+$sql = "SELECT id_kelas, nama_kelas FROM kelas";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $kelas_options .= "<option value='" . htmlspecialchars($row['id_kelas']) . "'>" . htmlspecialchars($row['nama_kelas']) . "</option>";
     }
 } else {
     $kelas_options = "<option value=''>Tidak ada kelas tersedia</option>";
@@ -219,6 +236,24 @@ $conn->close();
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="angkatan">Nama Wali Kelas:</label>
+                    <input type="text" id="angkatan" name="angkatan" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama_wali_kelas">Angkatan:</label>
+                    <input type="text" id="walikelas" name="nama_wali_kelas" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jurusan">Jurusan:</label>
+                    <select id="jurusan" name="jurusan" class="form-control" required>
+                        <option value="">Pilih Kelas</option>
+                        <?php echo $jurusan_options; ?>
+                    </select>
                 </div>
 
                 <div class="form-group">

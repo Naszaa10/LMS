@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } elseif ($role === 'admin') {
         // Query untuk insert ke tabel admins
-        $sql_admin = "INSERT INTO admin (username, password, email, nama) VALUES (?, ?, ?, ?)";
+        $sql_admin = "INSERT INTO admin (username, password, email, nama_admin) VALUES (?, ?, ?, ?)";
         $stmt_admin = $conn->prepare($sql_admin);
         
         // Bind parameter (ssss -> string, string, string, string)

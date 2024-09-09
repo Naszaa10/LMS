@@ -16,12 +16,17 @@
             <h2>Formulir Tambah Kelas</h2>
             <form action="" method="post">
                 <div class="form-group">
-                    <label for="guru-wali">Guru Wali:</label>
-                    <input type="text" id="guru_wali" name="guru_wali" class="form-control" required>
+                    <label for="nama">Nama Kelas:</label>
+                    <input type="text" id="kelas" name="kelas" class="form-control" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="nama">Kelas:</label>
+                    <label for="nama">Tahun Ajaran:</label>
+                    <input type="text" id="kelas" name="kelas" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama">Jurusan:</label>
                     <input type="text" id="kelas" name="kelas" class="form-control" required>
                 </div>
 
@@ -36,8 +41,9 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Guru Wali</th>
-                        <th>Kelas</th>
+                        <th>Nama Kelas</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Jurusan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -45,6 +51,7 @@
                 <tr>
                     <td><?php echo $row['nama_guru']; ?></td>
                     <td><?php echo $row['nama_kelas']; ?></td>
+                    <td><?php echo $row['jurusan']; ?></td>
                     <td>
                         <button class="btn btn-edit btn-sm btn-warning">Edit</button>
                         <button class="btn btn-delete btn-sm btn-danger">Hapus</button>

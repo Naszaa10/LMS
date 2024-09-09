@@ -75,6 +75,9 @@ $conn->close();
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
 
+            <label for="email">Nama Wali Guru:</label>
+            <input type="email" id="waliguru" name="nama_wali_kelas" required><br><br>
+
             <label for="kelas">Kelas:</label>
             <select id="kelas" name="kelas" required>
                 <option value="">Pilih Kelas</option>

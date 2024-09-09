@@ -4,14 +4,14 @@ include '../db.php';
 // Fetch data for dropdowns
 $gurus = $conn->query("SELECT nip, nama_guru FROM guru");
 $mapels = $conn->query("SELECT kode_mapel, nama_mapel FROM mata_pelajaran");
-$kelas = $conn->query("SELECT id, nama_kelas FROM kelas");
+$kelas = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
 
 // Fetch schedule data
-$sql = "SELECT j.id, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, m.kode_mapel, k.id, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
+$sql = "SELECT j.nip, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, m.kode_mapel, k.id_kelas, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
         FROM jadwal j
-        JOIN guru g ON j.nip_guru = g.nip
+        JOIN guru g ON j.nip = g.nip
         JOIN mata_pelajaran m ON j.kode_mapel = m.kode_mapel
-        JOIN kelas k ON j.id_kelas = k.id";
+        JOIN kelas k ON j.id_kelas = k.id_kelas";
 $result = $conn->query($sql);
 
 if (!$result) {
@@ -69,7 +69,6 @@ $no = 1;
                 <option value="Kamis">Kamis</option>
                 <option value="Jumat">Jumat</option>
                 <option value="Sabtu">Sabtu</option>
-                <option value="Minggu">Minggu</option>
             </select>
         </div>
         <div class="form-group">
@@ -77,7 +76,7 @@ $no = 1;
             <select class="form-control" id="kelas" name="kelas" required>
                 <option value="">Pilih Kelas</option>
                 <?php while ($row = $kelas->fetch_assoc()): ?>
-                    <option value="<?php echo htmlspecialchars($row['id']); ?>"><?php echo htmlspecialchars($row['nama_kelas']); ?></option>
+                    <option value="<?php echo htmlspecialchars($row['id_kelas']); ?>"><?php echo htmlspecialchars($row['nama_kelas']); ?></option>
                 <?php endwhile; ?>
             </select>
         </div>
@@ -88,17 +87,6 @@ $no = 1;
         <div class="form-group">
             <label for="end-time">Waktu Selesai:</label>
             <input type="text" class="form-control" id="end-time" name="end_time" required>
-        </div>
-        <div class="form-group">
-            <label for="thn_ajaran">Tahun Ajaran:</label>
-            <select class="form-control" id="thn_ajaran" name="thn_ajaran" required>
-                <option value="">Pilih Tahun Ajaran</option>
-                <!-- Tambahkan opsi tahun ajaran sesuai kebutuhan -->
-                <option value="2021/2022">2021/2022</option>
-                <option value="2022/2023">2022/2023</option>
-                <option value="2023/2024">2023/2024</option>
-                <option value="2024/2025">2024/2025</option>
-            </select>
         </div>
         <button type="button" id="addScheduleBtn" class="btn btn-primary">Tambah Jadwal</button>
         <button type="button" id="updateScheduleBtn" class="btn btn-warning hidden">Update Jadwal</button>
@@ -119,7 +107,6 @@ $no = 1;
                 <th>Hari</th>
                 <th>Kelas</th>
                 <th>Waktu</th>
-                <th>Tahun Ajaran</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -132,7 +119,6 @@ $no = 1;
                     <td><?php echo htmlspecialchars($row['hari']); ?></td>
                     <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
                     <td><?php echo htmlspecialchars($row['waktu_mulai'] . ' - ' . $row['waktu_selesai']); ?></td>
-                    <td><?php echo htmlspecialchars($row['tahun_ajaran']); ?></td>
                     <td>
                         <button class="btn btn-edit btn-sm btn-warning">Edit</button>
                         <button class="btn btn-delete btn-sm btn-danger">Hapus</button>

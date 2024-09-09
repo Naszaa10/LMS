@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_mapel = $_POST['nama_mapel'];
     $deskripsi = $_POST['deskripsi'];
     $jenis = $_POST['jenis'];
-    $tahun_ajaran = $_POST['tahun_ajaran'];
     
     // Menangani file gambar jika diunggah
     $gambar_mapel = $_FILES['gambar_mapel']['name'];
@@ -58,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Menyusun perintah SQL untuk memasukkan data
-    $sql = "INSERT INTO mata_pelajaran (kode_mapel, nama_mapel, deskripsi, jenis, gambar, tahun_ajaran) 
-            VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO mata_pelajaran (kode_mapel, nama_mapel, deskripsi, jenis, gambar) 
+            VALUES (?, ?, ?, ?, ?)";
 
     // Menyiapkan statement
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $kode_mapel, $nama_mapel, $deskripsi, $jenis, $target_file, $tahun_ajaran);
+    $stmt->bind_param("sssss", $kode_mapel, $nama_mapel, $deskripsi, $jenis, $target_file);
 
     // Menjalankan statement
     if ($stmt->execute()) {
@@ -94,7 +93,7 @@ $conn->close();
     <div class="container mt-1">
         <h1>Formulir Tambah Mata Pelajaran</h1>
         <div class="form-card p-4 bg-light shadow">
-            <form action="tambah_mapel.php" method="post" enctype="multipart/form-data">
+            <form action="tambah_matapelajaran.php" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="gambar_mapel" class="form-label">Background Mata Pelajaran (Gambar):</label>
                     <input type="file" class="form-control" id="gambar_mapel" name="gambar_mapel" accept="image/*" required>
@@ -125,11 +124,6 @@ $conn->close();
                         <option value="Teknik Listrik">Teknik Listrik</option>
                         <option value="Umum">Umum</option>
                     </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="tahun_ajaran" class="form-label">Tahun Ajaran:</label>
-                    <input type="text" class="form-control" id="tahun_ajaran" name="tahun_ajaran" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Tambah Mata Pelajaran</button>
