@@ -14,6 +14,14 @@ $nip = $_SESSION['teacher_nip'];
 $kode_mapel = $_GET['kode_mapel'];
 $id_kelas = $_GET['kelas_id'];
 
+$query_kelas = "
+    SELECT id_kelas, tahun_ajaran
+    FROM siswa 
+    WHERE id_kelas = '$id_kelas'
+";
+$result_kelas = mysqli_query($conn, $query_kelas);
+$row_kelas = mysqli_fetch_assoc($result_kelas);
+
 $sql = "
     SELECT mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel
     FROM mata_pelajaran
@@ -43,7 +51,7 @@ $mapel = $result->fetch_assoc();
         <h2>Detail Mata Pelajaran</h2>
         <p>Kode Mata Pelajaran: <?php echo htmlspecialchars($kode_mapel); ?></p>
         <p>Nama Mata Pelajaran: <?php echo htmlspecialchars($mapel['nama_mapel']); ?></p>
-        <p>Tahun Ajaran: <?php echo htmlspecialchars($mapel['tahun_ajaran']); ?></p>
+        <p>Tahun Ajaran: <?php echo htmlspecialchars($row_kelas['tahun_ajaran']); ?></p>
 
         <!-- Button untuk membuka modal tambah topik -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahTopikModal">

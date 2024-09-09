@@ -77,14 +77,7 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-    <?php
-    include '../navbar/navFooter.php';
-    ?>
-=======
-
     <!-- Bootstrap JS and custom JS -->
     <?php include '../navbar/navFooter.php'; ?>
->>>>>>> 64b771c98d0602129388ee0513a4533cf5fef510
 </body>
 </html>

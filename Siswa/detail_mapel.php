@@ -21,7 +21,7 @@ $nis_siswa = $_SESSION['nis_siswa'];
 
 // Query untuk mendapatkan ID kelas siswa
 $query_kelas = "
-    SELECT id_kelas 
+    SELECT id_kelas, tahun_ajaran
     FROM siswa 
     WHERE nis = '$nis_siswa'
 ";
@@ -31,7 +31,7 @@ $id_kelas = $row_kelas['id_kelas'];
 
 // Query untuk mendapatkan detail mata pelajaran dan nip guru dari tabel jadwal
 $query_mapel = "
-    SELECT mp.kode_mapel, mp.nama_mapel, mp.tahun_ajaran,
+    SELECT mp.kode_mapel, mp.nama_mapel,
            (SELECT nip_guru FROM jadwal WHERE kode_mapel = mp.kode_mapel AND id_kelas = '$id_kelas' LIMIT 1) AS nip_guru
     FROM mata_pelajaran mp
     WHERE mp.kode_mapel = '$kode_mapel'
@@ -77,7 +77,7 @@ $result_tugas = mysqli_query($conn, $query_tugas);
             <h5 class="card-title"><?php echo htmlspecialchars($row_mapel['nama_mapel']); ?></h5>
             <p class="card-text"><strong>Kode Mapel:</strong> <?php echo htmlspecialchars($row_mapel['kode_mapel']); ?></p>
             <p class="card-text"><strong>Nama Guru:</strong> <?php echo htmlspecialchars($row_guru['nama_guru']); ?></p>
-            <p class="card-text"><strong>Tahun Ajaran:</strong> <?php echo htmlspecialchars($row_mapel['tahun_ajaran']); ?></p>
+            <p class="card-text"><strong>Tahun Ajaran:</strong> <?php echo htmlspecialchars($row_kelas['tahun_ajaran']); ?></p>
         </div>
     </div>
 
