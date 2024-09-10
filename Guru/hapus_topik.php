@@ -18,7 +18,7 @@ $stmtTugas->bind_param("i", $topik_id);
 $stmtTugas->execute();
 
 // Hapus topik
-$sqlTopik = "DELETE FROM topik WHERE id = ? AND kode_mapel = ? AND kelas_id = ?";
+$sqlTopik = "DELETE FROM topik WHERE topik_id = ? AND kode_mapel = ? AND kelas_id = ?";
 $stmtTopik = $conn->prepare($sqlTopik);
 $stmtTopik->bind_param("isi", $topik_id, $kode_mapel, $kelas_id);
 $stmtTopik->execute();
