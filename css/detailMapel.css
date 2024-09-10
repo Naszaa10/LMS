@@ -105,6 +105,18 @@
     border-color: #d39e00;
 }
 
+.btn-danger {
+    background-color: #ff0707;
+    border-color: #ff0707;
+    width: 100%;
+}
+
+.btn-danger:hover {
+    background-color: #e02200;
+    border-color: #d30000;
+}
+btn-danger
+
 /* Modals */
 .modal-header {
     border-bottom: none;

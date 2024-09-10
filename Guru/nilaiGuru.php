@@ -11,10 +11,10 @@ if (!isset($_SESSION['teacher_nip'])) {
 $nip = $_SESSION['teacher_nip'];
 
 // Ambil kelas yang diajar oleh guru
-$queryClasses = "SELECT DISTINCT kelas.id, kelas.nama_kelas 
+$queryClasses = "SELECT DISTINCT kelas.id_kelas, kelas.nama_kelas 
                  FROM kelas 
-                 JOIN jadwal ON kelas.id = jadwal.id_kelas 
-                 WHERE jadwal.nip_guru = ?";
+                 JOIN jadwal ON kelas.id_kelas = jadwal.id_kelas 
+                 WHERE jadwal.nip = ?";
 $stmtClasses = $conn->prepare($queryClasses);
 $stmtClasses->bind_param("s", $nip);
 $stmtClasses->execute();
@@ -24,7 +24,7 @@ $resultClasses = $stmtClasses->get_result();
 $querySubjects = "SELECT DISTINCT mata_pelajaran.kode_mapel, mata_pelajaran.nama_mapel, mata_pelajaran.deskripsi, mata_pelajaran.jenis, mata_pelajaran.gambar
                   FROM mata_pelajaran 
                   JOIN jadwal ON mata_pelajaran.kode_mapel = jadwal.kode_mapel 
-                  WHERE jadwal.nip_guru = ?";
+                  WHERE jadwal.nip = ?";
 $stmtSubjects = $conn->prepare($querySubjects);
 $stmtSubjects->bind_param("s", $nip);
 $stmtSubjects->execute();
@@ -52,7 +52,7 @@ $resultSubjects = $stmtSubjects->get_result();
                     <select class="form-select" id="kelas" name="kelas" required>
                         <option value="">Pilih Kelas</option>
                         <?php while ($row = $resultClasses->fetch_assoc()) { ?>
-                            <option value="<?php echo $row['id']; ?>"><?php echo $row['nama_kelas']; ?></option>
+                            <option value="<?php echo $row['id_kelas']; ?>"><?php echo $row['nama_kelas']; ?></option>
                         <?php } ?>
                     </select>
                 </div>

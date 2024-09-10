@@ -39,10 +39,10 @@
                     <option value="">Pilih Kelas</option>
                     <?php
                     // Query untuk mengambil data kelas
-                    $queryKelas = "SELECT id, nama_kelas FROM kelas";
+                    $queryKelas = "SELECT id_kelas, nama_kelas FROM kelas";
                     $resultKelas = mysqli_query($conn, $queryKelas);
                     while ($rowKelas = mysqli_fetch_assoc($resultKelas)) {
-                        echo '<option value="'.$rowKelas['id'].'">'.$rowKelas['nama_kelas'].'</option>';
+                        echo '<option value="'.$rowKelas['id_kelas'].'">'.$rowKelas['nama_kelas'].'</option>';
                     }
                     ?>
                 </select>

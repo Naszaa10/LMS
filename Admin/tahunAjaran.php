@@ -1,3 +1,30 @@
+<?php
+session_start();
+include '../db.php'; // Menghubungkan dengan database
+
+// Pastikan admin sudah login
+// if (!isset($_SESSION['admin'])) {
+//     header("Location: ../login.php");
+//     exit();
+// }
+
+// Logika untuk menambah tahun ajaran
+if (isset($_POST['submit_ajaran'])) {
+    $thn_ajaran = $_POST['thn_ajaran'];
+
+    // Query untuk menambah tahun ajaran ke dalam database
+    $sql = "INSERT INTO tahun_ajaran (tahun_ajaran) VALUES (?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $thn_ajaran);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Tahun ajaran berhasil ditambahkan!'); window.location.href='tahunAjaran.php';</script>";
+    } else {
+        echo "<script>alert('Gagal menambahkan tahun ajaran!');</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,7 +38,7 @@
     <?php include '../navbar/navAdmin.php'; ?>
 
     <div id="mainContent" class="container mt-5">
-        <!-- Formulir Akun Guru -->
+        <!-- Formulir Tahun Ajaran -->
         <div id="guruForm" class="form-card">
             <h2>Tahun Ajaran</h2>
             <form action="" method="post">
@@ -20,33 +47,11 @@
                     <input type="text" id="thn_ajaran" name="thn_ajaran" class="form-control" required>
                 </div>
 
-                <button type="submit" name="submit_ajaran" class="btn btn-primary">Tambah tahun Ajaran</button>
+                <button type="submit" name="submit_ajaran" class="btn btn-primary">Tambah Tahun Ajaran</button>
                 <button type="button" id="updateScheduleBtn" class="btn btn-warning hidden">Update Tahun Ajaran</button>
             </form>
         </div>
-
-        <!-- Tabel Data Guru
-        <div id="guruTable" class="table-container">
-            <h2 class="text-center mt-5">Daftar Kelas</h2>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Guru Wali</th>
-                        <th>Kelas</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><?php echo $row['nama_guru']; ?></td>
-                    <td><?php echo $row['nama_kelas']; ?></td>
-                    <td>
-                        <button class="btn btn-edit btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-delete btn-sm btn-danger">Hapus</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div> -->
-</body>        <?php include '../navbar/navFooter.php'; ?>
+    </div>
+</body>
+<?php include '../navbar/navFooter.php'; ?>
 </html>

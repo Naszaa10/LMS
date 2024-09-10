@@ -1,13 +1,69 @@
 <?php
 include '../db.php';
 
+// Handle form submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'];
+
+    if ($action === 'add') {
+        // Add new schedule
+        $nip = $_POST['guru'];
+        $kode_mapel = $_POST['mapel'];
+        $hari = $_POST['hari'];
+        $id_kelas = $_POST['kelas'];
+        $waktu_mulai = $_POST['start_time'];
+        $waktu_selesai = $_POST['end_time'];
+
+        $sql = "INSERT INTO jadwal (nip, kode_mapel, hari, id_kelas, waktu_mulai, waktu_selesai) 
+                VALUES ('$nip', '$kode_mapel', '$hari', '$id_kelas', '$waktu_mulai', '$waktu_selesai')";
+
+        if ($conn->query($sql) === TRUE) {
+            header("Location: kelolaJadwal.php");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } elseif ($action === 'update') {
+        // Update schedule
+        $id = $_POST['id'];
+        $nip = $_POST['guru'];
+        $kode_mapel = $_POST['mapel'];
+        $hari = $_POST['hari'];
+        $id_kelas = $_POST['kelas'];
+        $waktu_mulai = $_POST['start_time'];
+        $waktu_selesai = $_POST['end_time'];
+
+        $sql = "UPDATE jadwal SET nip='$nip', kode_mapel='$kode_mapel', hari='$hari', id_kelas='$id_kelas', waktu_mulai='$waktu_mulai', waktu_selesai='$waktu_selesai' WHERE id_jadwal='$id'";
+
+        if ($conn->query($sql) === TRUE) {
+            header("Location: kelolaJadwal.php");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } elseif ($action === 'delete') {
+        // Delete schedule
+        $id = $_POST['id'];
+
+        $sql = "DELETE FROM jadwal WHERE id='$id'";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(['success' => true]);
+            exit();
+        } else {
+            echo json_encode(['success' => false, 'message' => $conn->error]);
+            exit();
+        }
+    }
+}
+
 // Fetch data for dropdowns
 $gurus = $conn->query("SELECT nip, nama_guru FROM guru");
 $mapels = $conn->query("SELECT kode_mapel, nama_mapel FROM mata_pelajaran");
 $kelas = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
 
 // Fetch schedule data
-$sql = "SELECT j.nip, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, m.kode_mapel, k.id_kelas, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
+$sql = "SELECT j.id_jadwal, j.nip, g.nama_guru AS nama_guru, m.nama_mapel AS nama_mapel, m.kode_mapel, k.id_kelas, j.hari, k.nama_kelas AS nama_kelas, j.waktu_mulai, j.waktu_selesai
         FROM jadwal j
         JOIN guru g ON j.nip = g.nip
         JOIN mata_pelajaran m ON j.kode_mapel = m.kode_mapel
@@ -35,10 +91,10 @@ $no = 1;
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
-        
+
 <div id="mainContent" class="container mt-2">
     <h1>Tambah/Edit Jadwal</h1>
-    <form id="scheduleForm">
+    <form id="scheduleForm" method="POST">
         <input type="hidden" id="scheduleId" name="id" value="">
         <input type="hidden" name="action" value="">
         <div class="form-group">
@@ -88,8 +144,8 @@ $no = 1;
             <label for="end-time">Waktu Selesai:</label>
             <input type="text" class="form-control" id="end-time" name="end_time" required>
         </div>
-        <button type="button" id="addScheduleBtn" class="btn btn-primary">Tambah Jadwal</button>
-        <button type="button" id="updateScheduleBtn" class="btn btn-warning hidden">Update Jadwal</button>
+        <button type="submit" id="addScheduleBtn" class="btn btn-primary">Tambah Jadwal</button>
+        <button type="submit" id="updateScheduleBtn" class="btn btn-warning hidden">Update Jadwal</button>
     </form>
     <hr>
     <h3>Daftar Jadwal</h3>
@@ -97,7 +153,7 @@ $no = 1;
         <label for="searchTeacher">Cari Berdasarkan Nama Guru:</label>
         <input type="text" class="form-control" id="searchTeacher" placeholder="Masukkan Nama Guru">
     </div>
-    <!-- Tabel awalnya disembunyikan -->
+    <!-- Table initially hidden -->
     <table id="scheduleTable" class="table table-striped hidden">
         <thead>
             <tr>
@@ -112,17 +168,16 @@ $no = 1;
         </thead>
         <tbody>
             <?php while($row = $result->fetch_assoc()): ?>
-                <tr data-id="<?php echo htmlspecialchars($row['id']); ?>">
+                <tr data-id="<?php echo htmlspecialchars($row['id_jadwal']); ?>">
                     <td><?php echo $no++; ?></td>
-                    <td><?php echo htmlspecialchars($row['nama_guru']); ?></td>
-                    <td><?php echo htmlspecialchars($row['nama_mapel']); ?></td>
+                    <td data-nip="<?php echo htmlspecialchars($row['nip']); ?>"><?php echo htmlspecialchars($row['nama_guru']); ?></td>
+                    <td data-mapel="<?php echo htmlspecialchars($row['kode_mapel']); ?>"><?php echo htmlspecialchars($row['nama_mapel']); ?></td>
                     <td><?php echo htmlspecialchars($row['hari']); ?></td>
-                    <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
+                    <td data-kelas="<?php echo htmlspecialchars($row['id_kelas']); ?>"><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
                     <td><?php echo htmlspecialchars($row['waktu_mulai'] . ' - ' . $row['waktu_selesai']); ?></td>
                     <td>
                         <button class="btn btn-edit btn-sm btn-warning">Edit</button>
                         <button class="btn btn-delete btn-sm btn-danger">Hapus</button>
-                        <button class="btn btn-topik btn-sm btn-success" data-mapel="<?php echo $row['kode_mapel']; ?>" data-kelas="<?php echo $row['id']; ?>">Tambah Topik</button> 
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -132,170 +187,89 @@ $no = 1;
 
 <?php include '../navbar/navFooter.php'; ?>
 
-<!-- JavaScript Dependencies -->
+<!-- JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
-
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('scheduleForm');
-    const addBtn = document.getElementById('addScheduleBtn');
-    const updateBtn = document.getElementById('updateScheduleBtn');
-    const scheduleTable = document.getElementById('scheduleTable');
-    const searchTeacher = document.getElementById('searchTeacher');
+$(document).ready(function () {
+    // Ambil nilai dari Local Storage dan set ke input pencarian
+    var searchText = localStorage.getItem('searchText') || '';
+    $('#searchTeacher').val(searchText);
 
-    addBtn.addEventListener('click', function() {
-        submitForm('add');
-    });
-
-    updateBtn.addEventListener('click', function() {
-        submitForm('update');
-    });
-
-    scheduleTable.addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-edit')) {
-            const row = e.target.closest('tr');
-            const id = row.getAttribute('data-id');
-            const guru = row.children[1].textContent;
-            const mapel = row.children[2].textContent;
-            const hari = row.children[3].textContent;
-            const kelas = row.children[4].textContent;
-            const waktu = row.children[5].textContent.split(' - ');
-
-            document.getElementById('scheduleId').value = id;
-            document.getElementById('guru').value = getGuruValueByName(guru);
-            document.getElementById('mapel').value = getMapelValueByName(mapel);
-            document.getElementById('hari').value = hari;
-            document.getElementById('kelas').value = getKelasValueByName(kelas);
-            document.getElementById('start-time').value = waktu[0];
-            document.getElementById('end-time').value = waktu[1];
-
-            form.querySelector('input[name="action"]').value = 'update';
-
-            addBtn.classList.add('hidden');
-            updateBtn.classList.remove('hidden');
-        } else if (e.target.classList.contains('btn-delete')) {
-            const row = e.target.closest('tr');
-            const id = row.getAttribute('data-id');
-            if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
-                fetch('kelolaJadwal.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        action: 'delete',
-                        id: id,
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        row.remove();
-                        alert('Jadwal berhasil dihapus.');
-                    } else {
-                        alert('Gagal menghapus jadwal: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menghapus jadwal.');
-                });
-            }
-        }
-    });
-
-        // Handle "Tambah Topik" button click
-        scheduleTable.addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-topik')) {
-            const row = e.target.closest('tr');
-            const mapel = row.querySelector('.btn-topik').dataset.mapel; // Get the mapel from data attribute
-            const kelas = row.querySelector('.btn-topik').dataset.kelas; // Get the kelas from data attribute
-
-            // Redirect to the 'topik_guru.php' page with query parameters
-            window.location.href = `topik_guru.php?mapel=${encodeURIComponent(mapel)}&kelas=${encodeURIComponent(kelas)}`;
-        }
-    });
-
-    searchTeacher.addEventListener('input', function() {
-        const query = this.value.trim().toLowerCase();
-        filterTable(query);
-    });
-
-    function filterTable(query) {
-        const rows = scheduleTable.querySelectorAll('tbody tr');
-        let hasResult = false;
-
-        rows.forEach(row => {
-            const teacherName = row.children[1].textContent.toLowerCase();
-            if (teacherName.includes(query)) {
-                row.style.display = '';
-                hasResult = true;
-            } else {
-                row.style.display = 'none';
-            }
+    if (searchText) {
+        $('#scheduleTable').removeClass('hidden'); // Tampilkan tabel ketika ada teks pencarian
+        $('#scheduleTable tbody tr').each(function () {
+            var teacherName = $(this).find('td:eq(1)').text().toLowerCase();
+            $(this).toggle(teacherName.includes(searchText.toLowerCase()));
         });
+    }
 
-        // Tampilkan tabel hanya jika ada hasil dan query tidak kosong
-        if (hasResult && query !== '') {
-            scheduleTable.classList.remove('hidden');
+    // Handle search input
+    $('#searchTeacher').on('input', function () {
+        searchText = $(this).val().toLowerCase();
+        localStorage.setItem('searchText', searchText); // Simpan teks pencarian di Local Storage
+
+        if (searchText) {
+            $('#scheduleTable').removeClass('hidden'); // Tampilkan tabel ketika mencari
+            $('#scheduleTable tbody tr').each(function () {
+                var teacherName = $(this).find('td:eq(1)').text().toLowerCase();
+                $(this).toggle(teacherName.includes(searchText));
+            });
         } else {
-            scheduleTable.classList.add('hidden');
+            $('#scheduleTable').addClass('hidden'); // Sembunyikan tabel ketika pencarian dihapus
         }
-    }
+    });
 
-    function submitForm(action) {
-        const formData = new FormData(form);
-        formData.append('action', action);
+    // Handle delete button click
+    $(document).on('click', '.btn-delete', function () {
+        var row = $(this).closest('tr');
+        var id = row.data('id');
 
-        fetch('kelolaJadwal.php', {
-            method: 'POST',
-            body: new URLSearchParams(formData),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Jadwal berhasil ' + (action === 'add' ? 'ditambahkan' : 'diperbarui'));
-                location.reload();
-            } else {
-                alert('Gagal ' + (action === 'add' ? 'menambahkan' : 'memperbarui') + ' jadwal: ' + data.message);
+        $.ajax({
+            type: 'POST',
+            url: 'kelolaJadwal.php',
+            data: { id: id, action: 'delete' },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    row.remove();
+                    location.reload(); // Refresh halaman setelah penghapusan
+                } else {
+                    alert('Error: ' + result.message);
+                }
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat memproses permintaan.');
         });
-    }
+    });
 
-    function getGuruValueByName(namaGuru) {
-        const guruSelect = document.getElementById('guru');
-        for (let option of guruSelect.options) {
-            if (option.text.toLowerCase() === namaGuru.toLowerCase()) {
-                return option.value;
-            }
-        }
-        return '';
-    }
+    // Handle edit button click
+    $(document).on('click', '.btn-edit', function () {
+        var row = $(this).closest('tr');
+        var id = row.data('id');
 
-    function getMapelValueByName(namaMapel) {
-        const mapelSelect = document.getElementById('mapel');
-        for (let option of mapelSelect.options) {
-            if (option.text.toLowerCase() === namaMapel.toLowerCase()) {
-                return option.value;
-            }
-        }
-        return '';
-    }
+        // Set nilai form untuk mengedit
+        $('#scheduleId').val(id);
+        $('#guru').val(row.find('td:eq(1)').data('nip'));
+        $('#mapel').val(row.find('td:eq(2)').data('mapel'));
+        $('#hari').val(row.find('td:eq(3)').text());
+        $('#kelas').val(row.find('td:eq(4)').data('kelas'));
+        $('#start-time').val(row.find('td:eq(5)').text().split(' - ')[0]);
+        $('#end-time').val(row.find('td:eq(5)').text().split(' - ')[1]);
 
-    function getKelasValueByName(namaKelas) {
-        const kelasSelect = document.getElementById('kelas');
-        for (let option of kelasSelect.options) {
-            if (option.text.toLowerCase() === namaKelas.toLowerCase()) {
-                return option.value;
-            }
-        }
-        return '';
-    }
+        // Tampilkan tombol update, sembunyikan tombol tambah
+        $('#addScheduleBtn').addClass('hidden');
+        $('#updateScheduleBtn').removeClass('hidden');
+        $('input[name="action"]').val('update');
+    });
+
+    // Handle add schedule button click
+    $('#addScheduleBtn').click(function () {
+        $('input[name="action"]').val('add');
+    });
+
+    // Handle update schedule button click
+    $('#updateScheduleBtn').click(function () {
+        $('input[name="action"]').val('update');
+    });
 });
 </script>
 </body>

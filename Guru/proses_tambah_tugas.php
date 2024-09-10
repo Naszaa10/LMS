@@ -19,7 +19,7 @@ $topik_id = $_POST['topik_id'];
 $id_kelas = $_POST['id_kelas'];
 
 // Insert tugas ke database
-$sql = "INSERT INTO tugas (judul, opsi_tugas, tanggal_tenggat, topik_id, kelas_id, kode_mapel) VALUES (?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO tugas (judul, opsi_tugas, tanggal_tenggat, topik_id, id_kelas, kode_mapel) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sssiis", $nama_tugas, $jenis_tugas, $tenggat_waktu, $topik_id, $id_kelas, $kode_mapel);
 $stmt->execute();

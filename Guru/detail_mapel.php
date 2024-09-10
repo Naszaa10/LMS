@@ -15,8 +15,8 @@ $kode_mapel = $_GET['kode_mapel'];
 $id_kelas = $_GET['kelas_id'];
 
 $query_kelas = "
-    SELECT id_kelas, tahun_ajaran
-    FROM siswa 
+    SELECT kelas.id_kelas, tahun_ajaran.id_tahun_ajaran, tahun_ajaran.tahun_ajaran
+    FROM kelas JOIN tahun_ajaran ON tahun_ajaran.id_tahun_ajaran = kelas.id_tahun_ajaran
     WHERE id_kelas = '$id_kelas'
 ";
 $result_kelas = mysqli_query($conn, $query_kelas);
@@ -82,10 +82,10 @@ $mapel = $result->fetch_assoc();
                 </div>
             </div>
         </div>
-
+        
         <!-- Menampilkan topik yang ada -->
         <?php
-        $sql = "SELECT * FROM topik WHERE kode_mapel = ? AND kelas_id = ?";
+        $sql = "SELECT * FROM topik WHERE kode_mapel = ? AND id_kelas = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $kode_mapel, $id_kelas);
         $stmt->execute();
@@ -98,17 +98,20 @@ $mapel = $result->fetch_assoc();
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_topik']); ?></h5>
-                                <a href="#" class="btn btn-custom upload" data-toggle="modal" data-target="#uploadMateriModal" data-topik-id="<?php echo $row['id']; ?>">
+                                <a href="#" class="btn btn-custom upload" data-toggle="modal" data-target="#uploadMateriModal" data-topik-id="<?php echo $row['topik_id']; ?>">
                                     Upload Materi
                                 </a>
-                                <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#tugasModal" data-topik-id="<?php echo $row['id']; ?>">
+                                <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#tugasModal" data-topik-id="<?php echo $row['topik_id']; ?>">
                                     Tugas
                                 </a><br><br>
-                                <a href="cek_materi.php?topik_id=<?php echo $row['id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-info">
+                                <a href="cek_materi.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-info">
                                     Cek Materi
                                 </a>
-                                <a href="cek_pengumpulan_tugas.php?topik_id=<?php echo $row['id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-warning">
+                                <a href="cek_pengumpulan_tugas.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-warning">
                                     Cek Pengumpulan
+                                </a>
+                                <a href="hapus_topik.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus topik ini?');">
+                                    Hapus Topik
                                 </a>
                             </div>
                         </div>
@@ -118,7 +121,6 @@ $mapel = $result->fetch_assoc();
                 <p>Tidak ada topik ditemukan.</p>
             <?php endif; ?>
         </div>
-    </div>
 
     <!-- Modal Upload Materi -->
     <div class="modal fade" id="uploadMateriModal" tabindex="-1" role="dialog" aria-labelledby="uploadMateriModalLabel" aria-hidden="true">

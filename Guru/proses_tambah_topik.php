@@ -14,7 +14,7 @@ $kode_mapel = $_POST['kode_mapel'];
 $id_kelas = $_POST['id_kelas'];
 
 // Query untuk menambahkan topik
-$sql = "INSERT INTO topik (nama_topik, kode_mapel, kelas_id) VALUES (?, ?, ?)";
+$sql = "INSERT INTO topik (nama_topik, kode_mapel, id_kelas) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ssi", $nama_topik, $kode_mapel, $id_kelas);
 

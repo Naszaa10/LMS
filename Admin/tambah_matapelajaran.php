@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Menangani file gambar jika diunggah
     $gambar_mapel = $_FILES['gambar_mapel']['name'];
-    $target_dir = "../uploads/";
+    $target_dir = "../uploads/gambar_mapel/";
     $target_file = $target_dir . basename($gambar_mapel);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));

@@ -21,7 +21,7 @@ if ($result_mapel->num_rows == 0) {
 }
 
 // Cek apakah kelas_id ada di tabel kelas
-$query_kelas = "SELECT * FROM kelas WHERE id = ?";
+$query_kelas = "SELECT * FROM kelas WHERE id_kelas = ?";
 $stmt_kelas = $conn->prepare($query_kelas);
 $stmt_kelas->bind_param('i', $kelas_id);
 $stmt_kelas->execute();
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<div class='alert alert-danger'>Nama topik tidak boleh kosong.</div>";
     } else {
         // Query untuk menambah topik baru
-        $sql_insert = "INSERT INTO topik (nama_topik, kode_mapel, kelas_id) VALUES (?, ?, ?)";
+        $sql_insert = "INSERT INTO topik (nama_topik, kode_mapel, id_kelas) VALUES (?, ?, ?)";
         $stmt_insert = $conn->prepare($sql_insert);
         $stmt_insert->bind_param('ssi', $nama_topik, $kode_mapel, $kelas_id);
         if ($stmt_insert->execute()) {
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Fetch topics berdasarkan kode_mapel dan kelas_id
-$sql = "SELECT * FROM topik WHERE kode_mapel = ? AND kelas_id = ?";
+$sql = "SELECT * FROM topik WHERE kode_mapel = ? AND id_kelas = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('si', $kode_mapel, $kelas_id);
 $stmt->execute();

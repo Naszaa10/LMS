@@ -19,7 +19,7 @@ $jawaban = $_POST['jawaban'] ?? null;
 if (isset($jawaban)) {
     // Query untuk menyimpan jawaban teks
     $query = "
-        INSERT INTO pengumpulan_tugas (nis_siswa, tugas_id, tugas_text, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
+        INSERT INTO pengumpulan_tugas (nis, id_tugas, tugas_text, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
         VALUES (?, ?, ?, ?, ?, ?, NOW())
     ";
     $stmt = $conn->prepare($query);
@@ -37,11 +37,11 @@ if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == UPLOAD_E
     if (move_uploaded_file($file_tmp, $file_dest)) {
         // Query untuk menyimpan informasi file
         $query = "
-            INSERT INTO pengumpulan_tugas (nis_siswa, tugas_id, file_path, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
+            INSERT INTO pengumpulan_tugas (nis, id_tugas, file_path, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
             VALUES (?, ?, ?, ?, ?, ?, NOW())
         ";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param('sissii', $nis_siswa, $tugas_id, $file_name, $topik_id, $kode_mapel, $id_kelas);
+        $stmt->bind_param('sisisi', $nis_siswa, $tugas_id, $file_name, $topik_id, $kode_mapel, $id_kelas);
         $stmt->execute();
     } else {
         echo "Gagal mengunggah file.";

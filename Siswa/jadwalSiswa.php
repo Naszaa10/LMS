@@ -28,7 +28,7 @@
     $queryJadwal = "SELECT mata_pelajaran.nama_mapel, jadwal.hari, jadwal.waktu_mulai, jadwal.waktu_selesai, guru.nama_guru 
                      FROM jadwal 
                      JOIN mata_pelajaran ON jadwal.kode_mapel = mata_pelajaran.kode_mapel 
-                     JOIN guru ON jadwal.nip_guru = guru.nip 
+                     JOIN guru ON jadwal.nip = guru.nip 
                      WHERE jadwal.id_kelas = '$idKelas'";
     $resultJadwal = mysqli_query($conn, $queryJadwal);
 ?>

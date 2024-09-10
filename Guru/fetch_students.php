@@ -4,7 +4,7 @@ include '../db.php'; // Koneksi ke database
 $kelas = $_GET['kelas'];
 $mata_pelajaran = $_GET['mata_pelajaran'];
 
-$query = "SELECT siswa.nama_siswa, siswa.tahun_ajaran, nilai.pengetahuan, nilai.keterampilan, nilai.predikat, nilai.nilai, nilai.tanggal_input, siswa.nis
+$query = "SELECT siswa.nama_siswa, nilai.pengetahuan, nilai.keterampilan, nilai.predikat, nilai.nilai, nilai.tanggal_input, siswa.nis
           FROM siswa
           LEFT JOIN nilai ON siswa.nis = nilai.nis AND nilai.kode_mapel = ? AND nilai.id_kelas = ?
           WHERE siswa.id_kelas = ?";

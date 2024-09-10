@@ -21,9 +21,9 @@ $nip = $_SESSION['teacher_nip'];
 
 // Query untuk mendapatkan data jadwal berdasarkan NIP guru
 $sql = "
-    SELECT jadwal.id, kelas.nama_kelas, mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, mata_pelajaran.gambar, jadwal.id_kelas, jadwal.hari, jadwal.waktu_mulai, jadwal.waktu_selesai
+    SELECT jadwal.id_jadwal, kelas.nama_kelas, mata_pelajaran.nama_mapel, mata_pelajaran.kode_mapel, mata_pelajaran.gambar, jadwal.id_kelas, jadwal.hari, jadwal.waktu_mulai, jadwal.waktu_selesai
     FROM jadwal, kelas, mata_pelajaran
-    WHERE jadwal.id_kelas = kelas.id AND jadwal.kode_mapel = mata_pelajaran.kode_mapel AND jadwal.nip_guru = ? 
+    WHERE jadwal.id_kelas = kelas.id_kelas AND jadwal.kode_mapel = mata_pelajaran.kode_mapel AND jadwal.nip = ? 
 ";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $nip);

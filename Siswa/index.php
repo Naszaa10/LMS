@@ -19,8 +19,8 @@ $nis_siswa = $_SESSION['nis_siswa']; // Sesuaikan dengan variabel session yang k
 // Query untuk mendapatkan tugas yang belum dikerjakan oleh siswa
 $query_tugas = "
     SELECT * FROM tugas 
-    WHERE kelas_id IN (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa') 
-    AND id NOT IN (SELECT tugas_id FROM pengumpulan_tugas WHERE nis_siswa = '$nis_siswa')
+    WHERE id_kelas IN (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa') 
+    AND id_tugas NOT IN (SELECT id_tugas FROM pengumpulan_tugas WHERE nis = '$nis_siswa')
 ";
 $result_tugas = mysqli_query($conn, $query_tugas);
 
@@ -28,15 +28,15 @@ $result_tugas = mysqli_query($conn, $query_tugas);
 $query_mapel = "
     SELECT mp.*, 
         (SELECT COUNT(*) FROM materi m 
-            JOIN pengunduhan_materi pm ON m.id = pm.materi_id 
+            JOIN pengunduhan_materi pm ON m.id_materi = pm.id_materi
             WHERE m.kode_mapel = mp.kode_mapel AND pm.nis = '$nis_siswa') AS total_materi_diunduh,
         (SELECT COUNT(*) FROM tugas t 
             WHERE t.kode_mapel = mp.kode_mapel 
-            AND t.id IN (SELECT tugas_id FROM pengumpulan_tugas WHERE nis_siswa = '$nis_siswa')) AS total_tugas_dikumpulkan,
+            AND t.id_tugas IN (SELECT id_tugas FROM pengumpulan_tugas WHERE nis = '$nis_siswa')) AS total_tugas_dikumpulkan,
         (SELECT COUNT(*) FROM materi WHERE kode_mapel = mp.kode_mapel) AS total_materi,
         (SELECT COUNT(*) FROM tugas WHERE kode_mapel = mp.kode_mapel) AS total_tugas,
         (SELECT g.nama_guru FROM guru g 
-            JOIN jadwal j ON g.nip = j.nip_guru 
+            JOIN jadwal j ON g.nip = j.nip
             WHERE j.kode_mapel = mp.kode_mapel 
             LIMIT 1) AS nama_guru
     FROM mata_pelajaran mp 

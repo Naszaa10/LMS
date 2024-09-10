@@ -24,7 +24,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Pengumpulan Tugas</title>
+    <title>Cek Materi Guru</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/detailMapel.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -47,10 +47,10 @@ $result = $stmt->get_result();
         <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['judul']); ?></td>
-                <td><a href="../uploads/<?php echo htmlspecialchars($row['file']); ?>" target="_blank">Lihat File</a></td>
+                <td><a href="../uploads/materi<?php echo htmlspecialchars($row['file']); ?>" target="_blank">Lihat File</a></td>
                 <td>
-                    <a href="edit_materi.php?materi_id=<?php echo $row['id']; ?>" class="btn btn-edit btn-sm btn-warning">Edit</a>
-                    <a href="hapus_materi.php?materi_id=<?php echo $row['id']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus materi ini?');">Hapus</a>
+                    <a href="edit_materi.php?materi_id=<?php echo $row['id_materi']; ?>&topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo $row['kode_mapel']; ?>&id_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-edit btn-sm btn-warning">Edit</a>
+                    <a href="proses_hapus_materi.php?materi_id=<?php echo $row['id_materi']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus materi ini?');">Hapus</a>
                 </td>
             </tr>
         <?php endwhile; ?>

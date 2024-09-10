@@ -70,15 +70,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //Mengambil Data Jurusan
 $jurusan_options = "";
-$sql = "SELECT nama_jurusan FROM jurusan";
+$sql = "SELECT * FROM jurusan";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $jurusan_options .= "<option value='" . htmlspecialchars($row['nama_jurusan']) . "'>" . htmlspecialchars($row['nama_jurusan']) ."</option>";
+        $jurusan_options .= "<option value='" . htmlspecialchars($row['id_jurusan']) . "'>" . htmlspecialchars($row['nama_jurusan']) ."</option>";
     }
 } else {
-    $jurusan_options = "<option value=''>Tidak ada kelas tersedia</option>";
+    $jurusan_options = "<option value=''>Tidak ada jurusan tersedia</option>";
 }
 
 // Mengambil data kelas untuk dropdown

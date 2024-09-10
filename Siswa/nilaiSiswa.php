@@ -25,20 +25,20 @@
     // Ambil data tambahan siswa dan wali kelas
     $querySiswa = "SELECT siswa.nama_siswa, siswa.nama_wali_kelas, kelas.nama_kelas
     FROM siswa
-    JOIN kelas ON siswa.id_kelas = kelas.id
+    JOIN kelas ON siswa.id_kelas = kelas.id_kelas
     WHERE siswa.nis = '$nis'";
     $resultSiswa = mysqli_query($conn, $querySiswa);
     $dataSiswa = mysqli_fetch_assoc($resultSiswa);
 
     // Ambil daftar tahun ajaran dari database
-    $queryTahunAjaran = "SELECT DISTINCT tahun_ajaran FROM nilai ORDER BY tahun_ajaran DESC";
+    $queryTahunAjaran = "SELECT DISTINCT id_tahun_ajaran, tahun_ajaran FROM tahun_ajaran";
     $resultTahunAjaran = mysqli_query($conn, $queryTahunAjaran);
 
     // Ambil data nilai siswa berdasarkan NIS dan tahun ajaran
     $queryNilai = "SELECT mata_pelajaran.nama_mapel, nilai.nilai 
                    FROM nilai 
                    JOIN mata_pelajaran ON nilai.kode_mapel = mata_pelajaran.kode_mapel 
-                   WHERE nilai.nis = '$nis' AND nilai.tahun_ajaran = '$tahunAjaran'";
+                   WHERE nilai.nis = '$nis' AND nilai.id_tahun_ajaran = '$tahunAjaran'";
     $resultNilai = mysqli_query($conn, $queryNilai);
 ?>
 
@@ -52,7 +52,7 @@
                 <select id="tahun_ajaran" name="tahun_ajaran" class="form-select" required>
                     <option value="">-- Pilih Tahun Ajaran --</option>
                     <?php while ($row = mysqli_fetch_assoc($resultTahunAjaran)): ?>
-                        <option value="<?php echo $row['tahun_ajaran']; ?>" <?php echo ($row['tahun_ajaran'] == $tahunAjaran) ? 'selected' : ''; ?>>
+                        <option value="<?php echo $row['id_tahun_ajaran']; ?>" <?php echo ($row['tahun_ajaran'] == $tahunAjaran) ? 'selected' : ''; ?>>
                             <?php echo $row['tahun_ajaran']; ?>
                         </option>
                     <?php endwhile; ?>

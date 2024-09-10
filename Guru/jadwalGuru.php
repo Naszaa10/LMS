@@ -9,9 +9,9 @@ $nip_guru = $_SESSION['teacher_nip'] ?? '';
 $sql = "SELECT j.kode_mapel, mp.nama_mapel, j.hari, k.nama_kelas, j.waktu_mulai, j.waktu_selesai, g.nama_guru 
         FROM jadwal j 
         JOIN mata_pelajaran mp ON j.kode_mapel = mp.kode_mapel 
-        JOIN kelas k ON j.id_kelas = k.id 
-        JOIN guru g ON j.nip_guru = g.nip 
-        WHERE j.nip_guru = ?";
+        JOIN kelas k ON j.id_kelas = k.id_kelas
+        JOIN guru g ON j.nip = g.nip 
+        WHERE j.nip = ?";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $nip_guru);
