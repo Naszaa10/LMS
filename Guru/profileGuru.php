@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     $guru = $result->fetch_assoc();
 ?>
-    <div id="mainContent" class="container mt-5">
+    <div id="mainContent" class="container mt-4">
         <div class="card-group"> <!-- Wrapper untuk menggabungkan kedua card -->
             
             <!-- Sidebar (Foto Profil dan Menu) -->

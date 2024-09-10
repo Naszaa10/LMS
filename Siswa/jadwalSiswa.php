@@ -33,7 +33,7 @@
     $resultJadwal = mysqli_query($conn, $queryJadwal);
 ?>
 
-<div id="mainContent" class="container mt-5">
+<div id="mainContent" class="container mt-4">
     <h2 class="mb-4">Jadwal Pelajaran : <?php echo $dataKelas['nama_siswa']; ?></h2>
     <table class="table">
         <thead>

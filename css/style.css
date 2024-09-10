@@ -132,8 +132,6 @@ body {
     top: 0;
     left: 0;
     z-index: 1000; /* Pastikan sidebar berada di atas konten */
-    transition: transform 0.3s ease;
-    transform: translateX(-100%); /* Posisi tersembunyi */
 }
 
 
@@ -142,7 +140,6 @@ body {
     padding: 10px 25px; /* Padding di dalam link menu */
     color: #000; /* Warna teks */
     border-radius: 0.375rem; /* Sudut membulat */
-    transition: background-color 0.3s, color 0.3s; /* Transisi halus untuk efek hover */
     text-decoration: none; /* Menghapus garis bawah default */
 }
 
@@ -164,10 +161,6 @@ body {
 }
 
 /* Gaya untuk item menu di sidebar yang dalam mode show */
-.sidebar.show {
-    transform: translateX(0); /* Posisi terlihat jika sidebar ditampilkan */
-}
-
 
 /* Style untuk Main Content */
 .main-container {
@@ -179,7 +172,6 @@ body {
 #mainContent {
     flex: 1;
     padding: 1rem;
-    transition: none; /* Default tanpa margin */
 }
 
 /* Ketika sidebar terlihat, beri ruang untuk sidebar */
@@ -188,226 +180,6 @@ body {
 }
 
 
-
-/* Style untuk Card */
-.card {
-    background-color: #ffffff;
-    border: px solid #010101;
-    border-radius: 0.5rem;
-    width: 100%; /* Lebar card mengikuti lebar container */
-    max-width: 30rem; /* Lebar maksimum card */
-    height: auto; /* Tinggi card akan disesuaikan secara otomatis */
-    margin: 1px auto; /* Menjaga card tetap berada di tengah */
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-.card-img-top {
-    width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
-    height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
-    object-fit: cover; /* Memastikan gambar menutupi area card */
-}
-
-.card-body {
-    flex: 1; /* Mengizinkan card-body mengisi ruang yang tersisa */
-}
-
-.card-title {
-    font-weight: bold;
-    font-size: 1.25rem;
-}
-
-.card-text {
-    color: #555;
-}
-
-.card-persentase {
-    font-size: small;
-    text-align: left;
-    margin-left: 5px;
-    color: #000000; /* Warna teks */
-}
-
-.progress-bar {
-    background-color: #007bff;
-}
-
-.btn-card {
-    margin-left: 20px;
-}
-
-/* Style untuk Timeline atau Daftar Tugas */
-ul.list-group {
-    padding: 0;
-}
-
-.list-group-item {
-    border: 1px solid #ddd; /* Membuat border ringan di sekitar item */
-}
-
-.list-group-item .badge {
-    font-size: 0.75rem; /* Mengatur ukuran font badge */
-}
-
-/* Button Styles */
-.custom-btn {
-    width: 80px; /* Atur lebar tombol */
-    padding: 5px; /* Atur padding tombol */
-    margin: 5px;
-}
-
-/* Edit button specific */
-.custom-btn.btn-tambah {
-    background-color: #007bff; /* Mengubah warna background */
-    border: none; /* Menghilangkan border */
-    margin-right: 10px; /* Menambah margin kanan */
-}
-
-/* Hapus button specific */
-.custom-btn.btn-hapus {
-    background-color: #f90404; /* Mengubah warna background */
-    border: none; /* Menghilangkan border */
-}
-
-.custom-btn.btn-edit {
-    background-color: #72f904; /* Mengubah warna background */
-    border: none; /* Menghilangkan border */
-}
-
-/* paragraf */
-.add-topic {
-    margin: 10px;
-}
-
-/* Tasks Event */
-.tasks {
-margin-left: 20px;
-margin-right: 20px;
-margin-top: 20px;
-}
-
-.maincontent-card1 {
-    margin: 20px;
-}
-
-section, h1, h4 {
-    margin-left: 10px
-}
-
-
-/* Guru Dashboard Topic Terbaru */
-/* Mengatur container utama */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* Mengatur judul halaman */
-h2 {
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 20px;
-}
-
-/* Gaya khusus untuk kartu */
-.card.custom-card {
-    background-color: #ffffff;
-    border: 1px solid #010101; /* Menambahkan border 1px solid */
-    border-radius: 0.5rem;
-    width: 100%; /* Lebar card mengikuti lebar container */
-    max-width: 30rem; /* Lebar maksimum card */
-    height: auto; /* Tinggi card akan disesuaikan secara otomatis */
-    margin: 15px auto; /* Menjaga card tetap berada di tengah dengan margin */
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-}
-
-/* Gambar pada kartu */
-.card.custom-card img {
-    width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
-    height: 14rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
-    object-fit: cover; /* Memastikan gambar menutupi area card */
-}
-
-/* Mengatur teks pada kartu */
-.card.custom-card .card-body {
-    padding: 15px;
-}
-
-/* Mengatur judul mata pelajaran */
-.card.custom-card .card-title {
-    font-size: 25px;
-    font-weight: bolder;
-    color: #2c3e50;
-}
-
-/* Teks informasi pada kartu */
-.card.custom-card .card-text {
-    font-size: 17px;
-    color: #555;
-}
-
-/* Mengatur elemen link agar seluruh kartu dapat diklik */
-.card.custom-card a {
-    text-decoration: none; /* Menghilangkan garis bawah pada teks */
-    color: inherit;
-}
-
-/* Efek saat hover pada kartu */
-.card.custom-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.2);
-    border-color: #0a02f3;
-}
-
-/* Efek saat hover pada gambar di dalam kartu */
-.card.custom-card:hover img {
-    filter: brightness(0.9);
-    opacity: 0.90;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Mengatur elemen link agar seluruh kartu dapat diklik dan menghilangkan garis bawah pada teks */
-.col-md-6 a {
-    text-decoration: none; /* Menghilangkan garis bawah pada teks */
-    color: inherit; /* Menjaga warna teks tetap sesuai dengan warna default */
-}
-
-.col-md-6 a:hover {
-    text-decoration: none; /* Menghilangkan garis bawah pada teks saat hover */
-    color: inherit; /* Menjaga warna teks tetap sesuai dengan warna default saat hover */
-}
-
-
-/* Responsif untuk layar kecil */
-@media (max-width: 768px) {
-    .card.custom-card img {
-        height: 150px;
-    }
-    
-    .card.custom-card .card-body {
-        padding: 10px;
-    }
-    
-    .card.custom-card .card-title {
-        font-size: 18px;
-    }
-    
-    .card.custom-card .card-text {
-        font-size: 14px; /* Ukuran teks lebih besar di layar kecil */
-    }
-}
 
 
 

@@ -77,6 +77,7 @@
             </div>
         </div>
     </div>
+
     <!-- Bootstrap JS and custom JS -->
     <?php include '../navbar/navFooter.php'; ?>
 </body>

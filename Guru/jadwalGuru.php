@@ -27,11 +27,10 @@ $result = $stmt->get_result();
     <title>Jadwal Mengajar Guru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jadwal.css">
-    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <?php include '../navbar/navHeader.php'; ?>
-    <div id="mainContent" class="container">
+    <div id="mainContent" class="container mt-5">
         <h2 class="mb-4">Jadwal Mengajar</h2>
         <div class="mb-6">
             <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Mata Pelajaran">

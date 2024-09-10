@@ -165,7 +165,7 @@ $conn->close();
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div id="mainContent" class="container mt-1">
+    <div id="mainContent" class="container mt-4">
         <div class="form-card">
             <h2>Formulir Tambah Akun</h2>
                 <div class="text-center mb-4">

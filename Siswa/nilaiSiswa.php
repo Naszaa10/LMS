@@ -6,7 +6,6 @@
     <title>Nilai Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/nilai.css">
-    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <?php
@@ -43,7 +42,7 @@
 ?>
 
 <div id="mainContent">
-    <div class="container mt-5">
+    <div class="container mt-4">
         <h2 class="mb-4">Nilai Siswa</h2>
 
         <form method="POST" action="">

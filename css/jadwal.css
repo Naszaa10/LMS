@@ -135,7 +135,7 @@ input.form-control:focus {
 /* Styling untuk tombol btn*/
 
 #searchTeacher {
-    width: 860px;
+    width: 600px;
     padding: 0.75rem;
     font-size: 1rem;
     border: 1px solid #007bff;

@@ -92,7 +92,7 @@ $no = 1;
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 
-<div id="mainContent" class="container mt-2">
+<div id="mainContent" class="container mt-3">
     <h1>Tambah/Edit Jadwal</h1>
     <form id="scheduleForm" method="POST">
         <input type="hidden" id="scheduleId" name="id" value="">
