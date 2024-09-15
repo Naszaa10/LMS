@@ -1,0 +1,275 @@
+/* General Styling */
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    text-decoration: none;
+}
+
+body {
+    overflow-x: hidden;
+    /* background-image: url('../uploads/gambar/logo.png');
+    background-size: cover; */
+}
+
+#wrapper {
+    display: flex;
+}
+
+
+img {
+    width: 55px;
+    margin-left: 45px;
+}
+
+.navbar-logo {
+    margin-right: auto; /* Menggeser logo ke kiri dan memberi jarak dengan elemen di sebelahnya */
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: #0a0a0a;
+    font-style: italic;
+    text-decoration: none;
+    margin-left: 20px;
+    width: 150px;
+}
+
+.navbar .navbar-logo span {
+    color: #4103fa !important;
+}
+
+/* Page Content */
+#page-content-wrapper {
+    width: 100%;
+    padding-left: 260px; /* Adjust based on sidebar width */
+    transition: padding-left 0.25s ease-out;
+    padding-top: 50px;
+}
+
+
+/* Navbar Fixed Position */
+.navbar {
+    position: fixed; /* Menempatkan navbar tetap di bagian atas */
+    top: 0; /* Perbaiki nilai 'top' menjadi 0 */
+    width: 100%;
+    z-index: 1000; /* Pastikan navbar berada di atas elemen lain */
+    box-shadow: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa; /* Warna latar belakang navbar */
+    border-bottom: 2px solid #dee2e6; /* Garis bawah untuk navbar */
+    transition: left 0.3s ease, width 0.3s ease; /* Tambahkan transisi untuk animasi */
+}
+
+.navbar .dropdown-menu {
+    top: 68px;
+    right: 0;
+    left: auto;
+    margin-right: 10px;
+    border: 1.5px solid #0d00ff;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: #000000;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Calibri';
+}
+
+.navbar .navbar-nav .nav-link span {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+
+/* Navbar atas dropdwon untuk profile */
+.dropdown-item {
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #0080ff; /* Warna latar belakang saat di-hover */
+    color: #ffffff; /* Ubah teks jadi putih saat di-hover */
+    border-radius: 4px; /* Tambahkan sedikit border-radius saat hover */
+}
+
+/* Hover effect for dropdown menu */
+.dropdown-menu {
+    background-color: #ffffff;
+    opacity: 90%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu:hover {
+    opacity: 90%; /* Tingkatkan opacity saat di-hover */
+    transform: scale(1.02); /* Sedikit perbesar ukuran dropdown saat hover */
+}
+
+/* Hilangkan caret dari dropdown-toggle */
+.navbar-nav .dropdown-toggle::after {
+    display: none;
+}
+
+
+
+/* ISI Contennt */
+.background {
+    flex: 1; /* Expands to fill available space */
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.content h2 {
+    color: #000000;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+/* Info Section */
+.info-section {
+    background-color: #181313;
+    padding: 10px;
+    max-width: 800px;
+    border-radius: 20px;
+    overflow: hidden; /* Ensure content follows the border-radius */
+}
+
+
+.info-content h3 {
+    font-size: 1.75rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+    text-align: center;
+
+}
+
+.info-content p {
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+/* Image Geser (Carousel) */
+.carousel {
+    display: flex;
+    justify-content: center; /* Center the carousel horizontally */
+    align-items: center; /* Center the carousel vertically */
+    position: relative;
+    width: 80%;
+    height: 50vh; /* Mengatur tinggi carousel */
+    margin: 0px 105px; /* Centering the carousel */
+    margin-bottom: 20px;
+    
+}
+
+.carousel-item {
+    border-radius: 20px;
+    overflow: hidden; /* Pastikan elemen ini menyembunyikan bagian gambar yang melampaui radius */
+}
+
+.carousel-item img {
+    object-fit: cover;
+    width: 80%;
+    height: 50vh;
+    border-radius: 20px;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6); /* Latar belakang hitam transparan untuk teks */
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.carousel-caption h5 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.carousel-caption p {
+    font-size: 10px;
+}
+
+/* Carousel indicators (bullets) styling */
+.carousel-indicators button {
+    background-color: #ffffff;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 3px;
+}
+
+.carousel-indicators .active {
+    background-color: #007bff; /* Warna indikator aktif */
+}
+
+/* Carousel control buttons (next & prev) */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Memberi latar belakang semi-transparan */
+    border-radius: 50%;
+    padding: 15px;
+}
+
+/* Hover effects for control buttons */
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .carousel-caption h5 {
+        font-size: 24px; /* Mengubah ukuran font di layar kecil */
+    }
+    .carousel-caption p {
+        font-size: 14px;
+    }
+    .carousel {
+        height: 60vh; /* Mengurangi tinggi carousel di layar kecil */
+    }
+    .carousel-item img {
+        height: 60vh; /* Mengurangi tinggi gambar di layar kecil */
+    }
+}
+
+
+footer {
+    height: 50px;
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+/* Responsive Behavior */
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        width: 100%;
+    }
+
+    #page-content-wrapper {
+        padding-left: 0;
+    }
+
+    .toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+}

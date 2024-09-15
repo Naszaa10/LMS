@@ -16,7 +16,8 @@
                 <h4 class="mt-2">SMK AlFALAH</h4>
             </div>
             <div class="list-group list-group-flush">
-                <a href="index.php" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="dashboardGuru.php" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="index.php" class="list-group-item list-group-item-action">Mata Pelajaran</a>
                 <a href="jadwalGuru.php" class="list-group-item list-group-item-action">Jadwal</a>
                 <a href="nilaiGuru.php" class="list-group-item list-group-item-action">Nilai</a>
                 <a href=#" class="list-group-item list-group-item-action">Nilai Tugas</a>
