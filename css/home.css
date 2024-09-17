@@ -36,8 +36,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100%; /* Ensure the background covers the entire content */
-    background-image: url('../gambar/bgalfalah.jpg'); /* Update with your image path */
+    height: 100%; /* Ensures the background covers the entire content */
+    background-image: url('../uploads/gambar/bgalfalah.jpg'); /* Correct relative path */
     background-size: cover;
     background-position: center;
     filter: blur(8px) brightness(50%);

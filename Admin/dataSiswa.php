@@ -2,52 +2,50 @@
 include '../db.php';
 
 // Menangani data formulir jika disubmit
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Mengambil data dari formulir
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_siswa'])) {
     $nis = $_POST['nis'];
     $nama_siswa = $_POST['nama_siswa'];
     $password = $_POST['password'];
     $email = $_POST['email'];
-    $id_kelas = $_POST['kelas']; // Pastikan nama ini sesuai dengan nama di formulir
+    $id_kelas = $_POST['kelas'];
+    $walikelas = $_POST['nama_wali_kelas'];
+    $jurusan = $_POST['jurusan'];
+    $angkatan = $_POST['angkatan'];
 
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Menyusun perintah SQL untuk memasukkan data
-    $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas, nama_wali_kelas, jurusan, angkatan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Menyiapkan statement
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("sssss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas);
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssisss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas, $walikelas, $jurusan, $angkatan);
 
-        // Menjalankan statement
-        if ($stmt->execute()) {
-            echo "<p>Akun Siswa berhasil ditambahkan.</p>";
-        } else {
-            echo "<p>Error: " . $stmt->error . "</p>";
-        }
-
-        // Menutup statement
-        $stmt->close();
+    // Menjalankan statement
+    if ($stmt->execute()) {
+        echo "<p>Akun siswa berhasil ditambahkan.</p>";
     } else {
-        echo "<p>Error: " . $conn->error . "</p>";
+        echo "<p>Error: " . $stmt->error . "</p>";
     }
+
+    // Menutup statement
+    $stmt->close();
 }
 
 // Mengambil data kelas untuk dropdown
 $kelas_options = "";
-$sql = "SELECT id, nama_kelas FROM kelas";
+$sql = "SELECT id_kelas, nama_kelas FROM kelas";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $kelas_options .= "<option value='" . htmlspecialchars($row['id']) . "'>" . htmlspecialchars($row['nama_kelas']) . "</option>";
+        $kelas_options .= "<option value='" . htmlspecialchars($row['id_kelas']) . "'>" . htmlspecialchars($row['nama_kelas']) . "</option>";
     }
 } else {
     $kelas_options = "<option value=''>Tidak ada kelas tersedia</option>";
 }
 
-// Menutup koneksi
 $conn->close();
 ?>
 
@@ -57,35 +55,61 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Akun Siswa</title>
-    <link rel="stylesheet" href="../css/tambahmapel.css"> <!-- Pastikan path ke file CSS benar -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/tambahmapel.css">
 </head>
-<body>
-    <h1>Formulir Tambah Akun Siswa</h1>
-    <div class="form-card">
-        <form action="dataSiswa.php" method="post">
-            <label for="nip">NIS:</label>
-            <input type="text" id="nis" name="nis" required><br><br>
+    <?php include '../navbar/navAdmin.php'; ?>
 
-            <label for="nama">Nama:</label>
-            <input type="text" id="nama_siswa" name="nama_siswa" required><br><br>
+    <div class="container mt-4">
+        <div class="form-card">
+            <h2>Formulir Tambah Akun Siswa</h2>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="nis">NIS:</label>
+                    <input type="text" id="nis" name="nis" class="form-control" required>
+                </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
+                <div class="form-group">
+                    <label for="nama_siswa">Nama:</label>
+                    <input type="text" id="nama_siswa" name="nama_siswa" class="form-control" required>
+                </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
 
-            <label for="email">Nama Wali Guru:</label>
-            <input type="email" id="waliguru" name="nama_wali_kelas" required><br><br>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
 
-            <label for="kelas">Kelas:</label>
-            <select id="kelas" name="kelas" required>
-                <option value="">Pilih Kelas</option>
-                <?php echo $kelas_options; ?>
-            </select><br><br>
+                <div class="form-group">
+                    <label for="kelas">Kelas:</label>
+                    <select id="kelas" name="kelas" class="form-control" required>
+                        <option value="">Pilih Kelas</option>
+                        <?php echo $kelas_options; ?>
+                    </select>
+                </div>
 
-            <input type="submit" value="Tambah Akun">
-        </form>
+                <div class="form-group">
+                    <label for="nama_wali_kelas">Nama Wali Kelas:</label>
+                    <input type="text" id="nama_wali_kelas" name="nama_wali_kelas" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="jurusan">Jurusan:</label>
+                    <input type="text" id="jurusan" name="jurusan" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="angkatan">Angkatan:</label>
+                    <input type="text" id="angkatan" name="angkatan" class="form-control" required>
+                </div>
+
+                <button type="submit" name="submit_siswa" class="btn btn-primary">Tambah Akun</button>
+            </form>
+        </div>
     </div>
-</body>
+<?php include '../navbar/navFooter.php'; ?>
 </html>

@@ -38,23 +38,4 @@
             </ul>
         </div>
     </nav>
-    
-    <!-- <div class="main-container">
-        Sidebar -->
-        <!-- <nav id="sidebarMenu" class="col-md-2 d-md-block custom-bg sidebar">
-            <div class="position-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
-                </ul>
-            </div>
-        </nav> -->
-</body>
-</html>
+

@@ -23,11 +23,14 @@
                         Data Akun
                     </a>
                     <ul id="dataAkunSubmenu" class="list-group collapse">
+                    <li class="list-group-item list-group-item-action">
+                            <a href="dataGuruSiswa.php">Data Guru</a>
+                        </li>
                         <li class="list-group-item list-group-item-action">
                             <a href="dataGuru.php">Data Guru</a>
                         </li>
                         <li class="list-group-item list-group-item-action">
-                            <a href="#">Data Siswa</a>
+                            <a href="dataSiswa.php">Data Siswa</a>
                         </li>
                     </ul>
                 </div>

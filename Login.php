@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="login-container">
         <div class="card">
-            <img src="gambar/logo.png" alt="Logo" class="logo">
+            <img src="uploads/gambar/logo.png" alt="Logo" class="logo">
             <h2>Login</h2>
             <form action="login.php" method="post">
                 <div class="form-group">
