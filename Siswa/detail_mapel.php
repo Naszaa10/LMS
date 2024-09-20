@@ -133,7 +133,7 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
 
     <!-- Tugas -->
     <section class="tugas mt-4">
-        <h4>Tugas</h4>
+        <h3>Tugas</h3>
         <?php if ($result_tugas && mysqli_num_rows($result_tugas) > 0): ?>
             <?php while ($row_tugas = mysqli_fetch_assoc($result_tugas)): ?>
                 <div class="card mb-3">

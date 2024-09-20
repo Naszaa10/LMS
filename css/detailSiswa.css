@@ -36,14 +36,12 @@
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
-    margin-left: 50px;
     font-size: 30px;
 }
 
 .accordion-item {
     border: none;
     margin-bottom: 10px;
-    margin-left: 40px; /* Menyesuaikan margin dengan tugas */
 }
 
 .accordion-button {
@@ -81,23 +79,12 @@
     padding-left: 15px;
 }
 
-/* Style untuk heading "Tugas" */
-
-.accordion h4 {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    margin-left: 30px;
-    font-size: 30px;
-}
-
 /* Style untuk card tugas */
 .tugas .card {
     border: none;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    margin-left: 15px; /* Untuk memastikan card tugas sejajar dengan heading */
 }
 
 /* Style untuk card-body */

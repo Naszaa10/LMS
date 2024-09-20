@@ -24,37 +24,33 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Mengajar Guru</title>
+    <title>Nilai Tugas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/jadwal.css">
+    <link rel="stylesheet" href="../css/nilaiTugas.css">
 </head>
 <body>
-<?php include '../navbar/navHeader.php'; ?>
+<?php include '../navbar/navSiswa.php'; ?>
     <div id="mainContent" class="container mt-4">
-        <h2 class="mb-4">Jadwal Mengajar</h2>
+        <h2 class="mb-4">Nilai Tugas</h2>
         <div class="mb-6">
             <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Mata Pelajaran">
         </div>
         <table class="table" id="jadwalTable">
             <thead>
                 <tr>
-                    <th>Nama Guru</th>
-                    <th>Kode Mapel</th>
+                    <th>Hari/Tanggal</th>
                     <th onclick="sortTable(0)">Mata Pelajaran</th>
-                    <th>Hari</th>
-                    <th>Kelas</th>
-                    <th>Jam</th>
+                    <th>Nama Tugas</th>
+                    <th>Nilai</th>
                 </tr>
             </thead>
             <tbody>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['nama_guru']); ?></td>
-                        <td><?php echo htmlspecialchars($row['kode_mapel']); ?></td>
+                        <td><?php echo htmlspecialchars($row['Hari/Tanggal']); ?></td>
                         <td><?php echo htmlspecialchars($row['nama_mapel']); ?></td>
-                        <td><?php echo htmlspecialchars($row['hari']); ?></td>
-                        <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
-                        <td><?php echo htmlspecialchars($row['waktu_mulai'] . ' - ' . $row['waktu_selesai']); ?></td>
+                        <td><?php echo htmlspecialchars($row['nama_tugas']); ?></td>
+                        <td><?php echo htmlspecialchars($row['nilai']); ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>

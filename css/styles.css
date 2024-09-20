@@ -1,6 +1,7 @@
 /* General Styling */
 body {
     overflow-x: hidden;
+    text-decoration: none;
 }
 
 #wrapper {
@@ -216,4 +217,15 @@ footer {
     .toggled #sidebar-wrapper {
         margin-left: 0;
     }
+}
+
+
+
+/* Untuk Card Mapel semua INdex */
+.card-title, .card-text {
+    text-decoration: none;
+}
+
+.nama-guru {
+    text-align: center;
 }
