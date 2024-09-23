@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Responsive Dashboard</title>
+    <title>SISWA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="..\css\styles.css">
 </head>
@@ -20,7 +20,7 @@
                 <a href="index.php" class="list-group-item list-group-item-action">Mata Pelajaran</a>
                 <a href="jadwalSiswa.php" class="list-group-item list-group-item-action">Jadwal</a>
                 <a href="nilaiSiswa.php" class="list-group-item list-group-item-action">Nilai</a>
-                <a href=#" class="list-group-item list-group-item-action">Nilai Tugas</a>
+                <a href="nilaiTugas.php" class="list-group-item list-group-item-action">Nilai Tugas</a>
                 <a href="#" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
             </div>
         </div>

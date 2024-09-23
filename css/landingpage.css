@@ -10,8 +10,8 @@
 
 body {
     overflow-x: hidden;
-    /* background-image: url('../uploads/gambar/logo.png');
-    background-size: cover; */
+    background-image: url('../uploads/gambar/bgalfalah.jpg');
+    background-size: cover;
 }
 
 #wrapper {
@@ -128,17 +128,18 @@ img {
 .content h2 {
     color: #000000;
     text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin: 20px;
 }
 
 /* Info Section */
 .info-section {
     background-color: #181313;
     padding: 10px;
-    max-width: 800px;
+    max-width: 100%;
     border-radius: 20px;
-    overflow: hidden; /* Ensure content follows the border-radius */
+    margin: 20px;
+    margin-left: 90px;
+    margin-right: 90px;
 }
 
 
@@ -165,9 +166,10 @@ img {
     align-items: center; /* Center the carousel vertically */
     position: relative;
     width: 80%;
-    height: 50vh; /* Mengatur tinggi carousel */
+    height: 80vh; /* Mengatur tinggi carousel */
     margin: 0px 105px; /* Centering the carousel */
     margin-bottom: 20px;
+    margin-top: 90px;
     
 }
 
@@ -179,8 +181,9 @@ img {
 .carousel-item img {
     object-fit: cover;
     width: 80%;
-    height: 50vh;
+    height: 80vh;
     border-radius: 20px;
+
 }
 
 .carousel-caption {

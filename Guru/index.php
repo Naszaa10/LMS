@@ -35,7 +35,7 @@ $result = $stmt->get_result();
 <div id="mainContent">
         <div class="container mt-4">
             <h2 class="mb-4">Daftar Mata Pelajaran</h2>
-            <p>Nama Guru</p>
+            <p class="nama-guru">Nama Guru</p>
         <div class="row justify-content-center">
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
