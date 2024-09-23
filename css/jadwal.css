@@ -1,12 +1,69 @@
+/* ADmin DAtaJAdwal */
+/* Styling untuk form pencarian */
+form.form-inline {
+    display: flex;
+    justify-content: left; /* Memusatkan form di tengah */
+    align-items: left;
+    margin-bottom: 20px;
+}
+
+/* Input text dalam form */
+form.form-inline .form-control {
+    width: 300px; /* Lebar input */
+    padding: 10px; /* Padding dalam input */
+    border-radius: 0.25rem; /* Membulatkan sudut */
+    border: 1px solid #ced4da; /* Warna border */
+    margin-right: 10px; /* Jarak antara input dan tombol */
+}
+
+/* Tombol submit dalam form */
+form.form-inline .btn {
+    padding: 5px 20px; /* Padding dalam tombol */
+    border-radius: 0.25rem; /* Membulatkan sudut */
+    color: #000000; /* Warna teks */
+    border-color: #007bff;
+    background-color: transparent; /* Latar belakang transparan */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Animasi transisi */
+}
+
+form.form-inline .btn:hover {
+    background-color: #28a745; /* Warna latar belakang saat hover */
+    color: #fff; /* Warna teks saat hover */
+}
+
+.container h1 {
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin-top: 2rem; /* Jarak dari atas kontainer */
+    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
+}
+
+
+/* Responsif untuk layar kecil */
+@media (max-width: 576px) {
+    form.form-inline {
+        flex-direction: column; /* Mengubah arah form menjadi kolom */
+    }
+
+    form.form-inline .form-control {
+        width: 100%; /* Lebar input mengikuti lebar kontainer */
+        margin-right: 0; /* Menghapus margin kanan pada layar kecil */
+        margin-bottom: 10px; /* Menambahkan margin bawah */
+    }
+
+    form.form-inline .btn {
+        width: 100%; /* Lebar tombol mengikuti lebar kontainer */
+    }
+}
+
+
+
+
 /* Jadwal guru/siswa */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f8f9fa;
-}
-
-.main-container {
-    padding-top: 20px;
-    margin-left: 60px;
 }
 
 .container h2 {
@@ -96,6 +153,7 @@ body {
     margin-right: 0;
 }
 
+/* Style untuk Select */
 label {
     font-weight: 600;
     color: #000000;
@@ -133,7 +191,6 @@ input.form-control:focus {
 
 
 /* Styling untuk tombol btn*/
-
 #searchTeacher {
     width: 600px;
     padding: 0.75rem;

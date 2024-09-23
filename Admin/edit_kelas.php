@@ -66,9 +66,9 @@ if (isset($_POST['update_kelas'])) {
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div id="mainContent" class="container mt-5">
-        <div id="guruForm" class="form-card">
-            <h2>Edit Kelas</h2>
+    <div id="mainContent" class="container mt-4">
+    <h1>Edit Kelas</h1>
+        <div id="guruForm" class="form-card "> 
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nama_kelas">Nama Kelas:</label>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/landingpage.css">
 </head>
 <div>
-    <div class="background">
+    <h2>Selamat Datang Di LMS SMK AL FALAH Kota Bandung</h2>
         <?php include 'navbar/navHome.php'; ?>
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
             <div class="carousel-indicators">
@@ -37,7 +37,6 @@
                 <p>Some representative placeholder content for the third slide.</p>
             </div>
         </div>
-    </div>
 
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -51,7 +50,6 @@
     </div>
 
     <div class="content">
-        <h2>Selamat Datang Di LMS SMK AL FALAH Kota Bandung</h2>
         <section class="info-section">
             <div class="info-content">
                 <h3>Sekilas Tentang Al Falah dan SMK Al Falah</h3>

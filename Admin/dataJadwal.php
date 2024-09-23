@@ -23,12 +23,13 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Jadwal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\css\jadwal.css">
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 
-<div class="container mt-3">
-    <h2>Daftar Jadwal</h2>
+<div class="container mt-4">
+    <h1>Daftar Jadwal</h1>
 
     <!-- Tombol Tambah Jadwal -->
     <a href="tambahJadwal.php" class="btn btn-primary mb-3">Tambah Jadwal</a>

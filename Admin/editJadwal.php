@@ -37,12 +37,13 @@ $row = $result->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Jadwal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\css\jadwal.css">
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 
-<div class="container mt-3">
-    <h2>Edit Jadwal</h2>
+<div class="container mt-4">
+    <h1>Edit Jadwal</h1>
     <form action="" method="POST">
         <div class="form-group">
             <label for="nip">Guru:</label>

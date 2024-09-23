@@ -34,12 +34,14 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Jadwal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\css\jadwal.css">
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 
-<div class="container mt-3">
-    <h2>Tambah Jadwal</h2>
+<div class="container mt-4">
+    <h1>Tambah Jadwal</h1>
+    
     <form action="" method="POST">
         <div class="form-group">
             <label for="nip">Guru:</label>
@@ -69,7 +71,6 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
             </select>
         </div>
         <div class="form-group">
-        <div class="form-group">
             <label for="hari">Hari:</label>
                 <select class="form-control" id="hari" name="hari" required>
                     <option value="">Pilih Hari</option>
@@ -82,7 +83,6 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
                 </select>
             </div>
 
-        </div>
         <div class="form-group">
             <label for="waktu_mulai">Waktu Mulai:</label>
             <input type="text" class="form-control" id="waktu_mulai" name="waktu_mulai" required>
@@ -92,7 +92,7 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
             <input type="text" class="form-control" id="waktu_selesai" name="waktu_selesai" required>
         </div>
         <button type="submit" class="btn btn-primary">Tambah Jadwal</button>
-        <a href="dataJadwal.php" class="btn btn-secondary">Batal</a>
+        <a href="dataJadwal.php" class="btn btn-danger">Batal</a>
     </form>
 </div>
 

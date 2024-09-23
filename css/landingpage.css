@@ -56,7 +56,7 @@ img {
     z-index: 1000; /* Pastikan navbar berada di atas elemen lain */
     box-shadow: 1px solid rgba(0, 0, 0, 0.1);
     background-color: #f8f9fa; /* Warna latar belakang navbar */
-    border-bottom: 2px solid #dee2e6; /* Garis bawah untuk navbar */
+    border-bottom: 2px solid #000000; /* Garis bawah untuk navbar */
     transition: left 0.3s ease, width 0.3s ease; /* Tambahkan transisi untuk animasi */
 }
 
@@ -114,21 +114,13 @@ img {
 
 
 /* ISI Contennt */
-.background {
-    flex: 1; /* Expands to fill available space */
-    position: relative;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.content h2 {
+h2 {
     color: #000000;
     text-align: center;
-    margin: 20px;
+    padding-top: 68px;
+    font-weight: bolder;
+    margin-top: 15px;
+    margin-bottom: 8px;
 }
 
 /* Info Section */
@@ -169,7 +161,7 @@ img {
     height: 80vh; /* Mengatur tinggi carousel */
     margin: 0px 105px; /* Centering the carousel */
     margin-bottom: 20px;
-    margin-top: 90px;
+    margin-top: 0;
     
 }
 

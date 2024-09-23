@@ -37,10 +37,11 @@ if (isset($_POST['submit_ajaran'])) {
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div id="mainContent" class="container mt-5">
+    <div id="mainContent" class="container mt-4">
+    <h1>Tahun Ajaran</h1>
         <!-- Formulir Tahun Ajaran -->
         <div id="guruForm" class="form-card">
-            <h2>Tahun Ajaran</h2>
+
             <form action="" method="post">
                 <div class="form-group">
                     <label for="tahun-ajaran">Tahun Ajaran:</label>

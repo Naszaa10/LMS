@@ -55,13 +55,13 @@ $result = $conn->query($sql);
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div class="container mt-5">
-        <h2>Manage Tahun Ajaran</h2>
+    <div class="container mt-4">
+        <h1>Manage Tahun Ajaran</h1>
         <!-- Button to add new tahun ajaran -->
-        <a href="tambahAjaran.php" class="btn btn-success mb-3">Tambah Tahun Ajaran</a>
+        <a href="tambahAjaran.php" class="btn btn-primary mt-4">Tambah Tahun Ajaran</a>
 
 
-        <table class="table table-bordered">
+        <table class="table table-bordered mt-4">
             <thead>
                 <tr>
                     <th>ID</th>

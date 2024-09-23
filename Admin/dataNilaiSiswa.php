@@ -71,12 +71,13 @@ if (isset($_POST['fetch_nilai'])) {
     <title>Manage Nilai</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="..\css\nilaiTugas.css">
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div class="container mt-5">
-        <h2>Manage Nilai</h2>
+    <div class="container mt-4">
+        <h1>Manage Nilai</h1>
 
         <form action="" method="post" class="mb-4" id="filterForm">
             <div class="form-row">
@@ -99,7 +100,7 @@ if (isset($_POST['fetch_nilai'])) {
                     </select>
                 </div>
                 <div class="form-group col-md-4 align-self-end">
-                    <button type="button" id="fetchNIS" class="btn btn-secondary">Ambil NIS</button>
+                    <button type="button" id="fetchNIS" class="btn btn-success">Ambil NIS</button>
                 </div>
             </div>
         </form>

@@ -16,15 +16,15 @@ body {
     top: 0;
     left: 0;
     background-color: #1d1e1f; /* Warna latar belakang sidebar */
-    color: #e90000; /* Warna teks */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Efek bayangan sidebar */
+    color: #ff0000; /* Warna teks */
+    box-shadow: 2px 0 5px rgba(255, 255, 255, 0.3); /* Efek bayangan sidebar */
     overflow-y: auto; /* Menambahkan scroll jika konten melebihi tinggi */
     transition: all 0.3s ease; /* Animasi transisi */
     z-index: 9999;
 }
 
 .sidebar-heading {
-    border-bottom: 1px solid #495057; /* Garis bawah pada heading */
+    border-bottom: 1px solid #ff0000; /* Garis bawah pada heading */
 }
 
 .logo-img {
@@ -54,7 +54,7 @@ body {
 .sidebar-heading h4 {
     font-size: 20px; /* Ukuran font judul */
     margin: 0; /* Menghilangkan margin default */
-    color: #9d6a6a; /* Warna teks judul */
+    color: #f5caca; /* Warna teks judul */
 }
 
 
@@ -228,4 +228,61 @@ footer {
 
 .nama-guru {
     text-align: center;
+}
+
+
+.container h1 {
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin-top: 2rem; /* Jarak dari atas kontainer */
+    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
+}
+
+/* Menghilangkan garis bawah pada judul dan teks */
+.card-body .card-title,
+.card-body .card-text {
+    text-decoration: none; /* Menghilangkan garis bawah */
+}
+
+/* Card Body */
+.card-body {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Title */
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 15px;
+}
+
+/* Card Text */
+.card-text {
+    font-size: 1rem;
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+/* Custom Style for Specific Information */
+.card-text:first-of-type {
+    margin-top: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
 }

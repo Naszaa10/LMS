@@ -55,11 +55,13 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Mata Pelajaran</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/tambahmapel.css">
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 <div class="container mt-3">
     <h1>Edit Mata Pelajaran</h1>
+    <div class="form-card p-4 bg-light shadow mb-4">
     <form action="editMapel.php?kode_mapel=<?php echo $kode_mapel; ?>" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="kode_mapel" class="form-label">Kode Mata Pelajaran:</label>
@@ -78,7 +80,7 @@ $conn->close();
 
         <div class="mb-3">
             <label for="jenis" class="form-label">Jenis Mata Pelajaran:</label>
-            <select class="form-select" id="jenis" name="jenis" required>
+            <select class="form-control" id="jenis" name="jenis" required>
                 <option value="">Pilih Jenis</option>
                 <option value="Teknik Komputer" <?php if ($data['jenis'] == 'Teknik Komputer') echo 'selected'; ?>>Teknik Komputer</option>
                 <option value="Teknik Mesin" <?php if ($data['jenis'] == 'Teknik Mesin') echo 'selected'; ?>>Teknik Mesin</option>
@@ -94,9 +96,10 @@ $conn->close();
             <img src="<?php echo $data['gambar']; ?>" alt="Gambar Mapel" style="width: 100px; margin-top: 10px;">
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary mb-3">Simpan Perubahan</button>
     </form>
+    </div>
 </div>
-
+<?php include '../navbar/navFooter.php'; ?>
 </body>
 </html>

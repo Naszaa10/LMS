@@ -66,12 +66,12 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topik Guru</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/topik.css">
+    <link rel="stylesheet" href="../css/jadwal.css">
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 
-<div class="container mt-5">
+<div class="container mt-4">
     <h1>Daftar Topik untuk <?php echo htmlspecialchars($kode_mapel); ?> - <?php echo htmlspecialchars($kelas_id); ?></h1>
 
     <!-- Form untuk Menambahkan Topik Baru -->
@@ -80,7 +80,9 @@ $result = $stmt->get_result();
             <label for="nama_topik">Nama Topik:</label>
             <input type="text" class="form-control" id="nama_topik" name="nama_topik" required>
         </div>
+        <div>
         <button type="submit" class="btn btn-primary">Tambah Topik</button>
+        </div>
     </form>
 
     <table class="table table-bordered">

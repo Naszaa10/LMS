@@ -52,10 +52,12 @@ body {
     margin-left: 60px;
 }
 
-.container h2 {
+.container h1 {
     font-weight: bold;
     color: #000000;
-    text-align: left;
+    text-align: center;
+    margin-top: 2rem; /* Jarak dari atas kontainer */
+    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
 }
 
 #searchInput {

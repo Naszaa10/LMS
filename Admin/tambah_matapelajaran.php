@@ -92,7 +92,7 @@ $conn->close();
 <?php include '../navbar/navAdmin.php'; ?>
     <div class="container mt-1">
         <h1>Formulir Tambah Mata Pelajaran</h1>
-        <div class="form-card p-4 bg-light shadow">
+        <div class="form-card p-4 bg-light shadow mb-4">
             <form action="tambah_matapelajaran.php" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="gambar_mapel" class="form-label">Background Mata Pelajaran (Gambar):</label>
