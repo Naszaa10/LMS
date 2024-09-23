@@ -82,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 <body>
+<?php include 'navbar/navHome.php'; ?>
     <div class="card">
-        <img src="uploads/gambar/logo.png" alt="Logo" class="card-logo">
         <h2 class="card-title">Register</h2>
         <?php if ($success_message): ?>
             <div class="success-message"><?php echo $success_message; ?></div>
@@ -143,4 +143,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </script>
 </body>
+<?php include 'navbar/navFooter.php'; ?>
 </html>

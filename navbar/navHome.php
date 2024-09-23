@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-lg custom-bg">
         <!-- <button id="sidebarToggle" class="btn btn-primary me-3">☰</button> -->
         <img src="uploads\gambar\logo.png" alt="logoalfalah">
-        <a href="#" class="navbar-logo">SMK<span>AlFalah</span></a>
+        <a href="index.php" class="navbar-logo">SMK<span>AlFalah</span></a>
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,11 +39,6 @@
             </ul>
         </div>
     </nav>
-<<<<<<< HEAD
-
-=======
-    
-
 </body>
 </html>
->>>>>>> f9687c9f9b852f6571f2d0386364c522f36ef9a2
+

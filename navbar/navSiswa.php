@@ -30,8 +30,8 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container-fluid">
-                    <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
-                    <!-- <button class="btn btn-primary" id="menu-toggle">☰</i></button> -->
+                    <!-- <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button> -->
+                    <button class="btn btn-primary" id="menu-toggle">☰</i></button>
                     <div class="collapse navbar-collapse" id="navbarContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">

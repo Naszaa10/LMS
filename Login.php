@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $guru = $result->fetch_assoc();
             if (password_verify($password, $guru['password'])) {
                 $_SESSION['teacher_nip'] = $guru['nip']; // Simpan NIP guru di session
-                header("Location: Guru/index.php"); // Redirect ke dashboard guru
+                header("Location: Guru/dashboardGuru.php"); // Redirect ke dashboard guru
                 exit();
             } else {
                 $error = "Password salah.";
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (password_verify($password, $siswa['password'])) {
                 $_SESSION['nis_siswa'] = $siswa['nis']; // Simpan NIS siswa di session
                 $_SESSION['kelas_id'] = $siswa['id_kelas'];
-                header("Location: Siswa/index.php"); // Redirect ke dashboard siswa
+                header("Location: Siswa/dasboardSiswa.php"); // Redirect ke dashboard siswa
                 exit();
             } else {
                 $error = "Password salah.";
@@ -85,9 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+<?php include 'navbar/navHome.php'; ?>
     <div class="login-container">
         <div class="card">
-            <img src="uploads/gambar/logo.png" alt="Logo" class="logo">
             <h2>Login</h2>
             <form action="login.php" method="post">
                 <div class="form-group">
@@ -121,4 +121,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </body>
+<?php include 'navbar/navFooter.php'; ?>
 </html>
