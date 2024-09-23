@@ -23,9 +23,6 @@
                         Data Akun
                     </a>
                     <ul id="dataAkunSubmenu" class="list-group collapse">
-                    <li class="list-group-item list-group-item-action">
-                            <a href="dataGuruSiswa.php">Data Guru</a>
-                        </li>
                         <li class="list-group-item list-group-item-action">
                             <a href="dataGuru.php">Data Guru</a>
                         </li>
@@ -34,11 +31,11 @@
                         </li>
                     </ul>
                 </div>
-                <a href="tambahKelas.php" class="list-group-item list-group-item-action">Tambah Kelas</a>
-                <a href="tambah_matapelajaran.php" class="list-group-item list-group-item-action">Menambah Mata Pelajaran</a>
-                <a href="kelolaJadwal.php" class="list-group-item list-group-item-action">Kelola Jadwal</a>
+                <a href="dataKelas.php" class="list-group-item list-group-item-action">Data Kelas</a>
+                <a href="dataMapel.php" class="list-group-item list-group-item-action">Data Mata Pelajaran</a>
+                <a href="dataJadwal.php" class="list-group-item list-group-item-action">Kelola Jadwal</a>
                 <a href="tahunAjaran.php" class="list-group-item list-group-item-action">Tahun Ajaran</a>
-                <a href="#" class="list-group-item list-group-item-action">Data Nilai</a>
+                <a href="dataNilaiSiswa.php" class="list-group-item list-group-item-action">Data Nilai Siswa</a>
                 <a href="rapot.php" class="list-group-item list-group-item-action">Cetak Raport</a>
                 <a href="#" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
             </div>

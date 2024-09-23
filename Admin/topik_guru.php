@@ -2,8 +2,8 @@
 include '../db.php';
 
 // Dapatkan nilai kode_mapel dan kelas dari query parameter
-$kode_mapel = $_GET['mapel'];
-$kelas_id = $_GET['kelas'];
+$kode_mapel = $_GET['kode_mapel'];
+$kelas_id = $_GET['id_kelas'];
 
 // Validasi apakah kelas_id merupakan integer
 if (!is_numeric($kelas_id)) {

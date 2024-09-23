@@ -85,23 +85,38 @@ $resultSubjects = $stmtSubjects->get_result();
             const selectedMataPelajaran = mataPelajaranSelect.value;
 
             if (selectedKelas && selectedMataPelajaran) {
-                fetch(`fetch_students.php?kelas=${selectedKelas}&mata_pelajaran=${selectedMataPelajaran}`)
-                    .then(response => response.json())
+                fetch(`fetch_students_and_assignments.php?kelas=${selectedKelas}&mata_pelajaran=${selectedMataPelajaran}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        let tableHtml = '<table class="table table-bordered">';
-                        tableHtml += '<thead><tr><th>Nama Siswa</th><th>Nama Tugas</th><th>Nilai</th></tr></thead><tbody>';
+                        console.log(data); // Log the data to see what’s being returned
+                        if (data.error) {
+                            tableContainer.innerHTML = `<p>Error: ${data.error}</p>`;
+                        } else if (data.message) {
+                            tableContainer.innerHTML = `<p>${data.message}</p>`;
+                        } else {
+                            let tableHtml = '<table class="table table-bordered">';
+                            tableHtml += '<thead><tr><th>Nama Siswa</th><th>Nama Tugas</th><th>Nilai</th></tr></thead><tbody>';
 
-                        data.forEach(student => {
-                            const nilaiValue = student.nilai !== null ? student.nilai : '';
-                            tableHtml += `<tr>
-                                            <td>${student.nama_siswa}</td>
-                                            <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
-                                        </tr>`;
-                        });
+                            data.forEach(student => {
+                                const nilaiValue = student.nilai_tugas !== null ? student.nilai_tugas : '';
+                                const tugasTitle = student.judul || 'Belum ada tugas';
+                                tableHtml += `<tr>
+                                                <td>${student.nama_siswa}</td>
+                                                <td>${tugasTitle}</td>
+                                                <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
+                                            </tr>`;
+                            });
 
-                        tableHtml += '</tbody></table>';
-                        tableContainer.innerHTML = tableHtml;
-                    });
+                            tableHtml += '</tbody></table>';
+                            tableContainer.innerHTML = tableHtml;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             } else {
                 tableContainer.innerHTML = '';
             }
@@ -112,6 +127,7 @@ $resultSubjects = $stmtSubjects->get_result();
     });
     </script>
 <?php include '../navbar/navFooter.php'; ?>
+</body>
 </html>
 
 <?php

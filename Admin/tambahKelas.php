@@ -2,7 +2,7 @@
 session_start();
 include '../db.php'; // Menghubungkan dengan database
 
-// // Pastikan admin sudah login
+// Pastikan admin sudah login
 // if (!isset($_SESSION['admin'])) {
 //     header("Location: ../login.php");
 //     exit();
@@ -11,43 +11,28 @@ include '../db.php'; // Menghubungkan dengan database
 // Menambah kelas
 if (isset($_POST['submit_kelas'])) {
     $nama_kelas = $_POST['nama_kelas'];
-    $tahun_ajaran = $_POST['tahun_ajaran'];
-    $jurusan = $_POST['jurusan'];
+    $id_tahun_ajaran = $_POST['tahun_ajaran'];
+    $id_jurusan = $_POST['jurusan'];
 
     // Query untuk menambahkan kelas ke database
-    $sql = "INSERT INTO kelas (nama_kelas, tahun_ajaran, jurusan) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO kelas (nama_kelas, id_tahun_ajaran, id_jurusan) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $nama_kelas, $tahun_ajaran, $jurusan);
+    $stmt->bind_param("sii", $nama_kelas, $id_tahun_ajaran, $id_jurusan);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Kelas berhasil ditambahkan!'); window.location.href='tambahKelas.php';</script>";
+        echo "<script>alert('Kelas berhasil ditambahkan!'); window.location.href='data  Kelas.php';</script>";
     } else {
         echo "<script>alert('Gagal menambahkan kelas!');</script>";
     }
 }
 
-// Menghapus kelas
-if (isset($_GET['hapus_kelas'])) {
-    $id_kelas = $_GET['hapus_kelas'];
+// Mendapatkan daftar tahun ajaran
+$tahun_query = "SELECT * FROM tahun_ajaran";
+$tahun_result = $conn->query($tahun_query);
 
-    // Query untuk menghapus kelas berdasarkan id
-    $sql = "DELETE FROM kelas WHERE id_kelas = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id_kelas);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Kelas berhasil dihapus!'); window.location.href='tambahKelas.php';</script>";
-    } else {
-        echo "<script>alert('Gagal menghapus kelas!');</script>";
-    }
-}
-
-// Mendapatkan daftar kelas untuk ditampilkan
-$sql = "SELECT kelas.*, tahun_ajaran.tahun_ajaran, jurusan.nama_jurusan
-FROM kelas 
-INNER JOIN tahun_ajaran ON kelas.id_tahun_ajaran = tahun_ajaran.id_tahun_ajaran 
-INNER JOIN jurusan ON kelas.id_jurusan = jurusan.id_jurusan";
-$result = $conn->query($sql);
+// Mendapatkan daftar jurusan
+$jurusan_query = "SELECT * FROM jurusan";
+$jurusan_result = $conn->query($jurusan_query);
 ?>
 
 <!DOCTYPE html>
@@ -74,44 +59,26 @@ $result = $conn->query($sql);
 
                 <div class="form-group">
                     <label for="tahun_ajaran">Tahun Ajaran:</label>
-                    <input type="text" id="tahun_ajaran" name="tahun_ajaran" class="form-control" required>
+                    <select id="tahun_ajaran" name="tahun_ajaran" class="form-control" required>
+                        <option value="">Pilih Tahun Ajaran</option>
+                        <?php while ($tahun_row = $tahun_result->fetch_assoc()): ?>
+                            <option value="<?php echo $tahun_row['id_tahun_ajaran']; ?>"><?php echo htmlspecialchars($tahun_row['tahun_ajaran']); ?></option>
+                        <?php endwhile; ?>
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label for="jurusan">Jurusan:</label>
-                    <input type="text" id="jurusan" name="jurusan" class="form-control" required>
+                    <select id="jurusan" name="jurusan" class="form-control" required>
+                        <option value="">Pilih Jurusan</option>
+                        <?php while ($jurusan_row = $jurusan_result->fetch_assoc()): ?>
+                            <option value="<?php echo $jurusan_row['id_jurusan']; ?>"><?php echo htmlspecialchars($jurusan_row['nama_jurusan']); ?></option>
+                        <?php endwhile; ?>
+                    </select>
                 </div>
 
                 <button type="submit" name="submit_kelas" class="btn btn-primary">Tambah Kelas</button>
             </form>
-        </div>
-
-        <!-- Tabel Data Kelas -->
-        <div id="guruTable" class="table-container">
-            <h2 class="text-center mt-5">Daftar Kelas</h2>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Nama Kelas</th>
-                        <th>Tahun Ajaran</th>
-                        <th>Jurusan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
-                            <td><?php echo htmlspecialchars($row['tahun_ajaran']); ?></td>
-                            <td><?php echo htmlspecialchars($row['nama_jurusan']); ?></td>
-                            <td>
-                                <a href="edit_kelas.php?id_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-edit btn-sm btn-warning">Edit</a>
-                                <a href="tambahKelas.php?hapus_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus kelas ini?');">Hapus</a>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
         </div>
     </div>
     <?php include '../navbar/navFooter.php'; ?>

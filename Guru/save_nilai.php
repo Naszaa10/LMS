@@ -7,8 +7,6 @@ if (!isset($_SESSION['teacher_nip'])) {
 
 include '../db.php'; // Koneksi ke database
 
- // Memulai session
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kelas = $_POST['kelas'];
     $mataPelajaran = $_POST['mataPelajaran'];
@@ -22,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $keterampilan = $_POST['keterampilan'][$nis] ?? null;
         $predikat = $_POST['predikat'][$nis] ?? null;
 
-        // Ambil tahun ajaran dari tabel siswa
-        $queryTahunAjaran = "SELECT id_tahun_ajaran FROM kelas WHERE id_tahun_ajaran = ?";
+        // Ambil tahun ajaran dari tabel kelas
+        $queryTahunAjaran = "SELECT id_tahun_ajaran FROM kelas WHERE id_kelas = ?";
         $stmtTahunAjaran = $conn->prepare($queryTahunAjaran);
         $stmtTahunAjaran->bind_param("s", $kelas);
         $stmtTahunAjaran->execute();
@@ -33,12 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Query untuk menyimpan atau memperbarui nilai
         $query = "INSERT INTO nilai (nis, kode_mapel, nilai, id_kelas, id_tahun_ajaran, tanggal_input, pengetahuan, keterampilan, predikat, nip)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                  ON DUPLICATE KEY UPDATE nilai = VALUES(nilai), pengetahuan = VALUES(pengetahuan), keterampilan = VALUES(keterampilan), predikat = VALUES(predikat), tanggal_input = VALUES(tanggal_input)";
+                  ON DUPLICATE KEY UPDATE 
+                      nilai = IF(VALUES(nilai) != nilai, VALUES(nilai), nilai), 
+                      pengetahuan = IF(VALUES(pengetahuan) != pengetahuan, VALUES(pengetahuan), pengetahuan), 
+                      keterampilan = IF(VALUES(keterampilan) != keterampilan, VALUES(keterampilan), keterampilan), 
+                      predikat = IF(VALUES(predikat) != predikat, VALUES(predikat), predikat), 
+                      tanggal_input = IF(VALUES(tanggal_input) != tanggal_input, VALUES(tanggal_input), tanggal_input)";
+
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssisssssss", $nis, $mataPelajaran, $nilai, $kelas, $tahunAjaran, $tanggalInput, $pengetahuan, $keterampilan, $predikat, $nip_guru);
+        
+        // Bind parameter dengan tipe yang benar
+        $stmt->bind_param("ssiissiiss", $nis, $mataPelajaran, $nilai, $kelas, $tahunAjaran, $tanggalInput, $pengetahuan, $keterampilan, $predikat, $nip_guru);
         $stmt->execute();
     }
 
     header("Location: nilaiGuru.php"); // Redirect ke halaman sukses atau yang sesuai
+    exit();
 }
 ?>

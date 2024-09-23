@@ -1,50 +1,31 @@
 <?php
 include '../db.php';
 
-// Menangani data formulir jika disubmit
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_siswa'])) {
-    $nis = $_POST['nis'];
-    $nama_siswa = $_POST['nama_siswa'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-    $id_kelas = $_POST['kelas'];
-    $walikelas = $_POST['nama_wali_kelas'];
-    $jurusan = $_POST['jurusan'];
-    $angkatan = $_POST['angkatan'];
+// Konfigurasi paginasi untuk data siswa
+$limit = 15;
+$page_siswa = isset($_GET['page_siswa']) ? $_GET['page_siswa'] : 1;
+$offset_siswa = ($page_siswa - 1) * $limit;
 
-    // Hash password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+// Ambil kata kunci pencarian jika ada
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 
-    // Menyusun perintah SQL untuk memasukkan data
-    $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas, nama_wali_kelas, jurusan, angkatan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+// Mengambil total data siswa berdasarkan pencarian
+$total_siswa_query = "SELECT COUNT(*) AS total FROM siswa
+                       JOIN kelas ON siswa.id_kelas = kelas.id_kelas
+                       JOIN jurusan ON siswa.id_jurusan = jurusan.id_jurusan
+                       WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%'";
+$total_siswa_result = $conn->query($total_siswa_query);
+$total_siswa = $total_siswa_result->fetch_assoc()['total'];
+$total_pages_siswa = ceil($total_siswa / $limit);
 
-    // Menyiapkan statement
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssisss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas, $walikelas, $jurusan, $angkatan);
-
-    // Menjalankan statement
-    if ($stmt->execute()) {
-        echo "<p>Akun siswa berhasil ditambahkan.</p>";
-    } else {
-        echo "<p>Error: " . $stmt->error . "</p>";
-    }
-
-    // Menutup statement
-    $stmt->close();
-}
-
-// Mengambil data kelas untuk dropdown
-$kelas_options = "";
-$sql = "SELECT id_kelas, nama_kelas FROM kelas";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $kelas_options .= "<option value='" . htmlspecialchars($row['id_kelas']) . "'>" . htmlspecialchars($row['nama_kelas']) . "</option>";
-    }
-} else {
-    $kelas_options = "<option value=''>Tidak ada kelas tersedia</option>";
-}
+// Mengambil data siswa dengan limit dan offset dan pencarian
+$sql_siswa = "SELECT siswa.nis, siswa.nama_siswa, siswa.email, kelas.nama_kelas, siswa.nama_wali_kelas, jurusan.nama_jurusan, siswa.angkatan
+              FROM siswa
+              JOIN kelas ON siswa.id_kelas = kelas.id_kelas
+              JOIN jurusan ON siswa.id_jurusan = jurusan.id_jurusan
+              WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%'
+              LIMIT $limit OFFSET $offset_siswa";
+$result_siswa = $conn->query($sql_siswa);
 
 $conn->close();
 ?>
@@ -54,62 +35,68 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Akun Siswa</title>
+    <title>Data Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/tambahmapel.css">
 </head>
+<body>
     <?php include '../navbar/navAdmin.php'; ?>
 
     <div class="container mt-4">
-        <div class="form-card">
-            <h2>Formulir Tambah Akun Siswa</h2>
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="nis">NIS:</label>
-                    <input type="text" id="nis" name="nis" class="form-control" required>
-                </div>
+        <h2>Data Siswa</h2>
+        <form class="form-inline mb-3" method="GET" action="">
+            <input type="text" name="search" class="form-control mr-2" placeholder="Cari siswa atau kelas" value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit" class="btn btn-primary">Cari</button>
+        </form>
+        <a href="tambahSiswa.php" class="btn btn-primary mb-3">Tambah Siswa</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>NIS</th>
+                    <th>Nama Siswa</th>
+                    <th>Email</th>
+                    <th>Kelas</th>
+                    <th>Nama Wali Kelas</th>
+                    <th>Jurusan</th>
+                    <th>Angkatan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result_siswa->num_rows > 0) {
+                    while ($row = $result_siswa->fetch_assoc()) {
+                        echo "<tr>
+                                <td>" . htmlspecialchars($row['nis']) . "</td>
+                                <td>" . htmlspecialchars($row['nama_siswa']) . "</td>
+                                <td>" . htmlspecialchars($row['email']) . "</td>
+                                <td>" . htmlspecialchars($row['nama_kelas']) . "</td>
+                                <td>" . htmlspecialchars($row['nama_wali_kelas']) . "</td>
+                                <td>" . htmlspecialchars($row['nama_jurusan']) . "</td>
+                                <td>" . htmlspecialchars($row['angkatan']) . "</td>
+                                <td>
+                                    <a href='editSiswa.php?nis=" . $row['nis'] . "' class='btn btn-warning btn-sm'>Edit</a>
+                                    <a href='hapusSiswa.php?nis=" . $row['nis'] . "' class='btn btn-danger btn-sm' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data ini?');\">Hapus</a>
+                                </td>
+                            </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='8'>Data Siswa Tidak Tersedia.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
 
-                <div class="form-group">
-                    <label for="nama_siswa">Nama:</label>
-                    <input type="text" id="nama_siswa" name="nama_siswa" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="kelas">Kelas:</label>
-                    <select id="kelas" name="kelas" class="form-control" required>
-                        <option value="">Pilih Kelas</option>
-                        <?php echo $kelas_options; ?>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="nama_wali_kelas">Nama Wali Kelas:</label>
-                    <input type="text" id="nama_wali_kelas" name="nama_wali_kelas" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label for="jurusan">Jurusan:</label>
-                    <input type="text" id="jurusan" name="jurusan" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="angkatan">Angkatan:</label>
-                    <input type="text" id="angkatan" name="angkatan" class="form-control" required>
-                </div>
-
-                <button type="submit" name="submit_siswa" class="btn btn-primary">Tambah Akun</button>
-            </form>
-        </div>
+        <!-- Paginasi untuk Siswa -->
+        <nav>
+            <ul class="pagination">
+                <?php for ($i = 1; $i <= $total_pages_siswa; $i++) { ?>
+                    <li class="page-item <?php if ($i == $page_siswa) echo 'active'; ?>">
+                        <a class="page-link" href="?page_siswa=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </nav>
     </div>
-<?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/navFooter.php'; ?>
+</body>
 </html>
