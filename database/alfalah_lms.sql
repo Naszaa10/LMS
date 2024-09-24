@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2024 at 09:56 AM
+-- Generation Time: Sep 24, 2024 at 08:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -52,15 +52,15 @@ CREATE TABLE `guru` (
   `password` varchar(255) NOT NULL,
   `nama_guru` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `jurusan` varchar(100) DEFAULT NULL
+  `id_jurusan` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `guru`
 --
 
-INSERT INTO `guru` (`nip`, `password`, `nama_guru`, `email`, `jurusan`) VALUES
-('NIP001', '$2y$10$DpB0SMgUqmSySdUQrM5qPeB6xQ017uBHTBke9QPqRoZL9o6AEm97y', 'Lela Rohayati, S.Pd', 'guru@gmail.com', 'Teknik Komputer');
+INSERT INTO `guru` (`nip`, `password`, `nama_guru`, `email`, `id_jurusan`) VALUES
+('NIP001', '$2y$10$DpB0SMgUqmSySdUQrM5qPeB6xQ017uBHTBke9QPqRoZL9o6AEm97y', 'Lela Rohayati, S.Pd', 'lela@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -83,7 +83,9 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id_jadwal`, `nip`, `kode_mapel`, `hari`, `id_kelas`, `waktu_mulai`, `waktu_selesai`) VALUES
-(1, 'NIP001', 'WB001', 'Senin', 1, '09.00', '11.00');
+(1, 'NIP001', 'WB001', 'Senin', 1, '09.00', '11.00'),
+(2, 'NIP001', 'KL001', 'Sabtu', 1, '10.00 WIB', '11.00 WIB'),
+(3, 'NIP001', 'WB001', 'Selasa', 3, '10.00 WIB', '11.00 WIB');
 
 -- --------------------------------------------------------
 
@@ -125,7 +127,8 @@ CREATE TABLE `kelas` (
 
 INSERT INTO `kelas` (`id_kelas`, `nama_kelas`, `id_jurusan`, `id_tahun_ajaran`) VALUES
 (1, '10 K3', 1, 2),
-(2, '10 K2', 1, 1);
+(2, '10 K2', 1, 1),
+(3, '10 K1', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -146,7 +149,7 @@ CREATE TABLE `mata_pelajaran` (
 --
 
 INSERT INTO `mata_pelajaran` (`kode_mapel`, `nama_mapel`, `deskripsi`, `jenis`, `gambar`) VALUES
-('KL001', 'Kelistrikan', 'afafwf', 'Teknik Listrik', '../uploads/gambar_mapel/logo.png'),
+('KL001', 'Kelistrikan', 'belajar', 'Teknik Listrik', '../uploads/gambar_mapel/logo.png'),
 ('WB001', 'Desain Web', 'awdada', 'Teknik Komputer', '../uploads/gambar_mapel/banner.png');
 
 -- --------------------------------------------------------
@@ -171,7 +174,8 @@ CREATE TABLE `materi` (
 
 INSERT INTO `materi` (`id_materi`, `judul`, `file`, `tanggal_unggah`, `kode_mapel`, `topik_id`, `id_kelas`) VALUES
 (2, 'Rekayasa Fitur', '../uploads/materi/Pertemuan 11 Sumber Daya Manusia Proyek.pptx', '2024-09-10', 'WB001', 2, 1),
-(3, 'Front End dan Back End', '../uploads/materi/NASZA DWI PRAYOGA CV (1).docx', '2024-09-10', 'WB001', 1, 1);
+(3, 'Front End dan Back End', '../uploads/materi/NASZA DWI PRAYOGA CV (1).docx', '2024-09-10', 'WB001', 1, 1),
+(4, 'Laravel', '../uploads/materi/supardiiiiiiiiiiiiiiiiiiiiiiiiii (1).pptx', '2024-09-24', 'WB001', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -180,16 +184,16 @@ INSERT INTO `materi` (`id_materi`, `judul`, `file`, `tanggal_unggah`, `kode_mape
 --
 
 CREATE TABLE `nilai` (
-  `nis` varchar(50) DEFAULT NULL,
-  `nip` varchar(11) NOT NULL,
-  `kode_mapel` varchar(50) DEFAULT NULL,
-  `nilai` decimal(5,2) DEFAULT NULL,
-  `id_kelas` int(11) DEFAULT NULL,
-  `id_tahun_ajaran` int(11) DEFAULT NULL,
-  `tanggal_input` date DEFAULT NULL,
-  `pengetahuan` decimal(5,2) DEFAULT NULL,
-  `keterampilan` decimal(5,2) DEFAULT NULL,
-  `predikat` varchar(10) DEFAULT NULL
+  `nis` varchar(20) NOT NULL,
+  `nip` varchar(20) NOT NULL,
+  `kode_mapel` varchar(10) NOT NULL,
+  `nilai` float NOT NULL,
+  `id_kelas` int(11) NOT NULL,
+  `id_tahun_ajaran` int(11) NOT NULL,
+  `tanggal_input` date NOT NULL,
+  `pengetahuan` float NOT NULL,
+  `keterampilan` float NOT NULL,
+  `predikat` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -197,7 +201,10 @@ CREATE TABLE `nilai` (
 --
 
 INSERT INTO `nilai` (`nis`, `nip`, `kode_mapel`, `nilai`, `id_kelas`, `id_tahun_ajaran`, `tanggal_input`, `pengetahuan`, `keterampilan`, `predikat`) VALUES
-('12345678', 'NIP001', 'WB001', 90.00, 1, 1, '2024-09-10', 90.00, 90.00, 'A');
+('12341234', 'NIP001', 'KL001', 89, 1, 2, '2024-09-24', 70, 89, 'A'),
+('12341234', 'NIP001', 'WB001', 80, 1, 2, '2024-09-23', 80, 85, 'A'),
+('12345678', 'NIP001', 'KL001', 90, 1, 2, '2024-09-24', 90, 90, 'A'),
+('12345678', 'NIP001', 'WB001', 90, 1, 2, '2024-09-23', 87, 88, 'A');
 
 -- --------------------------------------------------------
 
@@ -254,14 +261,6 @@ CREATE TABLE `penilaian_tugas` (
   `tanggal_penilaian` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `penilaian_tugas`
---
-
-INSERT INTO `penilaian_tugas` (`id_nilai_tugas`, `nis`, `id_tugas`, `kode_mapel`, `id_kelas`, `nilai_tugas`, `tanggal_penilaian`) VALUES
-(1, '12345678', 1, 'WB001', 1, 80, NULL),
-(2, '12345678', 2, 'WB001', 1, 90, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -276,15 +275,16 @@ CREATE TABLE `siswa` (
   `id_kelas` int(11) DEFAULT NULL,
   `nama_wali_kelas` varchar(100) DEFAULT NULL,
   `angkatan` varchar(10) DEFAULT NULL,
-  `jurusan` varchar(30) NOT NULL
+  `id_jurusan` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `siswa`
 --
 
-INSERT INTO `siswa` (`nis`, `password`, `nama_siswa`, `email`, `id_kelas`, `nama_wali_kelas`, `angkatan`, `jurusan`) VALUES
-('12345678', '$2y$10$lt2aiI.zEmjzukJLAfgIjenBW9iqhQDF0382uXJa77xeAWQh5PlYO', 'Nasza Dwi Prayoga', 'siswa@gmail.com', 1, '2018', 'Faliq Zuld', '1');
+INSERT INTO `siswa` (`nis`, `password`, `nama_siswa`, `email`, `id_kelas`, `nama_wali_kelas`, `angkatan`, `id_jurusan`) VALUES
+('12341234', '$2y$10$0XlShYY.sMRR0wpaXiAJ2.qZqcZs6/MZsTg238sX9VM.ccUWfyXjq', 'Nugroho', 'akbar123@gmail.com', 1, 'Nasza Dwi Prayoga', '2017', 1),
+('12345678', '$2y$10$lt2aiI.zEmjzukJLAfgIjenBW9iqhQDF0382uXJa77xeAWQh5PlYO', 'Nasza Dwi Prayoga', 'siswa@gmail.com', 1, 'Faliq Zuldan Akbar', '2017', 1);
 
 -- --------------------------------------------------------
 
@@ -304,7 +304,8 @@ CREATE TABLE `tahun_ajaran` (
 INSERT INTO `tahun_ajaran` (`id_tahun_ajaran`, `tahun_ajaran`) VALUES
 (1, '2025/2026 Ganjil'),
 (2, '2025/2026 Genap'),
-(3, '2026/2027 Ganjil');
+(3, '2026/2027 Ganjil'),
+(4, '2026/2027 Genap');
 
 -- --------------------------------------------------------
 
@@ -325,7 +326,8 @@ CREATE TABLE `topik` (
 
 INSERT INTO `topik` (`topik_id`, `nama_topik`, `kode_mapel`, `id_kelas`) VALUES
 (1, 'Web Desain', 'WB001', 1),
-(2, 'Rekayasa Perangkat', 'WB001', 1);
+(2, 'Rekayasa Perangkat', 'WB001', 1),
+(3, 'Back-End', 'WB001', 1);
 
 -- --------------------------------------------------------
 
@@ -350,7 +352,9 @@ CREATE TABLE `tugas` (
 
 INSERT INTO `tugas` (`id_tugas`, `judul`, `keterangan`, `opsi_tugas`, `tanggal_tenggat`, `topik_id`, `id_kelas`, `kode_mapel`) VALUES
 (1, 'Tugas 1', NULL, 'upload', '2024-09-11', 1, 1, 'WB001'),
-(2, 'Analisi Musik', NULL, 'teks', '2024-09-11', 2, 1, 'WB001');
+(2, 'Analisi Musik', NULL, 'teks', '2024-09-11', 2, 1, 'WB001'),
+(3, 'Analisi Musik', NULL, 'upload', '2024-09-26', 1, 1, 'WB001'),
+(4, 'Tugas 1', NULL, 'upload', '2024-09-25', 3, 1, 'WB001');
 
 --
 -- Indexes for dumped tables
@@ -412,11 +416,11 @@ ALTER TABLE `materi`
 -- Indexes for table `nilai`
 --
 ALTER TABLE `nilai`
+  ADD UNIQUE KEY `nis` (`nis`,`kode_mapel`),
+  ADD KEY `nip` (`nip`),
   ADD KEY `kode_mapel` (`kode_mapel`),
   ADD KEY `id_kelas` (`id_kelas`),
-  ADD KEY `id_tahun_ajaran` (`id_tahun_ajaran`),
-  ADD KEY `nilai_ibfk_4` (`nis`),
-  ADD KEY `nilai_ibfk_5` (`nip`);
+  ADD KEY `id_tahun_ajaran` (`id_tahun_ajaran`);
 
 --
 -- Indexes for table `pengumpulan_tugas`
@@ -442,7 +446,7 @@ ALTER TABLE `pengunduhan_materi`
 --
 ALTER TABLE `penilaian_tugas`
   ADD PRIMARY KEY (`id_nilai_tugas`),
-  ADD KEY `nis` (`nis`),
+  ADD UNIQUE KEY `nis` (`nis`,`kode_mapel`),
   ADD KEY `id_tugas` (`id_tugas`),
   ADD KEY `kode_mapel` (`kode_mapel`),
   ADD KEY `id_kelas` (`id_kelas`);
@@ -453,7 +457,8 @@ ALTER TABLE `penilaian_tugas`
 ALTER TABLE `siswa`
   ADD PRIMARY KEY (`nis`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `id_kelas` (`id_kelas`);
+  ADD KEY `id_kelas` (`id_kelas`),
+  ADD KEY `siswa_ibfk_2` (`id_jurusan`);
 
 --
 -- Indexes for table `tahun_ajaran`
@@ -486,7 +491,7 @@ ALTER TABLE `tugas`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -498,13 +503,13 @@ ALTER TABLE `jurusan`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `materi`
 --
 ALTER TABLE `materi`
-  MODIFY `id_materi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_materi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pengumpulan_tugas`
@@ -522,25 +527,25 @@ ALTER TABLE `pengunduhan_materi`
 -- AUTO_INCREMENT for table `penilaian_tugas`
 --
 ALTER TABLE `penilaian_tugas`
-  MODIFY `id_nilai_tugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_nilai_tugas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tahun_ajaran`
 --
 ALTER TABLE `tahun_ajaran`
-  MODIFY `id_tahun_ajaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tahun_ajaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `topik`
 --
 ALTER TABLE `topik`
-  MODIFY `topik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `topik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tugas`
 --
 ALTER TABLE `tugas`
-  MODIFY `id_tugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -573,11 +578,11 @@ ALTER TABLE `materi`
 -- Constraints for table `nilai`
 --
 ALTER TABLE `nilai`
-  ADD CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`kode_mapel`) REFERENCES `mata_pelajaran` (`kode_mapel`),
-  ADD CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
-  ADD CONSTRAINT `nilai_ibfk_3` FOREIGN KEY (`id_tahun_ajaran`) REFERENCES `tahun_ajaran` (`id_tahun_ajaran`),
-  ADD CONSTRAINT `nilai_ibfk_4` FOREIGN KEY (`nis`) REFERENCES `siswa` (`nis`),
-  ADD CONSTRAINT `nilai_ibfk_5` FOREIGN KEY (`nip`) REFERENCES `guru` (`nip`);
+  ADD CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`nis`) REFERENCES `siswa` (`nis`),
+  ADD CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `guru` (`nip`),
+  ADD CONSTRAINT `nilai_ibfk_3` FOREIGN KEY (`kode_mapel`) REFERENCES `mata_pelajaran` (`kode_mapel`),
+  ADD CONSTRAINT `nilai_ibfk_4` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
+  ADD CONSTRAINT `nilai_ibfk_5` FOREIGN KEY (`id_tahun_ajaran`) REFERENCES `tahun_ajaran` (`id_tahun_ajaran`);
 
 --
 -- Constraints for table `pengumpulan_tugas`
@@ -609,7 +614,8 @@ ALTER TABLE `penilaian_tugas`
 -- Constraints for table `siswa`
 --
 ALTER TABLE `siswa`
-  ADD CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`);
+  ADD CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
+  ADD CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`id_jurusan`) REFERENCES `jurusan` (`id_jurusan`);
 
 --
 -- Constraints for table `topik`

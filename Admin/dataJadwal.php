@@ -35,7 +35,7 @@ $result = $stmt->get_result();
     <a href="tambahJadwal.php" class="btn btn-primary mb-3">Tambah Jadwal</a>
 
     <!-- Form Pencarian -->
-    <form method="GET" action="jadwalList.php" class="form-inline mb-3">
+    <form method="GET" action="dataJadwal.php" class="form-inline mb-3">
         <input type="text" name="search" class="form-control mr-sm-2" placeholder="Cari Guru, Kelas, atau Jurusan" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
         <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Cari</button>
     </form>

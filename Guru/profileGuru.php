@@ -1,8 +1,17 @@
 <?php
-include '../db.php';
+session_start();
+include '../db.php'; // Menghubungkan dengan database
+
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+$nip = $_SESSION['teacher_nip'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $guru_id = 1; // Ganti dengan ID yang sesuai atau ambil dari session
+    // Ganti dengan ID yang sesuai atau ambil dari session
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
@@ -32,10 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update data guru
-    $sql = "UPDATE guru SET nama_guru = ?, email = ?, phone = ?, gambar = ? WHERE id = ?";
+    $sql = "UPDATE guru SET nama_guru = ?, email = ?, phone = ?, gambar = ? WHERE nip = ?";
     $stmt = $conn->prepare($sql);
     $gambar = isset($target_file) ? $target_file : null;
-    $stmt->bind_param("sssi", $name, $email, $phone, $gambar, $guru_id);
+    $stmt->bind_param("sssi", $name, $email, $phone, $gambar, $nip);
 
     if ($stmt->execute()) {
         echo "Profil berhasil diperbarui.";
@@ -67,9 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $guru_id = 1; // Ganti dengan ID yang sesuai atau ambil dari session
 
     // Mengambil data guru dari database
-    $sql = "SELECT * FROM guru WHERE id = ?";
+    $sql = "SELECT * FROM guru WHERE nip = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $guru_id);
+    $stmt->bind_param("s", $nip);
     $stmt->execute();
     $result = $stmt->get_result();
     $guru = $result->fetch_assoc();
@@ -80,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Sidebar (Foto Profil dan Menu) -->
             <div class="card col-md-4">
                 <div class="card-header text-center">
-                    <img src="<?php echo htmlspecialchars($guru['gambar']); ?>" class="rounded-circle profile-img" alt="Profile Image">
+                    <img src="<?php echo htmlspecialchars($guru['nip']); ?>" class="rounded-circle profile-img" alt="Profile Image">
                     <h4 class="mt-3"><?php echo htmlspecialchars($guru['nama_guru']); ?></h4>
                     <p class="mt-3">NIP: <?php echo htmlspecialchars($guru['nip']); ?></p>
                 </div>
@@ -99,10 +108,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($guru['email']); ?>">
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
                             <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($guru['phone']); ?>">
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
