@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssssi", $nip, $kode_mapel, $id_kelas, $hari, $waktu_mulai, $waktu_selesai, $id_jadwal);
     
     if ($stmt->execute()) {
-        header("Location: jadwalList.php?status=success");
+        header("Location: dataJadwal.php?status=success");
         exit();
     } else {
         echo "Error: " . $stmt->error;
@@ -63,11 +63,11 @@ $row = $result->fetch_assoc();
         </div>
         <div class="form-group">
             <label for="waktu_mulai">Waktu Mulai:</label>
-            <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai" value="<?php echo htmlspecialchars($row['waktu_mulai']); ?>" required>
+            <input type="text" class="form-control" id="waktu_mulai" name="waktu_mulai" value="<?php echo htmlspecialchars($row['waktu_mulai']); ?>" required>
         </div>
         <div class="form-group">
             <label for="waktu_selesai">Waktu Selesai:</label>
-            <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai" value="<?php echo htmlspecialchars($row['waktu_selesai']); ?>" required>
+            <input type="text" class="form-control" id="waktu_selesai" name="waktu_selesai" value="<?php echo htmlspecialchars($row['waktu_selesai']); ?>" required>
         </div>
         <button type="submit" class="btn btn-primary">Update Jadwal</button>
         <a href="jadwalList.php" class="btn btn-secondary">Batal</a>
