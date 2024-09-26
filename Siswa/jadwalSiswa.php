@@ -9,13 +9,13 @@
 </head>
 <body>
 <?php
+    session_start();
     include '../navbar/navSiswa.php';
 
     // Koneksi ke database
     include '../db.php';
 
     // Ambil nis dari sesi login
-    session_start();
     $nis = $_SESSION['nis_siswa']; // Ganti sesuai dengan cara Anda menyimpan NIS di sesi
 
     // Ambil id_kelas siswa

@@ -9,13 +9,13 @@
 </head>
 <body>
 <?php
+    session_start();
     include '../navbar/navSiswa.php';
 
     // Koneksi ke database
     include '../db.php';
 
     // Ambil nis dari sesi login
-    session_start();
     $nis = $_SESSION['nis_siswa']; // Ganti sesuai dengan cara Anda menyimpan NIS di sesi
 
     // Ambil tahun ajaran dari formulir jika ada
@@ -42,7 +42,7 @@
 ?>
 
 <div id="mainContent">
-    <div class="container mt-4">
+    <div class="container mt-0">
         <h2 class="mb-4">Nilai Siswa</h2>
 
         <form method="POST" action="">

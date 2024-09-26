@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Guru</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+<?php include '../navbar/navHeader.php'; ?>
 <?php
 session_start();
 include '../db.php'; // Menghubungkan dengan database
@@ -10,126 +21,106 @@ if (!isset($_SESSION['teacher_nip'])) {
 
 $nip = $_SESSION['teacher_nip'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ganti dengan ID yang sesuai atau ambil dari session
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    
-    // Menangani file gambar jika diunggah
-    if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == UPLOAD_ERR_OK) {
-        $gambar_mapel = $_FILES['profileImage']['name'];
-        $target_dir = "../uploads/";
-        $target_file = $target_dir . basename($gambar_mapel);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+// Ambil data siswa dari database
+$querySiswa = "SELECT * FROM guru WHERE nip = '$nip'";
+$resultSiswa = mysqli_query($conn, $querySiswa);
+$siswa = mysqli_fetch_assoc($resultSiswa);
 
-        // Periksa apakah file yang diupload adalah gambar
-        $check = getimagesize($_FILES["profileImage"]["tmp_name"]);
-        if ($check !== false) {
-            // Hanya mengizinkan format file tertentu
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif" ) {
-                die("Maaf, hanya file JPG, JPEG, PNG & GIF yang diperbolehkan.");
+// Cek apakah form disubmit
+if (isset($_POST['save_changes'])) {
+    // Ambil data dari form
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+
+    // Query untuk update data siswa
+    $updateQuery = "UPDATE guru SET nama_guru = '$name', email = '$email' WHERE nip = '$nip'";
+    $resultUpdate = mysqli_query($conn, $updateQuery);
+
+    // Proses upload gambar jika ada file yang diupload
+    if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
+        $targetDir = "../uploads/profile/"; // Direktori penyimpanan
+        $fileName = basename($_FILES["profileImage"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+
+        // Cek tipe file gambar
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+        $allowedTypes = array('jpg', 'png', 'jpeg', 'gif');
+
+        // Hapus gambar lama jika ada
+        if (!empty($siswa['foto_profil']) && $siswa['foto_profil'] != 'default.png') {
+            $oldImagePath = $targetDir . $siswa['foto_profil'];
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath); // Hapus gambar lama
             }
-            // Coba unggah file
-            if (!move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
-                die("Maaf, terjadi kesalahan saat mengunggah file.");
+        }
+
+        if (in_array($fileType, $allowedTypes)) {
+            // Upload file ke folder
+            if (move_uploaded_file($_FILES["profileImage"]["tmp_name"], $targetFilePath)) {
+                // Simpan path gambar ke database
+                $imageQuery = "UPDATE guru SET foto_profil = '$fileName' WHERE nip = '$nip'";
+                mysqli_query($conn, $imageQuery);
+            } else {
+                echo "Terjadi kesalahan saat mengunggah file.";
             }
         } else {
-            die("File bukan gambar.");
+            echo "Hanya file JPG, JPEG, PNG, dan GIF yang diperbolehkan.";
         }
     }
 
-    // Update data guru
-    $sql = "UPDATE guru SET nama_guru = ?, email = ?, phone = ?, gambar = ? WHERE nip = ?";
-    $stmt = $conn->prepare($sql);
-    $gambar = isset($target_file) ? $target_file : null;
-    $stmt->bind_param("sssi", $name, $email, $phone, $gambar, $nip);
-
-    if ($stmt->execute()) {
-        echo "Profil berhasil diperbarui.";
+    if ($resultUpdate) {
+        // Redirect ke halaman yang sama setelah update
+        header("Location: profileGuru.php");
+        exit(); // Pastikan untuk exit setelah redirect
     } else {
-        echo "Error: " . $stmt->error;
+        echo "<div class='alert alert-danger'>Terjadi kesalahan saat mengubah data.</div>";
     }
-
-    $stmt->close();
-    $conn->close();
 }
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Guru</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/profile.css">
-</head>
-<body>
-<?php
-    include '../navbar/navHeader.php';
-    include '../db.php'; // Memasukkan koneksi database
-
-    // Mendapatkan ID guru dari URL atau session
-    $guru_id = 1; // Ganti dengan ID yang sesuai atau ambil dari session
-
-    // Mengambil data guru dari database
-    $sql = "SELECT * FROM guru WHERE nip = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $nip);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $guru = $result->fetch_assoc();
-?>
-    <div id="mainContent" class="container mt-4">
-        <div class="card-group"> <!-- Wrapper untuk menggabungkan kedua card -->
-            
-            <!-- Sidebar (Foto Profil dan Menu) -->
-            <div class="card col-md-4">
-                <div class="card-header text-center">
-                    <img src="<?php echo htmlspecialchars($guru['nip']); ?>" class="rounded-circle profile-img" alt="Profile Image">
-                    <h4 class="mt-3"><?php echo htmlspecialchars($guru['nama_guru']); ?></h4>
-                    <p class="mt-3">NIP: <?php echo htmlspecialchars($guru['nip']); ?></p>
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Edit Profile</h3>
-                    <form action="update_profile.php" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="profileImage" class="form-label">Change Profile Picture</label>
-                            <input type="file" class="form-control" id="profileImage" name="profileImage">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($guru['nama_guru']); ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($guru['email']); ?>">
-                        </div>
-                        <!-- <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($guru['phone']); ?>">
-                        </div> -->
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <a href="#">Change Password</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="../logout.php">Logout</a>
-                    </li>
-                </ul>
+<div id="mainContent" class="container mt-5">
+    <div class="card-group"> <!-- Wrapper untuk menggabungkan kedua card -->
+        
+        <!-- Sidebar (Foto Profil dan Menu) -->
+        <div class="card col-md-4">
+            <div class="card-header text-center">
+                <img src="../uploads/profile/<?php echo $siswa['foto_profil'] ?: 'default.png'; ?>" class="rounded-circle profile-img" alt="Profile Image">
+                <h4 class="mt-3"><?php echo $siswa['nama_guru']; ?></h4>
+                <p class="mt-3">NIP: <?php echo $siswa['nip']; ?></p>
             </div>
+            <div class="card-body">
+                <h3 class="card-title">Edit Profile</h3>
+                <form method="POST" action="profileGuru.php" enctype="multipart/form-data"> <!-- Tambah enctype -->
+                    <div class="mb-3">
+                        <label for="profileImage" class="form-label">Change Profile Picture</label>
+                        <input type="file" class="form-control" id="profileImage" name="profileImage"> <!-- Tambah name untuk file -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<?php echo $siswa['nama_guru']; ?>"> <!-- Ambil data dari database -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $siswa['email']; ?>"> <!-- Ambil data dari database -->
+                    </div>
+                    <button type="submit" name="save_changes" class="btn btn-primary">Save Changes</button> <!-- Tambah name untuk tombol -->
+                </form>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a href="changePassword.php">Change Password</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="../logout.php">Logout</a>
+                </li>
+            </ul>
         </div>
+
     </div>
+</div>
 <?php
-    include '../navbar/navFooter.php';
-    $stmt->close();
-    $conn->close();
+include '../navbar/navFooter.php'; // Footer
 ?>
 </body>
 </html>

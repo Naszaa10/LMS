@@ -1,22 +1,30 @@
 <?php
 session_start();
-include '../db.php';
+include '../db.php'; // File koneksi ke database
 
-// Ambil nip_guru dari sesi pengguna yang sedang login
-$nip_guru = $_SESSION['teacher_nip'] ?? '';
+// Ambil NIS siswa yang login
+$nis_siswa = $_SESSION['nis_siswa'];
 
-// Query untuk mendapatkan data jadwal berdasarkan nip_guru
-$sql = "SELECT j.kode_mapel, mp.nama_mapel, j.hari, k.nama_kelas, j.waktu_mulai, j.waktu_selesai, g.nama_guru 
-        FROM jadwal j 
-        JOIN mata_pelajaran mp ON j.kode_mapel = mp.kode_mapel 
-        JOIN kelas k ON j.id_kelas = k.id_kelas
-        JOIN guru g ON j.nip = g.nip 
-        WHERE j.nip = ?";
+// Query untuk mengambil nilai tugas berdasarkan NIS
+$query = "
+    SELECT 
+        pt.tanggal_penilaian, 
+        mp.nama_mapel, 
+        t.judul, 
+        pt.nilai_tugas 
+    FROM 
+        penilaian_tugas pt
+    JOIN 
+        tugas t ON pt.id_tugas = t.id_tugas
+    JOIN 
+        mata_pelajaran mp ON t.kode_mapel = mp.kode_mapel
+    WHERE 
+        pt.nis = '$nis_siswa'
+    ORDER BY 
+        pt.tanggal_penilaian DESC
+";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $nip_guru);
-$stmt->execute();
-$result = $stmt->get_result();
+$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -39,18 +47,18 @@ $result = $stmt->get_result();
             <thead>
                 <tr>
                     <th>Hari/Tanggal</th>
-                    <th onclick="sortTable(0)">Mata Pelajaran</th>
+                    <th onclick="sortTable(1)">Mata Pelajaran</th>
                     <th>Nama Tugas</th>
                     <th>Nilai</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['Hari/Tanggal']); ?></td>
+                        <td><?php echo htmlspecialchars($row['tanggal_penilaian']); ?></td>
                         <td><?php echo htmlspecialchars($row['nama_mapel']); ?></td>
-                        <td><?php echo htmlspecialchars($row['nama_tugas']); ?></td>
-                        <td><?php echo htmlspecialchars($row['nilai']); ?></td>
+                        <td><?php echo htmlspecialchars($row['judul']); ?></td>
+                        <td><?php echo htmlspecialchars($row['nilai_tugas']); ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -64,7 +72,7 @@ $result = $stmt->get_result();
         let tr = table.getElementsByTagName('tr');
         
         for (let i = 1; i < tr.length; i++) { // Mulai dari 1 untuk melewatkan header
-            let td = tr[i].getElementsByTagName('td')[2]; // kolom kedua (nama mata pelajaran)
+            let td = tr[i].getElementsByTagName('td')[1]; // kolom kedua (nama mata pelajaran)
             if (td) {
                 let txtValue = td.textContent || td.innerText;
                 if (txtValue.toLowerCase().indexOf(filter) > -1) {

@@ -6,6 +6,15 @@
     <title>Navbar with Profile and Sidebar Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* CSS untuk mengatur ukuran gambar */
+        .card-img-top {
+            width: 250px; /* Lebar gambar */
+            height: 250px; /* Tinggi gambar */
+            object-fit: contain; /* Memastikan gambar tidak terpotong */
+            margin: auto; /* Centering the image */
+        }
+    </style>
 </head>
 <?php
 session_start();

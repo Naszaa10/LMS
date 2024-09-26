@@ -1,3 +1,17 @@
+<?php
+session_start();
+include '../db.php'; // Koneksi database
+
+// Ambil NIS dari sesi (asumsi Anda menyimpan NIS siswa di session)
+$nis_siswa = $_SESSION['nis_siswa'];
+
+// Query untuk mendapatkan data siswa
+$querySiswa = "SELECT foto_profil FROM siswa WHERE nis = '$nis_siswa'";
+$resultSiswa = mysqli_query($conn, $querySiswa);
+$siswa = mysqli_fetch_assoc($resultSiswa);
+$fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['foto_profil'] : 'https://via.placeholder.com/30';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,8 +44,7 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container-fluid">
-                    <!-- <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button> -->
-                    <button class="btn btn-primary" id="menu-toggle">☰</i></button>
+                    <button class="btn btn-primary" id="menu-toggle">☰</button>
                     <div class="collapse navbar-collapse" id="navbarContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -43,7 +56,7 @@
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item-dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="https://via.placeholder.com/30" class="rounded-circle" alt="Profile Image">
+                                        <img src="<?php echo $fotoProfil; ?>" class="rounded-circle" alt="Profile Image" style="width: 30px; height: 30px;">
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
                                         <li><a class="dropdown-item" href="profileSiswa.php">Profile</a></li>

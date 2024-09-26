@@ -1,3 +1,22 @@
+<?php
+session_start();
+include '../db.php'; // Menghubungkan dengan database
+
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+$nip = $_SESSION['teacher_nip'];
+
+// Query untuk mendapatkan data guru
+$queryGuru = "SELECT foto_profil FROM guru WHERE nip = '$nip'";
+$resultGuru = mysqli_query($conn, $queryGuru);
+$guru = mysqli_fetch_assoc($resultGuru);
+$fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto_profil'] : 'https://via.placeholder.com/30';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,8 +49,7 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container-fluid">
-                    <!-- <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button> -->
-                    <button class="btn btn-primary" id="menu-toggle">☰</i></button>
+                    <button class="btn btn-primary" id="menu-toggle">☰</button>
                     <div class="collapse navbar-collapse" id="navbarContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -43,7 +61,7 @@
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item-dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="https://via.placeholder.com/30" class="rounded-circle" alt="Profile Image">
+                                        <img src="<?php echo $fotoProfil; ?>" class="rounded-circle" alt="Profile Image" style="width: 30px; height: 30px;">
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
                                         <li><a class="dropdown-item" href="profileGuru.php">Profile</a></li>
