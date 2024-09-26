@@ -36,6 +36,7 @@
                 <a href="dataJadwal.php" class="list-group-item list-group-item-action">Kelola Jadwal</a>
                 <a href="tahunAjaran.php" class="list-group-item list-group-item-action">Tahun Ajaran</a>
                 <a href="dataNilaiSiswa.php" class="list-group-item list-group-item-action">Data Nilai Siswa</a>
+                <a href="naikKelas.php" class="list-group-item list-group-item-action">Naik Kelas</a>
                 <a href="rapot.php" class="list-group-item list-group-item-action">Cetak Raport</a>
                 <a href="#" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
             </div>
@@ -63,7 +64,6 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
                                         <li><a class="dropdown-item" href="#">Profile</a></li>
-                                        <li><a class="dropdown-item" href="#">Settings</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                                     </ul>
