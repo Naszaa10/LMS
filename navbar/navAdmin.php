@@ -38,7 +38,7 @@
                 <a href="dataNilaiSiswa.php" class="list-group-item list-group-item-action">Data Nilai Siswa</a>
                 <a href="naikKelas.php" class="list-group-item list-group-item-action">Naik Kelas</a>
                 <a href="rapot.php" class="list-group-item list-group-item-action">Cetak Raport</a>
-                <a href="#" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
+                <a href="pengumuman.php" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
             </div>
         </div>
         

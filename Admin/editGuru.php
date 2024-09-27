@@ -36,10 +36,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Guru</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\css\dataGuruSiswa.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <h2>Edit Data Guru</h2>
+
+<?php include '../navbar/navAdmin.php'; ?>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Edit Data Guru</h2>
+        </div>
+        <div class="card-body">
+            
         <form method="POST" action="">
             <div class="form-group">
                 <label for="nama_guru">Nama Guru</label>
@@ -59,9 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endwhile; ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="dataGuru.php" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn btn-warning">Simpan</button>
+            <a href="dataGuru.php" class="btn btn-danger">Batal</a>
         </form>
     </div>
+
+    <?php include '../navbar/navFooter.php'; ?>
 </body>
 </html>

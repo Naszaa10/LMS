@@ -61,14 +61,17 @@ if (isset($_POST['update_kelas'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Kelas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/tambahmapel.css">
+    <link rel="stylesheet" href="../css/kelas.css">
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div id="mainContent" class="container mt-4">
-    <h1>Edit Kelas</h1>
-        <div id="guruForm" class="form-card "> 
+    <div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Edit Jadwal</h2>
+        </div>
+    <div class="card-body">
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nama_kelas">Nama Kelas:</label>
@@ -105,8 +108,8 @@ if (isset($_POST['update_kelas'])) {
                     </select>
                 </div>
 
-                <button type="submit" name="update_kelas" class="btn btn-primary">Update Kelas</button>
-                <a href="tambah_kelas.php" class="btn btn-secondary">Batal</a>
+                <button type="submit" name="update_kelas" class="btn btn-warning">Update Kelas</button>
+                <a href="tambah_kelas.php" class="btn btn-danger">Batal</a>
             </form>
         </div>
     </div>

@@ -71,35 +71,39 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Akun Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/tambahmapel.css">
+    <link rel="stylesheet" href="..\css\dataGuruSiswa.css">
 </head>
     <?php include '../navbar/navAdmin.php'; ?>
 
     <div class="container mt-4">
-        <div class="form-card">
+    <div class="card">
+        <div class="card-header">
             <h2>Formulir Tambah Akun Siswa</h2>
+        </div>
+        <div class="form-card">
+            
             <form action="" method="post">
-                <div class="form-group">
+                <div>
                     <label for="nis">NIS:</label>
                     <input type="text" id="nis" name="nis" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="nama_siswa">Nama:</label>
                     <input type="text" id="nama_siswa" name="nama_siswa" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="kelas">Kelas:</label>
                     <select id="kelas" name="kelas" class="form-control" required>
                         <option value="">Pilih Kelas</option>
@@ -107,12 +111,12 @@ $conn->close();
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="nama_wali_kelas">Nama Wali Kelas:</label>
                     <input type="text" id="nama_wali_kelas" name="nama_wali_kelas" class="form-control">
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="jurusan">Jurusan:</label>
                     <select id="jurusan" name="jurusan" class="form-control" required>
                         <option value="">Pilih Jurusan</option>
@@ -120,12 +124,12 @@ $conn->close();
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="angkatan">Angkatan:</label>
                     <input type="text" id="angkatan" name="angkatan" class="form-control" required>
                 </div>
 
-                <button type="submit" name="submit_siswa" class="btn btn-primary">Tambah Akun</button>
+                <div><button type="submit" name="submit_siswa" class="btn btn-primary">Tambah Akun</button></div>
             </form>
         </div>
     </div>

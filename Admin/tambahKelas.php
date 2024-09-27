@@ -42,15 +42,17 @@ $jurusan_result = $conn->query($jurusan_query);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Kelas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/tambahmapel.css"> <!-- Path ke file CSS terpisah -->
+    <link rel="stylesheet" href="../css/kelas.css"> <!-- Path ke file CSS terpisah -->
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
-    <div id="mainContent" class="container mt-5">
-        <!-- Formulir Tambah Kelas -->
-        <div id="guruForm" class="form-card">
-            <h2>Formulir Tambah Kelas</h2>
+    <div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Tambah Kelas</h2>
+        </div>
+    <div class="card-body">
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nama_kelas">Nama Kelas:</label>

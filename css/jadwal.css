@@ -7,6 +7,20 @@ form.form-inline {
     margin-bottom: 20px;
 }
 
+/* Card Header */
+.card-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+
 /* Input text dalam form */
 form.form-inline .form-control {
     width: 300px; /* Lebar input */
@@ -226,34 +240,36 @@ input.form-control:focus {
     background-color:#054890; /* Warna kuning gelap saat hover */
 }
 
-td .btn {
-    margin: 0.25rem; /* Jarak antara tombol */
-    padding: 0.5rem 1rem; /* Padding di dalam tombol */
-    border-radius: 0.375rem; /* Sudut membulat */
-    font-size: 0.875rem; /* Ukuran font tombol */
-    font-weight: 300; /* Ketebalan font tombol */
-    transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Transisi untuk efek hover */
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+    font-weight: bold;
+    padding: 15px 15px;
+    border-radius: 5px;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-edit {
-    background-color: #ffc107; /* Warna latar belakang tombol Edit */
-    color: #212529; /* Warna teks tombol Edit */
+.btn-warning:hover {
+    background-color: #e0a800;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-edit:hover {
-    background-color: #e0a800; /* Warna latar belakang saat hover */
-    color: #000000; /* Warna teks saat hover */
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5); /* Efek bayangan saat hover */
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+    padding: 15px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-delete {
-    background-color: #dc3545; /* Warna latar belakang tombol Hapus */
-    color: #fff; /* Warna teks tombol Hapus */
-}
-
-.btn-delete:hover {
-    background-color: #c82333; /* Warna latar belakang saat hover */
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5); /* Efek bayangan saat hover */
+.btn-danger:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Style untuk tombol kecil */

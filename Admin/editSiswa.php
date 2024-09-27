@@ -60,44 +60,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\css\dataGuruSiswa.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <h2>Edit Data Siswa</h2>
+
+<?php include '../navbar/navAdmin.php'; ?>
+
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>Edit Data Siswa</h2>
+        </div>
+        <div class="form-card">
         <form method="POST" action="">
-            <div class="form-group">
+
+            <div>
                 <label for="nama_siswa">Nama Siswa</label>
                 <input type="text" class="form-control" id="nama_siswa" name="nama_siswa" value="<?php echo htmlspecialchars($data_siswa['nama_siswa']); ?>" required>
             </div>
-            <div class="form-group">
+
+            <div>
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($data_siswa['email']); ?>" required>
             </div>
-            <div class="form-group">
+
+            <div>
                 <label for="id_kelas">Kelas</label>
                 <select class="form-control" id="id_kelas" name="id_kelas" required>
                     <option value="">Pilih Kelas</option>
                     <?php echo $kelas_options; ?>
                 </select>
             </div>
-            <div class="form-group">
+
+            <div>
                 <label for="nama_wali_kelas">Nama Wali Kelas</label>
                 <input type="text" class="form-control" id="nama_wali_kelas" name="nama_wali_kelas" value="<?php echo htmlspecialchars($data_siswa['nama_wali_kelas']); ?>" required>
             </div>
-            <div class="form-group">
+
+            <div>
                 <label for="jurusan">Jurusan</label>
                 <select class="form-control" id="id_jurusan" name="id_jurusan" required>
                     <option value="">Pilih Jurusan</option>
                     <?php echo $jurusan_options; ?>
                 </select>
             </div>
-            <div class="form-group">
+
+            <div>
                 <label for="angkatan">Angkatan</label>
                 <input type="text" class="form-control" id="angkatan" name="angkatan" value="<?php echo htmlspecialchars($data_siswa['angkatan']); ?>" required>
             </div>
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="dataSiswa.php" class="btn btn-secondary">Batal</a>
+
+            <div>
+            <button type="submit" class="btn btn-warning">Simpan</button>
+            <a href="dataSiswa.php" class="btn btn-danger">Batal</a>
+            </div>
         </form>
     </div>
+    <?php include '../navbar/navFooter.php'; ?>
 </body>
 </html>

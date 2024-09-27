@@ -43,7 +43,11 @@ $row = $result->fetch_assoc();
 <?php include '../navbar/navAdmin.php'; ?>
 
 <div class="container mt-4">
-    <h1>Edit Jadwal</h1>
+    <div class="card">
+        <div class="card-header">
+            <h2>Edit Jadwal</h2>
+        </div>
+    <div class="card-body">
     <form action="" method="POST">
         <div class="form-group">
             <label for="nip">Guru:</label>
@@ -69,8 +73,8 @@ $row = $result->fetch_assoc();
             <label for="waktu_selesai">Waktu Selesai:</label>
             <input type="text" class="form-control" id="waktu_selesai" name="waktu_selesai" value="<?php echo htmlspecialchars($row['waktu_selesai']); ?>" required>
         </div>
-        <button type="submit" class="btn btn-primary">Update Jadwal</button>
-        <a href="jadwalList.php" class="btn btn-secondary">Batal</a>
+        <button type="submit" class="btn btn-warning">Update Jadwal</button>
+        <a href="jadwalList.php" class="btn btn-danger">Batal</a>
     </form>
 </div>
 

@@ -86,49 +86,54 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Mata Pelajaran</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/tambahmapel.css">
+    <link rel="stylesheet" href="../css/mapel.css">
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
-    <div class="container mt-1">
-        <h1>Formulir Tambah Mata Pelajaran</h1>
-        <div class="form-card p-4 bg-light shadow mb-4">
-            <form action="tambah_matapelajaran.php" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="gambar_mapel" class="form-label">Background Mata Pelajaran (Gambar):</label>
-                    <input type="file" class="form-control" id="gambar_mapel" name="gambar_mapel" accept="image/*" required>
-                </div>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Formulir Tambah Mata Pelajaran</h2>
+            </div>
+            <div class="form-card">
+                <form action="tambah_matapelajaran.php" method="post" enctype="multipart/form-data">
+                    <div>
+                        <label for="gambar_mapel" class="form-label">Background Mata Pelajaran (Gambar):</label>
+                        <input type="file" class="form-control" id="gambar_mapel" name="gambar_mapel" accept="image/*" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="kode_mapel" class="form-label">Kode Mata Pelajaran:</label>
-                    <input type="text" class="form-control" id="kode_mapel" name="kode_mapel" required>
-                </div>
+                    <div>
+                        <label for="kode_mapel" class="form-label">Kode Mata Pelajaran:</label>
+                        <input type="text" class="form-control" id="kode_mapel" name="kode_mapel" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="nama_mapel" class="form-label">Nama Mata Pelajaran:</label>
-                    <input type="text" class="form-control" id="nama_mapel" name="nama_mapel" required>
-                </div>
+                    <div>
+                        <label for="nama_mapel" class="form-label">Nama Mata Pelajaran:</label>
+                        <input type="text" class="form-control" id="nama_mapel" name="nama_mapel" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="deskripsi" class="form-label">Deskripsi:</label>
-                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" required></textarea>
-                </div>
+                    <div >
+                        <label for="jenis" class="form-label">Jenis Mata Pelajaran:</label>
+                        <select class="form-control" id="jenis" name="jenis" required>
+                            <option value="">Pilih Jenis</option>
+                            <option value="Teknik Komputer">Teknik Komputer</option>
+                            <option value="Teknik Mesin">Teknik Mesin</option>
+                            <option value="Teknik Otomotif">Teknik Otomotif</option>
+                            <option value="Teknik Listrik">Teknik Listrik</option>
+                            <option value="Umum">Umum</option>
+                        </select>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="jenis" class="form-label">Jenis Mata Pelajaran:</label>
-                    <select class="form-select" id="jenis" name="jenis" required>
-                        <option value="">Pilih Jenis</option>
-                        <option value="Teknik Komputer">Teknik Komputer</option>
-                        <option value="Teknik Mesin">Teknik Mesin</option>
-                        <option value="Teknik Otomotif">Teknik Otomotif</option>
-                        <option value="Teknik Listrik">Teknik Listrik</option>
-                        <option value="Umum">Umum</option>
-                    </select>
-                </div>
+                    <div class="mb-3">
+                        <label for="deskripsi" class="form-label">Deskripsi:</label>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" required></textarea>
+                    </div>
 
-                <button type="submit" class="btn btn-primary">Tambah Mata Pelajaran</button>
-            </form>
-        </div>
+                    
+                    <div><button type="submit" class="btn btn-primary">Tambah Mata Pelajaran</button></div>
+                    
+                </form>
+            </div>
     </div>
 <?php include '../navbar/navFooter.php'; ?>
 </body>

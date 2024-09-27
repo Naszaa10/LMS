@@ -53,36 +53,40 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Akun Guru</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/tambahmapel.css">
+    <link rel="stylesheet" href="..\css\dataGuruSiswa.css">
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
     <div class="container mt-4">
-        <div class="form-card">
+    <div class="card">
+        <div class="card-header">
             <h2>Formulir Tambah Akun Guru</h2>
+        </div>
+        <div class="form-card">
+
             <form action="" method="post">
-                <div class="form-group">
+                <div>
                     <label for="nip">NIP:</label>
                     <input type="text" id="nip" name="nip" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="nama">Nama:</label>
                     <input type="text" id="nama" name="nama" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div>
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label for="jurusan">Jurusan:</label>
                     <select id="jurusan" name="jurusan" class="form-control" required>
                         <option value="">Pilih Jurusan</option>
@@ -90,7 +94,8 @@ $conn->close();
                     </select>
                 </div>
 
-                <button type="submit" name="submit_guru" class="btn btn-primary">Tambah Akun</button>
+                <div><button type="submit" name="submit_guru" class="btn btn-primary">Tambah Akun</button></div>
+                
             </form>
         </div>
     </div>

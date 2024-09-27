@@ -58,7 +58,7 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Kelas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="..\css\jadwal.css">
+    <link rel="stylesheet" href="..\css\tambahMapel.css">
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>

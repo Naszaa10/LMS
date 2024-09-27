@@ -40,8 +40,11 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
 <?php include '../navbar/navAdmin.php'; ?>
 
 <div class="container mt-4">
-    <h1>Tambah Jadwal</h1>
-    
+    <div class="card">
+        <div class="card-header">
+            <h2>Tambah Jadwal</h2>
+        </div>
+    <div class="card-body">
     <form action="" method="POST">
         <div class="form-group">
             <label for="nip">Guru:</label>

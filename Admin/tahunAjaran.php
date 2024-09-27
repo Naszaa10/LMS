@@ -58,7 +58,7 @@ $result = $conn->query($sql);
     <div class="container mt-4">
         <h1>Manage Tahun Ajaran</h1>
         <!-- Button to add new tahun ajaran -->
-        <a href="tambahAjaran.php" class="btn btn-primary mt-4">Tambah Tahun Ajaran</a>
+        <a href="tambahAjaran.php" class="btn btn-primary">Tambah Tahun Ajaran</a>
 
 
         <table class="table table-bordered mt-4">

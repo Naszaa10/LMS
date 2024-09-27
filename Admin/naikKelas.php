@@ -45,15 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Kelas Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="..\css\jadwal.css">
+    <link rel="stylesheet" href="..\css\naikKelas.css">
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
     <div class="container mt-5">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3>Pilih Kelas untuk Menampilkan dan Memperbarui Siswa</h3>
+            <div class="card-header">
+                <h2>Pilih Kelas untuk Menampilkan dan Memperbarui Siswa</h2>
             </div>
+        
             <div class="card-body">
                 <!-- Form untuk memilih kelas -->
                 <form action="" method="GET">
@@ -70,17 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                         ?>
                     </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Tampilkan Siswa</button>
+                    <div><button type="submit" class="btn btn-primary">Tampilkan Siswa</button></div>
                 </form>
             </div>
         </div>
 
         <?php if ($id_kelas_terpilih && isset($resultSiswa)): ?>
             <div class="card mt-4">
-                <div class="card-header bg-success text-white">
-                    <h3>Daftar Siswa di Kelas Terpilih</h3>
+                <div class="card-header">
+                    <h2>Daftar Siswa di Kelas Terpilih</h2>
                 </div>
-                <div class="card-body">
                     <!-- Tabel daftar siswa -->
                     <table class="table table-striped table-hover">
                         <thead>
@@ -109,12 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            <!-- Form untuk memperbarui kelas seluruh siswa -->
-            <div class="card mt-4">
-                <div class="card-header bg-warning">
-                    <h3>Update Semua Siswa ke Kelas Baru</h3>
+         <!-- Form untuk memperbarui kelas seluruh siswa -->
+         <div class="card mt-4">
+                <div class="card-header ">
+                    <h2>Update Semua Siswa ke Kelas Baru</h2>
                 </div>
                 <div class="card-body">
                     <form action="" method="POST">
@@ -130,10 +129,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                             </select>
                         </div>
                         <input type="hidden" name="id_kelas_lama" value="<?php echo $id_kelas_terpilih; ?>">
-                        <button type="submit" class="btn btn-success">Update Semua Siswa ke Kelas Baru</button>
+                        <div><button type="submit" class="btn btn-success">Update Semua Siswa ke Kelas Baru</button></div>
                     </form>
                 </div>
             </div>
+            </div>
+
+
         <?php endif; ?>
     </div>
     <?php include '../navbar/navFooter.php'; ?>
