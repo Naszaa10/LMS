@@ -74,7 +74,7 @@ if (isset($_POST['save_changes'])) {
 ?>
 
 
-<div id="mainContent" class="container mt-5">
+<div id="mainContent" class="container mt-3">
     <div class="card-group"> <!-- Wrapper untuk menggabungkan kedua card -->
         
         <!-- Sidebar (Foto Profil dan Menu) -->
@@ -103,10 +103,10 @@ if (isset($_POST['save_changes'])) {
                 </form>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
+            <li class="list-group-item custom">
                     <a href="changePassword.php">Change Password</a>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item custom">
                     <a href="../logout.php">Logout</a>
                 </li>
             </ul>

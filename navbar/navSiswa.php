@@ -35,7 +35,6 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
                 <a href="jadwalSiswa.php" class="list-group-item list-group-item-action">Jadwal</a>
                 <a href="nilaiSiswa.php" class="list-group-item list-group-item-action">Nilai</a>
                 <a href="nilaiTugas.php" class="list-group-item list-group-item-action">Nilai Tugas</a>
-                <a href="#" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
             </div>
         </div>
         

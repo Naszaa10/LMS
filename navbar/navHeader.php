@@ -40,7 +40,6 @@ $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto
                 <a href="jadwalGuru.php" class="list-group-item list-group-item-action">Jadwal</a>
                 <a href="nilaiGuru.php" class="list-group-item list-group-item-action">Nilai</a>
                 <a href="nilaiTugasGuru.php" class="list-group-item list-group-item-action">Nilai Tugas</a>
-                <a href="#" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
             </div>
         </div>
         

@@ -41,26 +41,37 @@ body {
     border-radius: 50%;
 }
 
-/* Style untuk list item dalam sidebar */
-.list-group-item {
-    background-color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 1rem;
-    color: #333;
-    transition: background-color 0.2s, color 0.2s;
-    margin: 5px;
+/* Styling untuk list group */
+.list-group {
+    border-radius: 10px;
+    overflow: hidden; /* Menghilangkan overflow */
+    box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.1); 
+
 }
 
-.list-group-item:hover {
-    background-color: #007bff;
-    color: white;
+.list-group-item.custom {
+    background-color: #f8f9fa; 
+    border: 1px solid #e6e0e0; 
+    padding: 10px 15px; 
+    transition: background-color 0.3s, color 0.3s; 
+    margin-top: 15px;
 }
 
-.list-group-item a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+/* Styling untuk tautan dalam list item */
+.list-group-item.custom a {
+    text-decoration: none; 
+    color: #504e4e !important;
+    font-weight: bolder;
+    transition: color 0.3s; 
+}
+
+/* Efek hover untuk list item */
+.list-group-item.custom:hover {
+    background-color: #e2e6ea; /
+}
+
+.list-group-item.custom a:hover {
+    color: #007bff;
 }
 
 /* Style untuk form */

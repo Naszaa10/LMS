@@ -49,8 +49,8 @@ if (mysqli_num_rows($resultPengumuman) > 0) {
 
 ?>
 
-<div id="mainContent" class="container-fluid mt-1">
-    <h1 class="mt-4">Dashboard Guru</h1>
+<div id="mainContent" class="container-fluid">
+    <h1>Dashboard Guru</h1>
     <p>Selamat datang di dashboard guru. Di sini Anda dapat melihat informasi terkini.</p>
     
     <div class="row">
@@ -80,8 +80,8 @@ if (mysqli_num_rows($resultPengumuman) > 0) {
     </div>
 
 
-    <h2 class="mt-4">Pengumuman</h2>
-    <div class="card mb-4">
+    <h2>Pengumuman</h2>
+    <div class="card">
         <div class="card-body">
             <h5 class="card-title">Pengumuman Terbaru</h5>
             <textarea class="form-control" rows="5" readonly><?php echo $isiPengumuman; ?></textarea>

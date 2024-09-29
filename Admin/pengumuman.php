@@ -46,7 +46,7 @@ include '../db.php'; // Menghubungkan ke database
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary" id="submitBtn">Kirim Pengumuman</button>
-                <a href="lihatPengumuman.php" class="btn btn-primary">Lihat Pengumuman</a>
+                <a href="lihatPengumuman.php" class="btn btn-success">Lihat Pengumuman</a>
             </form>
         </div>
     </div>
