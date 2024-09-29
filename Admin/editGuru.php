@@ -18,9 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_guru = $_POST['nama_guru'];
     $email = $_POST['email'];
     $jurusan = $_POST['jurusan'];
+    $password = !empty($_POST['password']) ? $_POST['password'] : null;
 
-    // Update data guru
-    $update_query = "UPDATE guru SET nama_guru='$nama_guru', email='$email', id_jurusan='$jurusan' WHERE nip='$nip'";
+    // Hash password jika diubah
+    if (!empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $update_query = "UPDATE guru SET nama_guru='$nama_guru', email='$email', id_jurusan='$jurusan', password='$hashed_password' WHERE nip='$nip'";
+    } else {
+        // Jika password tidak diubah, tidak menyertakan kolom password
+        $update_query = "UPDATE guru SET nama_guru='$nama_guru', email='$email', id_jurusan='$jurusan' WHERE nip='$nip'";
+    }
+
     if ($conn->query($update_query)) {
         header('Location: dataGuru.php');
     } else {
@@ -47,18 +55,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="card-header">
             <h2>Edit Data Guru</h2>
         </div>
-        <div class="card-body">
+        <div class="form-card">
             
         <form method="POST" action="">
-            <div class="form-group">
+            <!-- Menampilkan NIP -->
+            <div>
+                <label for="nip">NIP</label>
+                <input type="text" class="form-control" id="nip" name="nip" value="<?php echo htmlspecialchars($data_guru['nip']); ?>" readonly>
+            </div>
+
+            <div>
                 <label for="nama_guru">Nama Guru</label>
                 <input type="text" class="form-control" id="nama_guru" name="nama_guru" value="<?php echo htmlspecialchars($data_guru['nama_guru']); ?>" required>
             </div>
-            <div class="form-group">
+
+            <div>
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($data_guru['email']); ?>" required>
             </div>
-            <div class="form-group">
+
+            <div>
+                <label for="password">Password (Kosongkan jika tidak ingin mengubah)</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+
+            <div class="mb-3">
                 <label for="jurusan">Jurusan</label>
                 <select class="form-control" id="jurusan" name="jurusan" required>
                     <?php while ($row = $jurusan_result->fetch_assoc()): ?>
@@ -68,8 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endwhile; ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-warning">Simpan</button>
-            <a href="dataGuru.php" class="btn btn-danger">Batal</a>
+            <div>
+                <button type="submit" class="btn btn-warning">Simpan</button>
+                <a href="dataGuru.php" class="btn btn-danger">Batal</a>
+            </div>
         </form>
     </div>
 

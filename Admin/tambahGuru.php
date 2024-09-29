@@ -8,20 +8,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_guru'])) {
     $password = $_POST['password'];
     $email = $_POST['email'];
     $jurusan = $_POST['jurusan'];
+    $foto_profil = $_POST['foto_profil'];
 
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Menyusun perintah SQL untuk memasukkan data
-    $sql = "INSERT INTO guru (nip, nama_guru, password, email, jurusan) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO guru (nip, nama_guru, password, email, id_jurusan, foto_profil) VALUES (?, ?, ?, ?, ?, ?)";
 
     // Menyiapkan statement
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $nip, $nama, $hashed_password, $email, $jurusan);
+    $stmt->bind_param("ssssis", $nip, $nama, $hashed_password, $email, $jurusan, $foto_profil);
 
     // Menjalankan statement
     if ($stmt->execute()) {
-        echo "<p>Akun guru berhasil ditambahkan.</p>";
+        header("Location: dataGuru.php");
+        exit();
     } else {
         echo "<p>Error: " . $stmt->error . "</p>";
     }
@@ -66,13 +68,14 @@ $conn->close();
         <div class="form-card">
 
             <form action="" method="post">
+                <input type="hidden" id="foto_profil" name="foto_profil" value="user.jpg">
                 <div>
                     <label for="nip">NIP:</label>
                     <input type="text" id="nip" name="nip" class="form-control" required>
                 </div>
 
                 <div>
-                    <label for="nama">Nama:</label>
+                    <label for="nama">Nama Guru:</label>
                     <input type="text" id="nama" name="nama" class="form-control" required>
                 </div>
 
@@ -93,7 +96,6 @@ $conn->close();
                         <?php echo $jurusan_options; ?>
                     </select>
                 </div>
-
                 <div><button type="submit" name="submit_guru" class="btn btn-primary">Tambah Akun</button></div>
                 
             </form>

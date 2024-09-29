@@ -20,7 +20,7 @@ if (isset($_POST['submit_kelas'])) {
     $stmt->bind_param("sii", $nama_kelas, $id_tahun_ajaran, $id_jurusan);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Kelas berhasil ditambahkan!'); window.location.href='data  Kelas.php';</script>";
+        echo "<script>alert('Kelas berhasil ditambahkan!'); window.location.href='dataKelas.php';</script>";
     } else {
         echo "<script>alert('Gagal menambahkan kelas!');</script>";
     }

@@ -11,16 +11,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_siswa'])) {
     $walikelas = $_POST['nama_wali_kelas'];
     $jurusan = $_POST['jurusan'];
     $angkatan = $_POST['angkatan'];
+    $foto_profil = $_POST['foto_profil'];
 
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Menyusun perintah SQL untuk memasukkan data
-    $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas, nama_wali_kelas, jurusan, angkatan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO siswa (nis, nama_siswa, password, email, id_kelas, nama_wali_kelas, id_jurusan, angkatan, foto_profil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Menyiapkan statement
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssisss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas, $walikelas, $jurusan, $angkatan);
+    $stmt->bind_param("ssssisiss", $nis, $nama_siswa, $hashed_password, $email, $id_kelas, $walikelas, $jurusan, $angkatan, $foto_profil);
 
     // Menjalankan statement
     if ($stmt->execute()) {
@@ -83,13 +84,14 @@ $conn->close();
         <div class="form-card">
             
             <form action="" method="post">
+                <input type="hidden" id="foto_profil" name="foto_profil" value="user.jpg">
                 <div>
                     <label for="nis">NIS:</label>
                     <input type="text" id="nis" name="nis" class="form-control" required>
                 </div>
 
                 <div>
-                    <label for="nama_siswa">Nama:</label>
+                    <label for="nama_siswa">Nama Siswa:</label>
                     <input type="text" id="nama_siswa" name="nama_siswa" class="form-control" required>
                 </div>
 

@@ -41,9 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_wali_kelas = $_POST['nama_wali_kelas'];
     $jurusan = $_POST['id_jurusan'];
     $angkatan = $_POST['angkatan'];
+    $password = $_POST['password'];
 
-    // Update data siswa
-    $update_query = "UPDATE siswa SET nama_siswa='$nama_siswa', email='$email', id_kelas='$id_kelas', nama_wali_kelas='$nama_wali_kelas', id_jurusan='$jurusan', angkatan='$angkatan' WHERE nis='$nis'";
+    // Jika password diisi, hash password baru
+    if (!empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $update_query = "UPDATE siswa SET nama_siswa='$nama_siswa', email='$email', id_kelas='$id_kelas', nama_wali_kelas='$nama_wali_kelas', id_jurusan='$jurusan', angkatan='$angkatan', password='$hashed_password' WHERE nis='$nis'";
+    } else {
+        // Jika password tidak diubah
+        $update_query = "UPDATE siswa SET nama_siswa='$nama_siswa', email='$email', id_kelas='$id_kelas', nama_wali_kelas='$nama_wali_kelas', id_jurusan='$jurusan', angkatan='$angkatan' WHERE nis='$nis'";
+    }
+
     if ($conn->query($update_query)) {
         header('Location: dataSiswa.php'); // Kembali ke halaman data siswa setelah edit
     } else {
@@ -73,6 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="form-card">
         <form method="POST" action="">
+            
+            <div>
+                <label for="nis">NIS</label>
+                <input type="text" class="form-control" id="nis" name="nis" value="<?php echo htmlspecialchars($data_siswa['nis']); ?>" readonly>
+            </div>
 
             <div>
                 <label for="nama_siswa">Nama Siswa</label>
@@ -111,11 +124,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div>
-            <button type="submit" class="btn btn-warning">Simpan</button>
-            <a href="dataSiswa.php" class="btn btn-danger">Batal</a>
+                <label for="password">Password (kosongkan jika tidak ingin diubah)</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password baru jika ingin mengubah">
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-warning">Simpan</button>
+                <a href="dataSiswa.php" class="btn btn-danger">Batal</a>
             </div>
         </form>
     </div>
-    <?php include '../navbar/navFooter.php'; ?>
+</div>
+
+<?php include '../navbar/navFooter.php'; ?>
+
 </body>
 </html>

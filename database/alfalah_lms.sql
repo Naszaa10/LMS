@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2024 at 08:57 AM
+-- Generation Time: Sep 29, 2024 at 05:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -52,15 +52,17 @@ CREATE TABLE `guru` (
   `password` varchar(255) NOT NULL,
   `nama_guru` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `id_jurusan` int(3) DEFAULT NULL
+  `id_jurusan` int(3) DEFAULT NULL,
+  `foto_profil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `guru`
 --
 
-INSERT INTO `guru` (`nip`, `password`, `nama_guru`, `email`, `id_jurusan`) VALUES
-('NIP001', '$2y$10$DpB0SMgUqmSySdUQrM5qPeB6xQ017uBHTBke9QPqRoZL9o6AEm97y', 'Lela Rohayati, S.Pd', 'lela@gmail.com', 1);
+INSERT INTO `guru` (`nip`, `password`, `nama_guru`, `email`, `id_jurusan`, `foto_profil`) VALUES
+('NIP001', '$2y$10$XUwwAXO2WDJuclBBCuZDj.om1cyybHbH..ksg6mmsq579cDWhxE.C', 'Lela Rohayati, S.Pd', 'lelar@gmail.com', 1, 'IMG-20191009-WA0009.jpg'),
+('NIP002', '$2y$10$FFynyYTXShvKm/end8IMDeBUCm6t28j16H0fdVi9T41r85O31utuu', 'Rian Kurnia', 'guru2@gmail.com', 2, 'user.jpg');
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,7 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id_jadwal`, `nip`, `kode_mapel`, `hari`, `id_kelas`, `waktu_mulai`, `waktu_selesai`) VALUES
-(1, 'NIP001', 'WB001', 'Senin', 1, '09.00', '11.00'),
+(1, 'NIP001', 'WB001', 'Senin', 1, '10.00 WIB', '11.00 WIB'),
 (2, 'NIP001', 'KL001', 'Sabtu', 1, '10.00 WIB', '11.00 WIB'),
 (3, 'NIP001', 'WB001', 'Selasa', 3, '10.00 WIB', '11.00 WIB');
 
@@ -128,7 +130,8 @@ CREATE TABLE `kelas` (
 INSERT INTO `kelas` (`id_kelas`, `nama_kelas`, `id_jurusan`, `id_tahun_ajaran`) VALUES
 (1, '10 K3', 1, 2),
 (2, '10 K2', 1, 1),
-(3, '10 K1', 3, 1);
+(3, '10 K1', 3, 1),
+(4, '10 L1', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -235,6 +238,20 @@ INSERT INTO `pengumpulan_tugas` (`id_pengupulantugas`, `topik_id`, `id_tugas`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pengumuman`
+--
+
+CREATE TABLE `pengumuman` (
+  `id` int(3) NOT NULL,
+  `judul_pengumuman` varchar(255) NOT NULL,
+  `isi_pengumuman` text NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pengunduhan_materi`
 --
 
@@ -261,6 +278,13 @@ CREATE TABLE `penilaian_tugas` (
   `tanggal_penilaian` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `penilaian_tugas`
+--
+
+INSERT INTO `penilaian_tugas` (`id_nilai_tugas`, `nis`, `id_tugas`, `kode_mapel`, `id_kelas`, `nilai_tugas`, `tanggal_penilaian`) VALUES
+(1, '12345678', 1, 'WB001', 1, 90, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -275,16 +299,18 @@ CREATE TABLE `siswa` (
   `id_kelas` int(11) DEFAULT NULL,
   `nama_wali_kelas` varchar(100) DEFAULT NULL,
   `angkatan` varchar(10) DEFAULT NULL,
-  `id_jurusan` int(3) NOT NULL
+  `id_jurusan` int(3) NOT NULL,
+  `foto_profil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `siswa`
 --
 
-INSERT INTO `siswa` (`nis`, `password`, `nama_siswa`, `email`, `id_kelas`, `nama_wali_kelas`, `angkatan`, `id_jurusan`) VALUES
-('12341234', '$2y$10$0XlShYY.sMRR0wpaXiAJ2.qZqcZs6/MZsTg238sX9VM.ccUWfyXjq', 'Nugroho', 'akbar123@gmail.com', 1, 'Nasza Dwi Prayoga', '2017', 1),
-('12345678', '$2y$10$lt2aiI.zEmjzukJLAfgIjenBW9iqhQDF0382uXJa77xeAWQh5PlYO', 'Nasza Dwi Prayoga', 'siswa@gmail.com', 1, 'Faliq Zuldan Akbar', '2017', 1);
+INSERT INTO `siswa` (`nis`, `password`, `nama_siswa`, `email`, `id_kelas`, `nama_wali_kelas`, `angkatan`, `id_jurusan`, `foto_profil`) VALUES
+('12341234', '$2y$10$0XlShYY.sMRR0wpaXiAJ2.qZqcZs6/MZsTg238sX9VM.ccUWfyXjq', 'Nugroho', 'akbar123@gmail.com', 1, 'Nasza Dwi Prayoga', '2017', 1, ''),
+('12345', '$2y$10$Gm.8c6K6bcvYTqmIpYs28.JNlRvdu1O4ZJxkdrj9Ji.FSmbgVqbuC', 'Akbar Krisdayanto', 'siswa3@gmail.com', 4, 'Nasza Dwi Prayoga', '2023', 4, 'user.jpg'),
+('12345678', '$2y$10$NX6uW7ukCCIgL/4qUho5nO940/J2WN5DYDsVO8UwXIq9xBuJ/OSJ6', 'Nasza Dwi Prayoga', 'siswa@gmail.com', 1, 'Faliq Zuldan Akbar', '2017', 1, 'ic_adrian.png');
 
 -- --------------------------------------------------------
 
@@ -434,6 +460,12 @@ ALTER TABLE `pengumpulan_tugas`
   ADD KEY `id_kelas` (`id_kelas`);
 
 --
+-- Indexes for table `pengumuman`
+--
+ALTER TABLE `pengumuman`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pengunduhan_materi`
 --
 ALTER TABLE `pengunduhan_materi`
@@ -503,7 +535,7 @@ ALTER TABLE `jurusan`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `materi`
@@ -518,6 +550,12 @@ ALTER TABLE `pengumpulan_tugas`
   MODIFY `id_pengupulantugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `pengumuman`
+--
+ALTER TABLE `pengumuman`
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pengunduhan_materi`
 --
 ALTER TABLE `pengunduhan_materi`
@@ -527,7 +565,7 @@ ALTER TABLE `pengunduhan_materi`
 -- AUTO_INCREMENT for table `penilaian_tugas`
 --
 ALTER TABLE `penilaian_tugas`
-  MODIFY `id_nilai_tugas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_nilai_tugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tahun_ajaran`
