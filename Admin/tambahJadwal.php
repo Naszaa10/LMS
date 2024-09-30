@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Fetch data for dropdowns
 $teachers = $conn->query("SELECT nip, nama_guru FROM guru");
 $subjects = $conn->query("SELECT kode_mapel, nama_mapel FROM mata_pelajaran");
-$classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
+$classes = $conn->query("SELECT id_kelas, nama_kelas, jenjang FROM kelas");
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +69,7 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
             <select class="form-control" id="id_kelas" name="id_kelas" required>
                 <option value="">Pilih Kelas</option>
                 <?php while ($row = $classes->fetch_assoc()): ?>
-                    <option value="<?= $row['id_kelas'] ?>"><?= $row['nama_kelas'] ?></option>
+                    <option value="<?= $row['id_kelas'] ?>"> <?= $row['jenjang'] ?> <?= $row['nama_kelas'] ?></option>
                 <?php endwhile; ?>
             </select>
         </div>

@@ -16,5 +16,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 mysqli_close($conn); // Menutup koneksi database
 
 // Redirect kembali ke daftar pengumuman
-header("Location: lihat_pengumuman.php");
+header("Location: lihatPengumuman.php");
 exit();

@@ -3,7 +3,7 @@ session_start();
 include '../db.php'; 
 
 // Fetching Kelas and Tahun Ajaran from table 'nilai'
-$sql_kelas = "SELECT DISTINCT k.id_kelas, k.nama_kelas FROM nilai n JOIN kelas k ON n.id_kelas = k.id_kelas";
+$sql_kelas = "SELECT DISTINCT k.id_kelas, k.nama_kelas, k.jenjang FROM nilai n JOIN kelas k ON n.id_kelas = k.id_kelas";
 $sql_tahun_ajaran = "SELECT DISTINCT ta.id_tahun_ajaran, ta.tahun_ajaran FROM nilai n JOIN tahun_ajaran ta ON n.id_tahun_ajaran = ta.id_tahun_ajaran";
 
 $result_kelas = $conn->query($sql_kelas);
@@ -15,9 +15,10 @@ if (isset($_POST['fetch_nis'])) {
     $tahun_ajaran_id = $_POST['tahun_ajaran'];
 
     // SQL untuk mengambil NIS berdasarkan kelas dan tahun ajaran
-    $sql_nis = "SELECT s.nis, s.nama_siswa FROM nilai n
-                JOIN siswa s ON n.nis = s.nis
-                WHERE n.id_kelas = ? AND n.id_tahun_ajaran = ?";
+    $sql_nis = "SELECT DISTINCT s.nis, s.nama_siswa FROM nilai n
+    INNER JOIN siswa s ON n.nis = s.nis
+    WHERE n.id_kelas = ? AND n.id_tahun_ajaran = ?";
+
     $stmt = $conn->prepare($sql_nis);
     $stmt->bind_param("ii", $kelas_id, $tahun_ajaran_id);
     $stmt->execute();
@@ -86,7 +87,7 @@ if (isset($_POST['fetch_nilai'])) {
                     <select id="kelas" name="kelas" class="form-control" required>
                         <option value="">Pilih Kelas</option>
                         <?php while ($row = $result_kelas->fetch_assoc()): ?>
-                            <option value="<?php echo $row['id_kelas']; ?>"><?php echo $row['nama_kelas']; ?></option>
+                            <option value="<?php echo $row['id_kelas']; ?>"><?= $row['jenjang'] ?> <?php echo $row['nama_kelas']; ?></option>
                         <?php endwhile; ?>
                     </select>
                 </div>

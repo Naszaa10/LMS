@@ -19,11 +19,11 @@ $total_siswa = $total_siswa_result->fetch_assoc()['total'];
 $total_pages_siswa = ceil($total_siswa / $limit);
 
 // Mengambil data siswa dengan limit dan offset dan pencarian
-$sql_siswa = "SELECT siswa.nis, siswa.nama_siswa, siswa.email, kelas.nama_kelas, siswa.nama_wali_kelas, jurusan.nama_jurusan, siswa.angkatan
+$sql_siswa = "SELECT siswa.nis, siswa.nama_siswa, siswa.email, kelas.nama_kelas, kelas.jenjang, siswa.nama_wali_kelas, jurusan.nama_jurusan, siswa.angkatan
               FROM siswa
               JOIN kelas ON siswa.id_kelas = kelas.id_kelas
               JOIN jurusan ON siswa.id_jurusan = jurusan.id_jurusan
-              WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%'
+              WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%' OR kelas.jenjang LIKE '%$search%'
               LIMIT $limit OFFSET $offset_siswa";
 $result_siswa = $conn->query($sql_siswa);
 
@@ -70,7 +70,7 @@ $conn->close();
                                 <td>" . htmlspecialchars($row['nis']) . "</td>
                                 <td>" . htmlspecialchars($row['nama_siswa']) . "</td>
                                 <td>" . htmlspecialchars($row['email']) . "</td>
-                                <td>" . htmlspecialchars($row['nama_kelas']) . "</td>
+                                <td>" . htmlspecialchars($row['jenjang']) . ' ' . htmlspecialchars($row['nama_kelas']) . "</td>
                                 <td>" . htmlspecialchars($row['nama_wali_kelas']) . "</td>
                                 <td>" . htmlspecialchars($row['nama_jurusan']) . "</td>
                                 <td>" . htmlspecialchars($row['angkatan']) . "</td>

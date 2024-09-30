@@ -43,7 +43,7 @@ $rowJadwal = mysqli_fetch_assoc($resultJadwal);
 $jumlahJadwal = $rowJadwal['jumlah'];
 
 // Query untuk mendapatkan pengumuman terbaru
-$queryPengumuman = "SELECT isi_pengumuman FROM pengumuman WHERE tanggal = (SELECT MAX(tanggal) FROM pengumuman WHERE role = 'siswa')";
+$queryPengumuman = "SELECT isi_pengumuman FROM pengumuman WHERE (role = 'siswa' OR role = 'semua') ORDER BY tanggal DESC LIMIT 1";
 $resultPengumuman = mysqli_query($conn, $queryPengumuman);
 
 // Periksa apakah ada pengumuman

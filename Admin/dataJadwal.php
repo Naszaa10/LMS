@@ -5,11 +5,11 @@ $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
     $search = "%$search%";
-    $sql = "SELECT jadwal.*, kelas.nama_kelas FROM jadwal JOIN kelas ON jadwal.id_kelas = kelas.id_kelas WHERE nip LIKE ? OR kelas.nama_kelas LIKE ? OR kode_mapel LIKE ?";
+    $sql = "SELECT jadwal.*, kelas.nama_kelas, kelas.jenjang FROM jadwal JOIN kelas ON jadwal.id_kelas = kelas.id_kelas WHERE nip LIKE ? OR kelas.nama_kelas LIKE ? OR kode_mapel LIKE ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sss", $search, $search, $search);
 } else {
-    $sql = "SELECT jadwal.*, kelas.nama_kelas FROM jadwal JOIN kelas ON jadwal.id_kelas = kelas.id_kelas";
+    $sql = "SELECT jadwal.*, kelas.nama_kelas, kelas.jenjang FROM jadwal JOIN kelas ON jadwal.id_kelas = kelas.id_kelas";
     $stmt = $conn->prepare($sql);
 }
 $stmt->execute();
@@ -58,7 +58,7 @@ $result = $stmt->get_result();
             <tr>
                 <td><?php echo htmlspecialchars($row['nip']); ?></td>
                 <td><?php echo htmlspecialchars($row['kode_mapel']); ?></td>
-                <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
+                <td><?php echo htmlspecialchars($row['jenjang']) . ' ' . htmlspecialchars($row['nama_kelas']); ?></td>
                 <td><?php echo htmlspecialchars($row['hari']); ?></td>
                 <td><?php echo htmlspecialchars($row['waktu_mulai']); ?></td>
                 <td><?php echo htmlspecialchars($row['waktu_selesai']); ?></td>

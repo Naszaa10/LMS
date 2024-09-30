@@ -52,7 +52,7 @@
     <div class="content">
         <section class="info-section">
             <div class="info-content">
-                <h3>Sekilas Tentang Al Falah dan SMK Al Falah</h3>
+                <h3>Sekilas Tentang Al Falah dan SMK Al Falah B</h3>
                 <p>Yayasan Islam Al Falah didirikan secara bertahap sejak 1950 oleh almarhum Bapak K.H. Saefudin Ahmad, dikenal sebagai Ustadz Idi. Beliau adalah seorang pendidik aktif dalam pergerakan kemerdekaan dan perjuangan Syariat Islam. Awalnya, didirikan madrasah untuk pendidikan agama, diikuti dengan pembangunan masjid setelah ada cukup banyak jemaah. Pada 1958, Madrasah Diniyyah Al Falah berubah menjadi Madrasah Ibtidaiyah Al Falah dengan Ustadz Idi sebagai Kepala Sekolah.</p>
                 <p>Pada 1961, yayasan ini resmi berbadan hukum dengan nama Yayasan Pesantren Islam Al Falah, dipimpin oleh Bapak K.H. Ahmad Sobandi dan Ustadz Idi sebagai Wakil Ketua. Sekolah lanjutan dimulai pada 1964 dengan pendirian Sekolah Pendidikan Guru Agama (PGA) yang kemudian diubah menjadi Madrasah Sanawiyyah pada 1974. Pada 1976, Madrasah Tsanawiyyah diubah menjadi SMP Al Falah dan Madrasah Ibtidaiyyah menjadi SD Al Falah, dengan kurikulum Departemen Pendidikan dan Kebudayaan.</p>
                  <p>Untuk memenuhi harapan dan menghadapi era industrialisasi, pada 1984 didirikan SMK Al Falah dengan tiga jurusan: Teknik Listrik, Teknik Mekanik Industri, Teknik Kendaraan Ringan Otomotif, dan Rekayasa Perangkat Lunak.</p>

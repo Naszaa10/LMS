@@ -38,18 +38,21 @@ if (isset($_POST['update_kelas'])) {
     $nama_kelas = $_POST['nama_kelas'];
     $id_tahun_ajaran = $_POST['id_tahun_ajaran'];
     $id_jurusan = $_POST['id_jurusan'];
+    $jenjang = $_POST['jenjang'];
 
     // Query untuk memperbarui data kelas
-    $update_sql = "UPDATE kelas SET nama_kelas = ?, id_tahun_ajaran = ?, id_jurusan = ? WHERE id_kelas = ?";
+    $update_sql = "UPDATE kelas SET nama_kelas = ?, id_tahun_ajaran = ?, id_jurusan = ?, jenjang = ? WHERE id_kelas = ?";
     $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("siii", $nama_kelas, $id_tahun_ajaran, $id_jurusan, $id_kelas);
+    
+    // Pastikan id_kelas diisi dari data kelas yang diambil sebelumnya
+    $stmt->bind_param("siiii", $nama_kelas, $id_tahun_ajaran, $id_jurusan, $jenjang, $kelas['id_kelas']); 
 
     if ($stmt->execute()) {
         echo "Data kelas berhasil diperbarui.";
-        header("Location: tambahKelas.php"); // Redirect setelah berhasil diupdate
+        header("Location: dataKelas.php"); // Redirect setelah berhasil diupdate
         exit();
     } else {
-        echo "Terjadi kesalahan saat memperbarui data.";
+        echo "Terjadi kesalahan saat memperbarui data: " . $stmt->error; // Tampilkan kesalahan
     }
 }
 ?>
@@ -76,6 +79,27 @@ if (isset($_POST['update_kelas'])) {
                 <div class="form-group">
                     <label for="nama_kelas">Nama Kelas:</label>
                     <input type="text" id="nama_kelas" name="nama_kelas" class="form-control" value="<?php echo htmlspecialchars($kelas['nama_kelas']); ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jenjang">Jenjang Kelas:</label>
+                    <select id="jenjang" name="jenjang" class="form-control" required>
+                    <?php
+                        // Ambil daftar jenjang unik dari tabel kelas
+                        $jenjang_sql = "SELECT DISTINCT jenjang FROM kelas";
+                        $jenjang_kelas = $conn->query($jenjang_sql);
+
+                        // Loop untuk menampilkan jenjang, pastikan jenjang hanya muncul 1 kali
+                        while ($jenjang = $jenjang_kelas->fetch_assoc()) {
+                            // Tentukan apakah jenjang ini yang sedang terpilih
+                            $selected = ($jenjang['jenjang'] == $kelas['jenjang']) ? 'selected' : '';
+                            
+                            // Tampilkan option untuk dropdown
+                            echo "<option value='" . $jenjang['jenjang'] . "' $selected>" . htmlspecialchars($jenjang['jenjang']) . "</option>";
+                        }
+                    ?>
+
+                    </select>
                 </div>
 
                 <div class="form-group">

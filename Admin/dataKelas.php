@@ -81,6 +81,7 @@ $result = $stmt->get_result();
             <thead>
                 <tr>
                     <th>Nama Kelas</th>
+                    <th>Jenjang Kelas</th>
                     <th>Tahun Ajaran</th>
                     <th>Jurusan</th>
                     <th>Aksi</th>
@@ -89,7 +90,8 @@ $result = $stmt->get_result();
             <tbody>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
+                        <td><?php echo htmlspecialchars($row['jenjang']) . ' ' . htmlspecialchars($row['nama_kelas']); ?></td>
+                        <td><?php echo htmlspecialchars($row['jenjang']); ?></td>
                         <td><?php echo htmlspecialchars($row['tahun_ajaran']); ?></td>
                         <td><?php echo htmlspecialchars($row['nama_jurusan']); ?></td>
                         <td>

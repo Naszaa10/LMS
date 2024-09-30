@@ -25,6 +25,9 @@ $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto
     <title>Full Screen Responsive Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="..\css\styles.css">
+    <!-- <link rel="stylesheet" href="..\css\test.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
     <div class="d-flex" id="wrapper">
@@ -35,11 +38,11 @@ $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto
                 <h4 class="mt-2">SMK AlFALAH</h4>
             </div>
             <div class="list-group list-group-flush">
-                <a href="dashboardGuru.php" class="list-group-item list-group-item-action">Dashboard</a>
-                <a href="index.php" class="list-group-item list-group-item-action">Mata Pelajaran</a>
-                <a href="jadwalGuru.php" class="list-group-item list-group-item-action">Jadwal</a>
-                <a href="nilaiGuru.php" class="list-group-item list-group-item-action">Nilai</a>
-                <a href="nilaiTugasGuru.php" class="list-group-item list-group-item-action">Nilai Tugas</a>
+                <a href="dashboardGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-home-alt"></i> Dashboard</a>
+                <a href="index.php" class="list-group-item list-group-item-action"><i class="fas fa-book"></i> Mata Pelajaran</a>
+                <a href="jadwalGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-calendar-alt"></i> Jadwal</a>
+                <a href="nilaiGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-graduation-cap"></i> Nilai</a>
+                <a href="nilaiTugasGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-pencil-alt"></i> Nilai Tugas</a>
             </div>
         </div>
         

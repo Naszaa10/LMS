@@ -38,12 +38,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_siswa'])) {
 
 // Mengambil data kelas untuk dropdown
 $kelas_options = "";
-$sql = "SELECT id_kelas, nama_kelas FROM kelas";
+$sql = "SELECT id_kelas, nama_kelas, jenjang FROM kelas";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $kelas_options .= "<option value='" . htmlspecialchars($row['id_kelas']) . "'>" . htmlspecialchars($row['nama_kelas']) . "</option>";
+        $kelas_options .= "<option value='" . htmlspecialchars($row['id_kelas']) . "'>" . htmlspecialchars($row['jenjang']) . ' ' . htmlspecialchars($row['nama_kelas']). "</option>";
     }
 } else {
     $kelas_options = "<option value=''>Tidak ada kelas tersedia</option>";

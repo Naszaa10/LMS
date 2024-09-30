@@ -19,6 +19,27 @@ if ($id_kelas_terpilih) {
         JOIN jurusan ON siswa.id_jurusan = jurusan.id_jurusan
         WHERE siswa.id_kelas = '$id_kelas_terpilih'";
     $resultSiswa = mysqli_query($conn, $querySiswa);
+
+    // Fetch the current class details to determine the next class
+    $queryCurrentClass = "SELECT * FROM kelas WHERE id_kelas = '$id_kelas_terpilih'";
+    $resultCurrentClass = mysqli_query($conn, $queryCurrentClass);
+    $currentClass = mysqli_fetch_assoc($resultCurrentClass);
+
+    // Determine the next class based on the current class
+    $nextClasses = [];
+    if ($currentClass['jenjang'] == '10') {
+        $nextClasses[] = '11';
+    } elseif ($currentClass['jenjang'] == '11') {
+        $nextClasses[] = '12';
+    } elseif ($currentClass['jenjang'] == '12') {
+        $nextClasses[] = 'Lulus';
+    }
+
+    // Fetch available classes based on the next classes
+    $queryAvailableClasses = "SELECT * FROM kelas WHERE jenjang IN (" . implode(',', array_map(function($class) {
+        return "'$class'";
+    }, $nextClasses)) . ")";
+    $resultAvailableClasses = mysqli_query($conn, $queryAvailableClasses);
 }
 
 // Jika form untuk update semua kelas disubmit
@@ -45,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Kelas Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="..\css\naikKelas.css">
+    <link rel="stylesheet" href="../css/naikKelas.css">
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
@@ -61,15 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                     <div class="form-group">
                         <label for="kelas">Pilih Kelas:</label>
                         <select name="id_kelas" id="kelas" class="form-control">
-                        <!-- Opsi default dengan value kosong -->
-                        <option value="">Pilih kelas</option>
-                        <?php
-                        while ($kelas = mysqli_fetch_assoc($resultKelas)) {
-                            $selected = $id_kelas_terpilih == $kelas['id_kelas'] ? 'selected' : '';
-                            echo "<option value='{$kelas['id_kelas']}' $selected>{$kelas['nama_kelas']}</option>";
-                        }
-                        ?>
-                    </select>
+                            <!-- Opsi default dengan value kosong -->
+                            <option value="">Pilih kelas</option>
+                            <?php
+                            while ($kelas = mysqli_fetch_assoc($resultKelas)) {
+                                $selected = $id_kelas_terpilih == $kelas['id_kelas'] ? 'selected' : '';
+                                echo "<option value='{$kelas['id_kelas']}' $selected>{$kelas['jenjang']} {$kelas['nama_kelas']}</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div><button type="submit" class="btn btn-primary">Tampilkan Siswa</button></div>
                 </form>
@@ -81,37 +102,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                 <div class="card-header">
                     <h2>Daftar Siswa di Kelas Terpilih</h2>
                 </div>
-                    <!-- Tabel daftar siswa -->
-                    <table class="table table-striped table-hover">
-                        <thead>
+                <!-- Tabel daftar siswa -->
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>NIS</th>
+                            <th>Nama Siswa</th>
+                            <th>Email</th>
+                            <th>Wali Kelas</th>
+                            <th>Angkatan</th>
+                            <th>Jurusan</th>
+                            <th>Kelas Sekarang</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($siswa = mysqli_fetch_assoc($resultSiswa)): ?>
                             <tr>
-                                <th>NIS</th>
-                                <th>Nama Siswa</th>
-                                <th>Email</th>
-                                <th>Wali Kelas</th>
-                                <th>Angkatan</th>
-                                <th>Jurusan</th>
-                                <th>Kelas Sekarang</th>
+                                <td><?php echo $siswa['nis']; ?></td>
+                                <td><?php echo $siswa['nama_siswa']; ?></td>
+                                <td><?php echo $siswa['email']; ?></td>
+                                <td><?php echo $siswa['nama_wali_kelas']; ?></td>
+                                <td><?php echo $siswa['angkatan']; ?></td>
+                                <td><?php echo $siswa['nama_jurusan']; ?></td>
+                                <td><?php echo $currentClass['jenjang'] . " " . $currentClass['nama_kelas']; ?></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($siswa = mysqli_fetch_assoc($resultSiswa)): ?>
-                                <tr>
-                                    <td><?php echo $siswa['nis']; ?></td>
-                                    <td><?php echo $siswa['nama_siswa']; ?></td>
-                                    <td><?php echo $siswa['email']; ?></td>
-                                    <td><?php echo $siswa['nama_wali_kelas']; ?></td>
-                                    <td><?php echo $siswa['angkatan']; ?></td>
-                                    <td><?php echo $siswa['nama_jurusan']; ?></td>
-                                    <td><?php echo $siswa['nama_kelas']; ?></td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
 
-         <!-- Form untuk memperbarui kelas seluruh siswa -->
-         <div class="card mt-4">
+            <!-- Form untuk memperbarui kelas seluruh siswa -->
+            <div class="card mt-4">
                 <div class="card-header ">
                     <h2>Update Semua Siswa ke Kelas Baru</h2>
                 </div>
@@ -121,9 +142,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                             <label for="id_kelas_baru">Pilih Kelas Baru:</label>
                             <select name="id_kelas_baru" id="id_kelas_baru" class="form-control">
                                 <?php
-                                mysqli_data_seek($resultKelas, 0); // Reset pointer query kelas
-                                while ($kelas = mysqli_fetch_assoc($resultKelas)) {
-                                    echo "<option value='{$kelas['id_kelas']}'>{$kelas['nama_kelas']}</option>";
+                                if (isset($resultAvailableClasses)) {
+                                    while ($kelas = mysqli_fetch_assoc($resultAvailableClasses)) {
+                                        echo "<option value='{$kelas['id_kelas']}'>{$kelas['jenjang']} {$kelas['nama_kelas']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>Tidak ada kelas yang tersedia untuk update</option>";
                                 }
                                 ?>
                             </select>
@@ -133,9 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                     </form>
                 </div>
             </div>
-            </div>
-
-
         <?php endif; ?>
     </div>
     <?php include '../navbar/navFooter.php'; ?>

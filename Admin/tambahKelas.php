@@ -13,11 +13,12 @@ if (isset($_POST['submit_kelas'])) {
     $nama_kelas = $_POST['nama_kelas'];
     $id_tahun_ajaran = $_POST['tahun_ajaran'];
     $id_jurusan = $_POST['jurusan'];
+    $jenjang = $_POST['jenjang'];
 
     // Query untuk menambahkan kelas ke database
-    $sql = "INSERT INTO kelas (nama_kelas, id_tahun_ajaran, id_jurusan) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO kelas (nama_kelas, id_tahun_ajaran, id_jurusan, jenjang) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sii", $nama_kelas, $id_tahun_ajaran, $id_jurusan);
+    $stmt->bind_param("siii", $nama_kelas, $id_tahun_ajaran, $id_jurusan, $jenjang);
 
     if ($stmt->execute()) {
         echo "<script>alert('Kelas berhasil ditambahkan!'); window.location.href='dataKelas.php';</script>";
@@ -60,6 +61,16 @@ $jurusan_result = $conn->query($jurusan_query);
                 </div>
 
                 <div class="form-group">
+                    <label for="jenjang">Jenjang Kelas:</label>
+                    <select id="jenjang" name="jenjang" class="form-control" required>
+                        <option value="">Pilih Jenjang Kelas</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="tahun_ajaran">Tahun Ajaran:</label>
                     <select id="tahun_ajaran" name="tahun_ajaran" class="form-control" required>
                         <option value="">Pilih Tahun Ajaran</option>
@@ -80,6 +91,7 @@ $jurusan_result = $conn->query($jurusan_query);
                 </div>
 
                 <button type="submit" name="submit_kelas" class="btn btn-primary">Tambah Kelas</button>
+                <a href="dataKelas.php" class="btn btn-danger">Batal</a>
             </form>
         </div>
     </div>

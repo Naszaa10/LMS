@@ -11,7 +11,7 @@ if (!isset($_SESSION['teacher_nip'])) {
 $nip = $_SESSION['teacher_nip'];
 
 // Ambil kelas yang diajar oleh guru
-$queryClasses = "SELECT DISTINCT kelas.id_kelas, kelas.nama_kelas 
+$queryClasses = "SELECT DISTINCT kelas.id_kelas, kelas.nama_kelas, kelas.jenjang
                  FROM kelas 
                  JOIN jadwal ON kelas.id_kelas = jadwal.id_kelas 
                  WHERE jadwal.nip = ?";
@@ -51,7 +51,7 @@ $resultSubjects = $stmtSubjects->get_result();
                     <select class="form-select" id="kelas" name="kelas" required>
                         <option value="">Pilih Kelas</option>
                         <?php while ($row = $resultClasses->fetch_assoc()) { ?>
-                            <option value="<?php echo $row['id_kelas']; ?>"><?php echo $row['nama_kelas']; ?></option>
+                            <option value="<?php echo $row['id_kelas']; ?>"> <?php echo $row['jenjang']. " " .$row['nama_kelas']; ?></option>
                         <?php } ?>
                     </select>
                 </div>
