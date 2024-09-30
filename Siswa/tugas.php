@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kerjakan Tugas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tambahkan CKEditor -->
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 </head>
 <body>
 <?php
 session_start();
 include '../navbar/navSiswa.php';
 include '../db.php';
-include '../navbar/navFooter.php';
 
 // Ambil topik_id dan kode_mapel dari URL
 $topik_id = $_GET['topik_id'];
@@ -20,9 +21,22 @@ $kode_mapel = $_GET['kode_mapel'];
 // Ambil NIS siswa dari session
 $nis_siswa = $_SESSION['nis_siswa'];
 
+// Query untuk mengambil id_kelas berdasarkan nis_siswa
+$query_kelas = "SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa'";
+$result_kelas = mysqli_query($conn, $query_kelas);
+
+// Pastikan data id_kelas ditemukan
+if ($result_kelas && mysqli_num_rows($result_kelas) > 0) {
+    $row_kelas = mysqli_fetch_assoc($result_kelas);
+    $id_kelas = $row_kelas['id_kelas'];
+} else {
+    echo "Kelas tidak ditemukan untuk siswa ini.";
+    exit;
+}
+
 // Query untuk mendapatkan tugas berdasarkan topik_id
 $query_tugas = "
-    SELECT id_tugas, judul, keterangan, tanggal_tenggat, opsi_tugas
+    SELECT id_tugas, judul, deskripsi_tugas, tanggal_tenggat, opsi_tugas, file_tugas
     FROM tugas
     WHERE topik_id = '$topik_id' AND kode_mapel = '$kode_mapel'
 ";
@@ -35,22 +49,36 @@ $tugas = mysqli_fetch_assoc($result_tugas);
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title"><?php echo htmlspecialchars($tugas['judul']); ?></h5>
-            <p class="card-text"><?php echo htmlspecialchars($tugas['keterangan']); ?></p>
+            <p class="card-text">Deskripsi Tugas : <?php echo htmlspecialchars($tugas['deskripsi_tugas']); ?></p>
             <p class="card-text"><strong>Tanggal Tenggat:</strong> <?php echo htmlspecialchars($tugas['tanggal_tenggat']); ?></p>
             
+            <!-- Link untuk download file tugas jika ada -->
+            <?php if (!empty($tugas['file_tugas'])): ?>
+                <p>
+                    <strong>Download File Tugas:</strong> 
+                    <a href="../upload/tugasguru/<?php echo htmlspecialchars($tugas['file_tugas']); ?>" class="btn btn-link" download>Download</a>
+                </p>
+            <?php endif; ?>
+
             <!-- Form Mengerjakan Tugas -->
             <form action="kirim_tugas.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($tugas['id_tugas']); ?>">
                 <input type="hidden" name="topik_id" value="<?php echo htmlspecialchars($topik_id); ?>">
                 <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
                 <input type="hidden" name="nis_siswa" value="<?php echo htmlspecialchars($nis_siswa); ?>">
+                <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
 
                 <!-- Opsi Tugas -->
                 <?php if ($tugas['opsi_tugas'] == 'teks'): ?>
                     <div class="mb-3">
                         <label for="jawaban" class="form-label">Jawaban:</label>
+                        <!-- Textarea yang diubah menjadi CKEditor -->
                         <textarea class="form-control" id="jawaban" name="jawaban" rows="5"></textarea>
                     </div>
+                    <script>
+                        // Mengaktifkan CKEditor pada textarea
+                        CKEDITOR.replace('jawaban');
+                    </script>
                 <?php elseif ($tugas['opsi_tugas'] == 'upload'): ?>
                     <div class="mb-3">
                         <label for="file_tugas" class="form-label">Unggah File Tugas:</label>
@@ -59,7 +87,6 @@ $tugas = mysqli_fetch_assoc($result_tugas);
                 <?php endif; ?>
 
                 <button type="submit" class="btn btn-primary">Kirim Tugas</button>
-                <button type="submit" class="btn btn-success">Materi Tugas</button>
             </form>
         </div>
     </div>
@@ -67,5 +94,6 @@ $tugas = mysqli_fetch_assoc($result_tugas);
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<?php include '../navbar/navFooter.php'; ?>
 </body>
 </html>

@@ -11,21 +11,11 @@
 <body>
 
 <?php 
-session_start();
-
-if (!isset($_SESSION['nis_siswa'])) {
-    header("Location: ../login.php");
-    exit();
-}
 
 include '../navbar/navSiswa.php'; 
-include '../db.php'; // Termasuk koneksi database
-
-// Ambil NIS dari session
-$nis = $_SESSION['nis_siswa']; // Mengasumsikan NIS disimpan dalam session
 
 // Query untuk mendapatkan id_kelas berdasarkan NIS
-$queryKelas = "SELECT id_kelas FROM siswa WHERE nis = '$nis'";
+$queryKelas = "SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa'";
 $resultKelas = mysqli_query($conn, $queryKelas);
 $rowKelas = mysqli_fetch_assoc($resultKelas);
 $id_kelas = $rowKelas['id_kelas'];

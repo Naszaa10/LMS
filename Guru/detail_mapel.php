@@ -171,11 +171,19 @@ $mapel = $result->fetch_assoc();
                             <input type="text" class="form-control" id="nama_tugas" name="nama_tugas" required>
                         </div>
                         <div class="form-group">
+                            <label for="deskripsi_tugas">Deskripsi Tugas</label>
+                            <textarea class="form-control" id="deskripsi_tugas" name="deskripsi_tugas" required></textarea>
+                        </div>
+                        <div class="form-group">
                             <label for="jenis_tugas">Jenis Tugas</label>
                             <select class="form-control" id="jenis_tugas" name="jenis_tugas" required>
                                 <option value="upload">Upload File</option>
                                 <option value="teks">Ketik di Laman</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="file_tugas">File Tugas (opsional)</label>
+                            <input type="file" class="form-control-file" id="file_tugas" name="file_tugas">
                         </div>
                         <div class="form-group">
                             <label for="tenggat_waktu">Tenggat Waktu</label>
@@ -187,6 +195,7 @@ $mapel = $result->fetch_assoc();
             </div>
         </div>
     </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
