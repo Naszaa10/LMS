@@ -26,6 +26,7 @@ $querySiswa = "SELECT * FROM guru WHERE nip = '$nip'";
 $resultSiswa = mysqli_query($conn, $querySiswa);
 $siswa = mysqli_fetch_assoc($resultSiswa);
 
+
 // Cek apakah form disubmit
 if (isset($_POST['save_changes'])) {
     // Ambil data dari form
@@ -39,12 +40,14 @@ if (isset($_POST['save_changes'])) {
     // Proses upload gambar jika ada file yang diupload
     if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
         $targetDir = "../uploads/profile/"; // Direktori penyimpanan
-        $fileName = basename($_FILES["profileImage"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-
-        // Cek tipe file gambar
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+        $fileType = pathinfo($_FILES["profileImage"]["name"], PATHINFO_EXTENSION);
         $allowedTypes = array('jpg', 'png', 'jpeg', 'gif');
+
+        // Cek ukuran file (maksimal 5MB)
+        if ($_FILES['profileImage']['size'] > 5 * 1024 * 1024) {
+            echo "Ukuran file harus kurang dari 5MB.";
+            exit(); // Hentikan eksekusi jika file terlalu besar
+        }
 
         // Hapus gambar lama jika ada
         if (!empty($siswa['foto_profil']) && $siswa['foto_profil'] != 'default.png') {
@@ -53,6 +56,10 @@ if (isset($_POST['save_changes'])) {
                 unlink($oldImagePath); // Hapus gambar lama
             }
         }
+
+        // Ganti nama file dengan NIP dan timestamp
+        $fileName = $nip . '_' . time() . '.' . $fileType;
+        $targetFilePath = $targetDir . $fileName;
 
         if (in_array($fileType, $allowedTypes)) {
             // Upload file ke folder
@@ -77,6 +84,7 @@ if (isset($_POST['save_changes'])) {
     }
 }
 ?>
+
 
 
 <div id="mainContent" class="container mt-3">

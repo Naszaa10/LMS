@@ -35,7 +35,7 @@ $result_tugas = mysqli_query($conn, $query_tugas);
 
 // Query untuk mendapatkan mata pelajaran berdasarkan kelas siswa
 $query_mapel = "
-    SELECT mp.*, 
+SELECT mp.*, 
         (SELECT COUNT(*) FROM materi m 
             JOIN pengunduhan_materi pm ON m.id_materi = pm.id_materi
             WHERE m.kode_mapel = mp.kode_mapel AND pm.nis = '$nis_siswa') AS total_materi_diunduh,
@@ -47,33 +47,46 @@ $query_mapel = "
         (SELECT g.nama_guru FROM guru g 
             JOIN jadwal j ON g.nip = j.nip
             WHERE j.kode_mapel = mp.kode_mapel 
-            LIMIT 1) AS nama_guru
+            LIMIT 1) AS nama_guru,
+        (SELECT t.topik_id FROM topik t 
+            WHERE t.kode_mapel = mp.kode_mapel 
+            LIMIT 1) AS topik_id  -- Menambahkan topik_id dari tabel topik
     FROM mata_pelajaran mp 
     WHERE mp.kode_mapel IN (
         SELECT kode_mapel FROM jadwal 
         WHERE id_kelas = (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa')
     )
+
 ";
 $result_mapel = mysqli_query($conn, $query_mapel);
+
 ?>
+
+
+
+
 
 <!-- Main Content -->
 <div id="mainContent" class="container mt-4">
     <!-- Upcoming Tasks -->
     <section class="tasks mb-4">
+    <div class="card mb-4 bg-primary">
         <h3>Upcoming Tasks</h3>
         <ul class="list-group">
             <?php while ($row = mysqli_fetch_assoc($result_tugas)): ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <?php echo htmlspecialchars($row['judul']); ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-success">
+                    <a href="tugas.php?topik_id=<?php echo htmlspecialchars($row['topik_id']) ;?>&kode_mapel=<?php echo htmlspecialchars($row['kode_mapel']); ?>" class="text-white text-decoration-none">
+                        <?php echo htmlspecialchars($row['judul']); ?>
+                    </a>
                     <span class="badge bg-primary rounded-pill">Due <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></span>
                 </li>
             <?php endwhile; ?>
         </ul>
+    </div>
     </section>
 
     <!-- Mata Pelajaran Cards -->
-    <div class="row justify-content-center pt-3">
+    <div class="row justify-content-start pt-3">
         <?php while ($row_mapel = mysqli_fetch_assoc($result_mapel)): 
             // Hitung progres persentase
             $total_materi = $row_mapel['total_materi'];

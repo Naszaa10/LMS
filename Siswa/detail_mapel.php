@@ -6,12 +6,14 @@
     <title>Detail Mata Pelajaran</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/detailSiswa.css">
+</style>
 </head>
 <body>
 <?php
 session_start();
 include '../navbar/navSiswa.php';
 include '../db.php';
+include '../navbar/navFooter.php';
 
 // Ambil kode mapel dari URL
 $kode_mapel = $_GET['kode_mapel'];
@@ -65,7 +67,7 @@ $result_topik = mysqli_query($conn, $query_topik);
 
 // Query untuk mendapatkan materi berdasarkan topik_id
 $query_materi = "
-    SELECT m.id_materi, m.judul, m.file, m.topik_id
+    SELECT m.id_materi, m.is_downloaded, m.judul, m.file, m.topik_id
     FROM materi m
     JOIN topik t ON m.topik_id = t.topik_id
     WHERE t.kode_mapel = '$kode_mapel' AND t.id_kelas = $id_kelas
@@ -73,18 +75,43 @@ $query_materi = "
 ";
 $result_materi = mysqli_query($conn, $query_materi);
 
-// Query untuk mendapatkan tugas yang ada untuk mata pelajaran ini berdasarkan id_kelas
-$query_tugas = "
-    SELECT t.id_tugas, t.judul, t.keterangan, t.tanggal_tenggat, t.opsi_tugas, t.topik_id
-    FROM tugas t
-    WHERE t.kode_mapel = '$kode_mapel' AND t.id_kelas = $id_kelas
-";
-$result_tugas = mysqli_query($conn, $query_tugas);
-
 // Array untuk menyimpan materi berdasarkan topik_id
 $materi_by_topik = [];
 while ($row_materi = mysqli_fetch_assoc($result_materi)) {
     $materi_by_topik[$row_materi['topik_id']][] = $row_materi;
+}
+
+// Query untuk mendapatkan tugas berdasarkan topik_id dan id_kelas
+$query_tugas = "
+    SELECT t.id_tugas, t.judul, t.keterangan, t.is_completed, t.topik_id
+    FROM tugas t
+    WHERE t.id_kelas = $id_kelas AND t.kode_mapel = '$kode_mapel'
+";
+$result_tugas = mysqli_query($conn, $query_tugas);
+
+// Array untuk menyimpan tugas berdasarkan topik_id
+$tugas_by_topik = [];
+while ($row_tugas = mysqli_fetch_assoc($result_tugas)) {
+    $tugas_by_topik[$row_tugas['topik_id']] = $row_tugas;
+}
+
+// Logika untuk update status download materi
+if (isset($_GET['id_materi'])) {
+    $id_materi = $_GET['id_materi'];
+    $update_query = "UPDATE materi SET is_downloaded = 0 WHERE id_materi = ?";
+    $stmt = $conn->prepare($update_query);
+    $stmt->bind_param('i', $id_materi);
+    $stmt->execute();
+}
+
+
+// Logika untuk update status tugas
+if (isset($_GET['id_tugas'])) {
+    $id_tugas = $_GET['id_tugas'];
+    $update_query = "UPDATE tugas SET is_completed = 1 WHERE id_tugas = ?";
+    $stmt = $conn->prepare($update_query);
+    $stmt->bind_param('i', $id_tugas);
+    $stmt->execute();
 }
 ?>
 
@@ -101,7 +128,7 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
 
     <!-- Topik dan Materi -->
     <div class="accordion" id="accordionExample">
-        <h3>Materi</h3>
+    <h3>Materi dan Tugas</h3>
         <?php
         while ($row_topik = mysqli_fetch_assoc($result_topik)) {
             $topik_id = $row_topik['topik_id'];
@@ -114,98 +141,43 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
                 </h2>
                 <div id="collapse<?php echo $topik_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $topik_id; ?>" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <?php if (isset($materi_by_topik[$topik_id])): ?>
-                            <?php foreach ($materi_by_topik[$topik_id] as $materi): ?>
-                                <div class="mb-3">
-                                    <a href="../uploads/<?php echo htmlspecialchars($materi['file']); ?>" class="btn btn-primary" download><?php echo htmlspecialchars($materi['judul']); ?></a>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p>Tidak ada materi untuk topik ini.</p>
-                        <?php endif; ?>
+                        <!-- Materi Section -->
+                        <h4>Materi</h4>
+                            <?php if (isset($materi_by_topik[$topik_id])): ?>
+                                <?php foreach ($materi_by_topik[$topik_id] as $materi): ?>
+                                    <div class="mb-3 <?php echo $materi['is_downloaded'] ? 'materi-done' : ''; ?>">
+                                        <a href="../uploads/<?php echo htmlspecialchars($materi['file']); ?>?id_materi=<?php echo $materi['id_materi']; ?>" class="btn btn-primary" download>
+                                            <?php echo htmlspecialchars($materi['judul']); ?>
+                                        </a>
+                                        <?php if ($materi['is_downloaded']): ?>
+                                            <span class="check-icon">✔</span>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p>Tidak ada materi untuk topik ini.</p>
+                            <?php endif; ?>
+
+
+                            <!-- Tugas Section -->
+                            <div class="mt-2 <?php echo isset($tugas_by_topik[$topik_id]['is_completed']) && $tugas_by_topik[$topik_id]['is_completed'] ? 'tugas-done' : ''; ?>">
+                                <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
+                                    Kerjakan Tugas
+                                </a>
+                                <?php if (isset($tugas_by_topik[$topik_id]['is_completed']) && $tugas_by_topik[$topik_id]['is_completed']): ?>
+                                    <span class="check-icon">✔</span>
+                                <?php endif; ?>
+                            </div>
                     </div>
+
                 </div>
+
             </div>
             <?php
         }
         ?>
     </div>
 
-    <!-- Tugas -->
-    <section class="tugas mt-4">
-        <h3>Tugas</h3>
-        <?php if ($result_tugas && mysqli_num_rows($result_tugas) > 0): ?>
-            <?php while ($row_tugas = mysqli_fetch_assoc($result_tugas)): ?>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
-                        <p class="card-text"><?php echo htmlspecialchars($row_tugas['keterangan']); ?></p>
-                        <p class="card-text"><strong>Tanggal Tenggat:</strong> <?php echo htmlspecialchars($row_tugas['tanggal_tenggat']); ?></p>
-                        
-                        <?php if ($row_tugas['opsi_tugas'] == 'teks'): ?>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitTugasModal<?php echo $row_tugas['id_tugas']; ?>">Kumpulkan Tugas</button>
-                            <a href="#" class="btn btn-primary">Lihat Nilai Tugas</a>
-                            <!-- Modal for Text Submission -->
-                            <div class="modal fade" id="submitTugasModal<?php echo $row_tugas['id_tugas']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Kumpulkan Tugas: <?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="kirim_tugas.php" method="post">
-                                                <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($row_tugas['id_tugas']); ?>">
-                                                <input type="hidden" name="topik_id" value="<?php echo htmlspecialchars($row_tugas['topik_id']); ?>">
-                                                <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
-                                                <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
-                                                <input type="hidden" name="nis_siswa" value="<?php echo htmlspecialchars($nis_siswa); ?>">
-                                                <div class="mb-3">
-                                                    <label for="jawaban" class="form-label">Jawaban:</label>
-                                                    <textarea class="form-control" id="jawaban" name="jawaban" rows="4" required></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Kirim Tugas</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php elseif ($row_tugas['opsi_tugas'] == 'upload'): ?>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadTugasModal<?php echo $row_tugas['id_tugas']; ?>">Kumpulkan Tugas</button>
-                            <a href="#" class="btn btn-primary">Lihat Nilai Tugas</a>
-                            <!-- Modal for File Upload -->
-                            <div class="modal fade" id="uploadTugasModal<?php echo $row_tugas['id_tugas']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Kumpulkan Tugas: <?php echo htmlspecialchars($row_tugas['judul']); ?></h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="upload_tugas.php" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="tugas_id" value="<?php echo htmlspecialchars($row_tugas['id_tugas']); ?>">
-                                                <input type="hidden" name="topik_id" value="<?php echo htmlspecialchars($row_tugas['topik_id']); ?>">
-                                                <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
-                                                <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
-                                                <input type="hidden" name="nis_siswa" value="<?php echo htmlspecialchars($nis_siswa); ?>">
-                                                <div class="mb-3">
-                                                    <label for="file_tugas" class="form-label">Upload File:</label>
-                                                    <input type="file" class="form-control" id="file_tugas" name="file_tugas" required>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Kirim Tugas</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <p>Belum ada tugas untuk mata pelajaran ini.</p>
-        <?php endif; ?>
-    </section>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

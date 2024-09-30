@@ -34,12 +34,15 @@ if (isset($_POST['save_changes'])) {
     // Proses upload gambar jika ada file yang diupload
     if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
         $targetDir = "../uploads/profile/"; // Direktori penyimpanan
-        $fileName = basename($_FILES["profileImage"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-
-        // Cek tipe file gambar
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+        $fileType = pathinfo($_FILES["profileImage"]["name"], PATHINFO_EXTENSION);
         $allowedTypes = array('jpg', 'png', 'jpeg', 'gif');
+
+        // Check file size (5MB limit)
+        $fileSize = $_FILES["profileImage"]["size"];
+        if ($fileSize > 5 * 1024 * 1024) { // 5 MB in bytes
+            echo "<div class='alert alert-danger'>Ukuran file tidak boleh lebih dari 5 MB.</div>";
+            exit();
+        }
 
         // Hapus gambar lama jika ada
         if (!empty($siswa['foto_profil']) && $siswa['foto_profil'] != 'default.png') {
@@ -50,16 +53,24 @@ if (isset($_POST['save_changes'])) {
         }
 
         if (in_array($fileType, $allowedTypes)) {
+            // Generate a new file name using nis_siswa and current timestamp
+            $newFileName = $nis_siswa . '_' . time() . '.' . $fileType; // NIS and timestamp
+
+            // $timestamp = date('H-i-s-u');
+            // $newFileName = $nis_siswa . '_' . $timestamp . '.' . $fileType; 
+
+            $targetFilePath = $targetDir . $newFileName; // Update target file path
+
             // Upload file ke folder
             if (move_uploaded_file($_FILES["profileImage"]["tmp_name"], $targetFilePath)) {
                 // Simpan path gambar ke database
-                $imageQuery = "UPDATE siswa SET foto_profil = '$fileName' WHERE nis = '$nis_siswa'";
+                $imageQuery = "UPDATE siswa SET foto_profil = '$newFileName' WHERE nis = '$nis_siswa'";
                 mysqli_query($conn, $imageQuery);
             } else {
-                echo "Terjadi kesalahan saat mengunggah file.";
+                echo "<div class='alert alert-danger'>Terjadi kesalahan saat mengunggah file.</div>";
             }
         } else {
-            echo "Hanya file JPG, JPEG, PNG, dan GIF yang diperbolehkan.";
+            echo "<div class='alert alert-danger'>Hanya file JPG, JPEG, PNG, dan GIF yang diperbolehkan.</div>";
         }
     }
 
@@ -72,7 +83,6 @@ if (isset($_POST['save_changes'])) {
     }
 }
 ?>
-
 
 <div id="mainContent" class="container mt-3">
     <div class="card-group"> <!-- Wrapper untuk menggabungkan kedua card -->

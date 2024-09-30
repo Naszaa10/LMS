@@ -17,7 +17,7 @@ $result = $stmt->get_result();
 <div id="mainContent" class="main">
         <div class="container mt-4">
             <h1 class="mb-4">Daftar Mata Pelajaran</h1>
-        <div class="row justify-content-center">
+        <div class="row justify-content-start">
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="col-md-6 mb-3">

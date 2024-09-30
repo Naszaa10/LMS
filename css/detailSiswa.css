@@ -1,5 +1,10 @@
+/* Container untuk konten utama */
+#mainContent {
+    margin-top: 20px;
+}
+
 /* Style untuk heading */
-.container h2 {
+h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -10,33 +15,35 @@
     border: none;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    padding-left: 10px; /* Menyesuaikan padding agar sejajar */
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 20px;
 }
 
 .card-title {
+    font-size: 1.5rem;
     font-weight: bold;
     color: #007bff;
-    margin-bottom: 15px; /* Memberi jarak antar elemen */
 }
 
 .card-text {
+    font-size: 1rem;
     color: #666;
-    margin-bottom: 10px; /* Memberi jarak antar paragraf */
+    margin-bottom: 10px;
 }
 
-
-
-/* Untuk Materi */
+/* Style untuk accordion (Materi dan Tugas) */
 .accordion {
-    margin: 10px; /* Menyesuaikan padding dengan tugas */
+    margin: 20px 0;
 }
 
 .accordion h3 {
+    font-size: 1.75rem;
     font-weight: bold;
     color: #333;
-    margin-bottom: 10px;
-    font-size: 30px;
+    margin-bottom: 20px;
 }
 
 .accordion-item {
@@ -49,7 +56,12 @@
     color: white;
     font-weight: bold;
     border-radius: 4px;
-    padding: 10px; /* Menyesuaikan padding agar lebih rapi */
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-button:hover {
+    background-color: #0056b3;
 }
 
 .accordion-button:not(.collapsed) {
@@ -57,144 +69,83 @@
 }
 
 .accordion-body {
-    background-color: #f1f1f1;
+    background-color: #f8f9fa;
+    padding: 20px;
     border-radius: 4px;
-    padding: 15px; /* Menambah padding untuk konten dalam accordion */
 }
 
-/* Style untuk tombol Materi */
+/* Style untuk Materi */
+.accordion-body h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
 .accordion-body .btn-primary {
+    width: 100%;
     background-color: #007bff;
     border: none;
-    margin-top: 10px;
     border-radius: 4px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 1rem;
 }
 
 .accordion-body .btn-primary:hover {
     background-color: #0056b3;
 }
 
+/* Style untuk Tugas Button */
+.accordion-body .btn-warning {
+    width: 100%;
+    background-color: #ffc107;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 10px 30px;
+    display: inline-block;
+}
+
+.accordion-body .btn-warning:hover {
+    background-color: #e0a800;
+}
+
 /* Style untuk section tugas */
-.tugas {
-    padding-left: 15px;
+.mt-2 {
+    margin-top: 10px;
 }
 
-/* Style untuk card tugas */
-.tugas .card {
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+/* Styling tombol Kerjakan Tugas */
+.btn-lg {
+    font-size: 1.25rem;
+    padding: 12px 24px;
+    border-radius: 6px;
 }
 
-/* Style untuk card-body */
-.tugas .card-body {
-    padding: 20px;
+.materi-done, .tugas-done {
+    position: relative;
+    display: inline-block;
 }
 
-/* Style untuk judul tugas */
-.tugas .card-title {
-    color: #007bff;
-    font-weight: bold;
-    margin-bottom: 10px;
+.materi-done .btn-primary, .tugas-done .btn-warning {
+    padding-right: 40px; /* Beri ruang untuk ikon ceklis */
 }
 
-/* Style untuk deskripsi tugas */
-.tugas .card-text {
-    color: #666;
-    margin-bottom: 10px;
+.check-icon {
+    display: none; /* Sembunyikan ikon ceklis secara default */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #28a745;
+    font-size: 1.5rem;
 }
 
-/* Style untuk tombol dalam tugas */
-.tugas .btn-primary {
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    margin-right: 10px;
+.materi-done .check-icon {
+    display: inline; /* Tampilkan ikon ceklis jika materi sudah diunduh */
 }
 
-.tugas .btn-primary:hover {
-    background-color: #0056b3;
-}
 
-/* Style untuk modal */
-.modal-header {
-    background-color: #007bff;
-    color: white;
-    align-items: start;
-}
 
-.modal-title {
-    font-weight: bold;
-    margin-top: 40px;
-}
-
-.modal-body .form-label {
-    font-weight: bold;
-}
-
-.modal-body .form-control {
-    border-radius: 4px;
-}
-
-.modal-body .btn-primary {
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-}
-
-.modal-body .btn-primary:hover {
-    background-color: #0056b3;
-}
-
-/* Responsive design untuk mobile */
-@media (max-width: 768px) {
-    #mainContent {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    .card-title {
-        font-size: 1.25rem;
-    }
-
-    .accordion {
-        padding-left: 10px;
-    }
-
-    .accordion-item {
-        margin-left: 10px;
-    }
-
-    .accordion-button {
-        font-size: 1rem;
-        padding: 8px; /* Mengurangi padding untuk tampilan mobile */
-    }
-
-    .accordion-body {
-        padding: 10px;
-    }
-    .tugas {
-        padding-left: 10px;
-    }
-
-    .tugas .card {
-        margin-left: 10px;
-    }
-
-    .tugas h3 {
-        font-size: 1.25rem;
-        margin-bottom: 15px;
-    }
-
-    .tugas .card-title {
-        font-size: 1rem;
-    }
-    .btn-primary{
-        margin: 5px;
-
-    }
-}

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2024 at 05:50 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- Generation Time: Sep 30, 2024 at 12:38 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,7 +61,7 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`nip`, `password`, `nama_guru`, `email`, `id_jurusan`, `foto_profil`) VALUES
-('NIP001', '$2y$10$XUwwAXO2WDJuclBBCuZDj.om1cyybHbH..ksg6mmsq579cDWhxE.C', 'Lela Rohayati, S.Pd', 'lelar@gmail.com', 1, 'IMG-20191009-WA0009.jpg'),
+('NIP001', '$2y$10$XUwwAXO2WDJuclBBCuZDj.om1cyybHbH..ksg6mmsq579cDWhxE.C', 'Lela Rohayati, S.Pd', 'lelar@gmail.com', 1, 'NIP001_1727692670.jpg'),
 ('NIP002', '$2y$10$FFynyYTXShvKm/end8IMDeBUCm6t28j16H0fdVi9T41r85O31utuu', 'Rian Kurnia', 'guru2@gmail.com', 2, 'user.jpg');
 
 -- --------------------------------------------------------
@@ -85,9 +85,10 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id_jadwal`, `nip`, `kode_mapel`, `hari`, `id_kelas`, `waktu_mulai`, `waktu_selesai`) VALUES
-(1, 'NIP001', 'WB001', 'Senin', 1, '10.00 WIB', '11.00 WIB'),
-(2, 'NIP001', 'KL001', 'Sabtu', 1, '10.00 WIB', '11.00 WIB'),
-(3, 'NIP001', 'WB001', 'Selasa', 3, '10.00 WIB', '11.00 WIB');
+(1, 'NIP001', 'WB001', 'Senin', 5, '10.00 WIB', '11.00 WIB'),
+(2, 'NIP001', 'KL001', 'Sabtu', 5, '10.00 WIB', '11.00 WIB'),
+(3, 'NIP001', 'WB001', 'Selasa', 5, '10.00 WIB', '11.00 WIB'),
+(4, 'NIP002', 'ZZ003', 'Kamis', 5, '11.00 WIB', '19.00 WIB');
 
 -- --------------------------------------------------------
 
@@ -118,6 +119,7 @@ INSERT INTO `jurusan` (`id_jurusan`, `nama_jurusan`) VALUES
 
 CREATE TABLE `kelas` (
   `id_kelas` int(11) NOT NULL,
+  `jenjang` int(2) NOT NULL,
   `nama_kelas` varchar(100) NOT NULL,
   `id_jurusan` int(4) NOT NULL,
   `id_tahun_ajaran` int(11) NOT NULL
@@ -127,11 +129,11 @@ CREATE TABLE `kelas` (
 -- Dumping data for table `kelas`
 --
 
-INSERT INTO `kelas` (`id_kelas`, `nama_kelas`, `id_jurusan`, `id_tahun_ajaran`) VALUES
-(1, '10 K3', 1, 2),
-(2, '10 K2', 1, 1),
-(3, '10 K1', 3, 1),
-(4, '10 L1', 4, 1);
+INSERT INTO `kelas` (`id_kelas`, `jenjang`, `nama_kelas`, `id_jurusan`, `id_tahun_ajaran`) VALUES
+(1, 0, '10 K3', 1, 2),
+(3, 0, '10 K1', 3, 1),
+(4, 0, '10 L1', 4, 1),
+(5, 11, 'K4', 4, 4);
 
 -- --------------------------------------------------------
 
@@ -153,7 +155,8 @@ CREATE TABLE `mata_pelajaran` (
 
 INSERT INTO `mata_pelajaran` (`kode_mapel`, `nama_mapel`, `deskripsi`, `jenis`, `gambar`) VALUES
 ('KL001', 'Kelistrikan', 'belajar', 'Teknik Listrik', '../uploads/gambar_mapel/logo.png'),
-('WB001', 'Desain Web', 'awdada', 'Teknik Komputer', '../uploads/gambar_mapel/banner.png');
+('WB001', 'Desain Web', 'awdada', 'Teknik Komputer', '../uploads/gambar_mapel/banner.png'),
+('ZZ003', 'Matematika', 'sadscxacadads', 'Umum', '../uploads/gambar_mapel/respon.png');
 
 -- --------------------------------------------------------
 
@@ -168,17 +171,18 @@ CREATE TABLE `materi` (
   `tanggal_unggah` date NOT NULL,
   `kode_mapel` varchar(50) DEFAULT NULL,
   `topik_id` int(11) DEFAULT NULL,
-  `id_kelas` int(11) DEFAULT NULL
+  `id_kelas` int(11) DEFAULT NULL,
+  `is_downloaded` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `materi`
 --
 
-INSERT INTO `materi` (`id_materi`, `judul`, `file`, `tanggal_unggah`, `kode_mapel`, `topik_id`, `id_kelas`) VALUES
-(2, 'Rekayasa Fitur', '../uploads/materi/Pertemuan 11 Sumber Daya Manusia Proyek.pptx', '2024-09-10', 'WB001', 2, 1),
-(3, 'Front End dan Back End', '../uploads/materi/NASZA DWI PRAYOGA CV (1).docx', '2024-09-10', 'WB001', 1, 1),
-(4, 'Laravel', '../uploads/materi/supardiiiiiiiiiiiiiiiiiiiiiiiiii (1).pptx', '2024-09-24', 'WB001', 1, 1);
+INSERT INTO `materi` (`id_materi`, `judul`, `file`, `tanggal_unggah`, `kode_mapel`, `topik_id`, `id_kelas`, `is_downloaded`) VALUES
+(2, 'Rekayasa Fitur', '../uploads/materi/Pertemuan 11 Sumber Daya Manusia Proyek.pptx', '2024-09-10', 'WB001', 2, 1, 0),
+(3, 'Front End dan Back End', '../uploads/materi/NASZA DWI PRAYOGA CV (1).docx', '2024-09-10', 'WB001', 1, 1, 0),
+(4, 'Laravel', '../uploads/materi/supardiiiiiiiiiiiiiiiiiiiiiiiiii (1).pptx', '2024-09-24', 'WB001', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -249,6 +253,14 @@ CREATE TABLE `pengumuman` (
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pengumuman`
+--
+
+INSERT INTO `pengumuman` (`id`, `judul_pengumuman`, `isi_pengumuman`, `role`, `tanggal`) VALUES
+(5, 'asdssssssssssssssssss', 'vvvvvvvvvvvvvvvvvvvvvvvvv', 'semua', '2024-09-29'),
+(6, 'ssssssssssssssssssssssss', 'cccccccccccccccccccccccccccccccc', 'guru', '2024-09-29');
+
 -- --------------------------------------------------------
 
 --
@@ -310,7 +322,7 @@ CREATE TABLE `siswa` (
 INSERT INTO `siswa` (`nis`, `password`, `nama_siswa`, `email`, `id_kelas`, `nama_wali_kelas`, `angkatan`, `id_jurusan`, `foto_profil`) VALUES
 ('12341234', '$2y$10$0XlShYY.sMRR0wpaXiAJ2.qZqcZs6/MZsTg238sX9VM.ccUWfyXjq', 'Nugroho', 'akbar123@gmail.com', 1, 'Nasza Dwi Prayoga', '2017', 1, ''),
 ('12345', '$2y$10$Gm.8c6K6bcvYTqmIpYs28.JNlRvdu1O4ZJxkdrj9Ji.FSmbgVqbuC', 'Akbar Krisdayanto', 'siswa3@gmail.com', 4, 'Nasza Dwi Prayoga', '2023', 4, 'user.jpg'),
-('12345678', '$2y$10$NX6uW7ukCCIgL/4qUho5nO940/J2WN5DYDsVO8UwXIq9xBuJ/OSJ6', 'Nasza Dwi Prayoga', 'siswa@gmail.com', 1, 'Faliq Zuldan Akbar', '2017', 1, 'ic_adrian.png');
+('12345678', '$2y$10$NX6uW7ukCCIgL/4qUho5nO940/J2WN5DYDsVO8UwXIq9xBuJ/OSJ6', 'Nasza Dwi Prayoga', 'siswa@gmail.com', 5, 'Faliq Zuldan Akbar', '2017', 1, '12345678_12-31-59-000000.jpg');
 
 -- --------------------------------------------------------
 
@@ -369,18 +381,19 @@ CREATE TABLE `tugas` (
   `tanggal_tenggat` date DEFAULT NULL,
   `topik_id` int(11) DEFAULT NULL,
   `id_kelas` int(11) DEFAULT NULL,
-  `kode_mapel` varchar(50) DEFAULT NULL
+  `kode_mapel` varchar(50) DEFAULT NULL,
+  `is_completed` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tugas`
 --
 
-INSERT INTO `tugas` (`id_tugas`, `judul`, `keterangan`, `opsi_tugas`, `tanggal_tenggat`, `topik_id`, `id_kelas`, `kode_mapel`) VALUES
-(1, 'Tugas 1', NULL, 'upload', '2024-09-11', 1, 1, 'WB001'),
-(2, 'Analisi Musik', NULL, 'teks', '2024-09-11', 2, 1, 'WB001'),
-(3, 'Analisi Musik', NULL, 'upload', '2024-09-26', 1, 1, 'WB001'),
-(4, 'Tugas 1', NULL, 'upload', '2024-09-25', 3, 1, 'WB001');
+INSERT INTO `tugas` (`id_tugas`, `judul`, `keterangan`, `opsi_tugas`, `tanggal_tenggat`, `topik_id`, `id_kelas`, `kode_mapel`, `is_completed`) VALUES
+(1, 'Tugas 1', NULL, 'upload', '2024-09-11', 1, 1, 'WB001', 0),
+(2, 'Analisi Musik', NULL, 'teks', '2024-09-11', 2, 1, 'WB001', 0),
+(3, 'Analisi Musik', NULL, 'upload', '2024-09-26', 1, 1, 'WB001', 0),
+(4, 'Tugas 1', NULL, 'upload', '2024-09-25', 3, 1, 'WB001', 0);
 
 --
 -- Indexes for dumped tables
@@ -523,7 +536,7 @@ ALTER TABLE `tugas`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -535,7 +548,7 @@ ALTER TABLE `jurusan`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `materi`
@@ -553,7 +566,7 @@ ALTER TABLE `pengumpulan_tugas`
 -- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pengunduhan_materi`
