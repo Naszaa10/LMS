@@ -57,8 +57,7 @@ body {
     color: #f5caca; /* Warna teks judul */
 }
 
-
-/* Dropdow sidebar */
+/* Dropdown sidebar */
 .dropdown-toggle {
     cursor: pointer; /* Pointer cursor for dropdown items */
 }
@@ -89,9 +88,6 @@ body {
     padding-left: 10px;
 }
 
-
-
-
 /* Page Content */
 #page-content-wrapper {
     width: 100%;
@@ -99,7 +95,6 @@ body {
     transition: padding-left 0.25s ease-out;
     padding-top: 50px;
 }
-
 
 /* Navbar Fixed Position */
 .navbar {
@@ -134,9 +129,7 @@ body {
     font-size: 15px;
 }
 
-
-
-/* Navbar atas dropdwon untuk profile */
+/* Navbar atas dropdown untuk profile */
 .dropdown-item {
     color: rgb(0, 0, 0);
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -165,9 +158,19 @@ body {
     display: none;
 }
 
-
-
-
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001; /* Above all other elements */
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 /* Responsive Behavior */
 .toggled .navbar {
@@ -180,9 +183,6 @@ body {
     background-color: #007bff;
     border: none;
 }
-
-
-
 
 /* Sidebar Toggle */
 .toggled #sidebar-wrapper {
@@ -204,22 +204,6 @@ footer {
     bottom: 0;
 }
 
-
-
-/* Responsive Behavior */
-@media (max-width: 768px) {
-    #sidebar-wrapper {
-        width: 100%;
-    }
-
-    #page-content-wrapper {
-        padding-left: 0;
-    }
-
-    .toggled #sidebar-wrapper {
-        margin-left: 0;
-    }
-}
 
 
 .container h1 {
@@ -256,7 +240,6 @@ footer {
     width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
     height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
     object-fit: contain; /* Memastikan gambar menutupi area card */
-    
 }
 
 .mapel .card-body {
@@ -275,165 +258,11 @@ footer {
     margin-bottom: 10px;
 }
 
-
 /* Responsive Adjustments */
-@media (max-width: 576px) {
-    .card-body {
-        padding: 15px;
-    }
-
-    .card-title {
-        font-size: 1.25rem;
-    }
-
-    .card-text {
-        font-size: 0.9rem;
-    }
-}
-
-
-/* Table Styles */
-.table {
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-}
-
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ced4da;
-}
-
-.table tbody td {
-    text-align: center;
-    padding: 5px;
-    border: none;
-    vertical-align: middle;
-    border: 1px solid #ced4da;
-}
-
-.table tbody tr:hover {
-    background-color: #00d9ff;
-}
-
-/* kelas siswa */
-.container p {
-    color: #000000;
-    text-align: left;
-}
-
-
-a{
-    text-decoration: none;
-}
-
-/* Styling untuk kontainer utama */
-#mainContent {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-}
-
-/* Styling untuk heading utama */
-#mainContent h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #343a40;
-}
-
-/* Deskripsi paragraf */
-#mainContent p {
-    color: #6c757d;
-    font-size: 1.2rem;
-}
-
-/* Wrapper untuk Sidebar dan Konten Utama */
-#wrapper {
-    display: flex;
-    flex-direction: row; /* Row layout untuk layar besar */
-}
-
-/* Sidebar */
-#sidebar-wrapper {
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    color: white;
-    padding: 10px;
-    overflow-y: auto;
-}
-
-/* --- Media Queries untuk Responsivitas --- */
-
-/* Untuk layar tablet (<= 768px) */
 @media (max-width: 768px) {
     #sidebar-wrapper {
-        width: 200px; /* Lebar sidebar lebih kecil di layar tablet */
-    }
-
-    #page-content-wrapper {
-        margin-left: 200px;
-    }
-
-    #mainContent h1 {
-        font-size: 2rem; /* Ukuran font heading berkurang di layar tablet */
-    }
-
-    #mainContent p {
-        font-size: 1rem; /* Ukuran font paragraf lebih kecil di tablet */
-    }
-}
-
-/* Untuk layar smartphone (<= 576px) */
-@media (max-width: 576px) {
-    #wrapper {
-        flex-direction: column; /* Sidebar dan konten utama vertikal di layar kecil */
-    }
-
-    #sidebar-wrapper {
-        width: 100%; /* Sidebar memenuhi lebar layar */
-        position: relative; /* Sidebar pindah ke atas konten */
-        height: auto; /* Tinggi sidebar mengikuti isi */
-    }
-
-    #page-content-wrapper {
-        margin-left: 0;
-        padding: 15px; /* Padding lebih kecil untuk layar sempit */
-    }
-
-    #mainContent h1 {
-        font-size: 1.8rem; /* Heading lebih kecil di layar smartphone */
-    }
-
-    #mainContent p {
-        font-size: 0.9rem; /* Font paragraf juga lebih kecil */
-    }
-}
-
-/* Untuk layar sangat kecil (<= 400px) */
-@media (max-width: 400px) {
-    #mainContent h1 {
-        font-size: 1.5rem; /* Ukuran heading lebih kecil lagi */
-    }
-
-    #mainContent p {
-        font-size: 0.8rem; /* Font paragraf lebih kecil */
-    }
-
-    #sidebar-wrapper {
-        padding: 5px; /* Padding sidebar lebih kecil */
-    }
-
-    #page-content-wrapper {
-        padding: 10px; /* Padding konten lebih kecil */
+        position: fixed; /* Overlay for small screens */
+        z-index: 1000; /* Make sure it appears above content */
+        left: 0; /* Align to the left */
     }
 }
