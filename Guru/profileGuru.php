@@ -10,16 +10,6 @@
 <body>
 <?php include '../navbar/navHeader.php'; ?>
 <?php
-session_start();
-include '../db.php'; // Menghubungkan dengan database
-
-// Pastikan guru sudah login
-if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
-    exit();
-}
-
-$nip = $_SESSION['teacher_nip'];
 
 // Ambil data siswa dari database
 $querySiswa = "SELECT * FROM guru WHERE nip = '$nip'";

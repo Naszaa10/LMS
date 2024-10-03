@@ -83,7 +83,7 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
 
 // Query untuk mendapatkan tugas berdasarkan topik_id dan id_kelas
 $query_tugas = "
-    SELECT t.id_tugas, t.judul, t.keterangan, t.is_completed, t.topik_id
+    SELECT t.id_tugas, t.judul, t.deskripsi_tugas, t.is_completed, t.topik_id
     FROM tugas t
     WHERE t.id_kelas = $id_kelas AND t.kode_mapel = '$kode_mapel'
 ";

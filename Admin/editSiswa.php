@@ -13,12 +13,12 @@ if (isset($_GET['nis'])) {
 
 // Mengambil data kelas untuk dropdown
 $kelas_options = "";
-$kelas_query = "SELECT id_kelas, nama_kelas FROM kelas";
+$kelas_query = "SELECT id_kelas, nama_kelas, jenjang FROM kelas";
 $kelas_result = $conn->query($kelas_query);
 if ($kelas_result->num_rows > 0) {
     while ($kelas = $kelas_result->fetch_assoc()) {
         $selected = ($kelas['id_kelas'] == $data_siswa['id_kelas']) ? 'selected' : '';
-        $kelas_options .= "<option value='" . htmlspecialchars($kelas['id_kelas']) . "' $selected>" . htmlspecialchars($kelas['nama_kelas']) . "</option>";
+        $kelas_options .= "<option value='" . htmlspecialchars($kelas['id_kelas']) . "' $selected>" . htmlspecialchars($kelas['jenjang']) . ' ' . htmlspecialchars($kelas['nama_kelas']) . "</option>";
     }
 }
 
@@ -100,7 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="id_kelas">Kelas</label>
                 <select class="form-control" id="id_kelas" name="id_kelas" required>
-                    <option value="">Pilih Kelas</option>
                     <?php echo $kelas_options; ?>
                 </select>
             </div>
@@ -113,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="jurusan">Jurusan</label>
                 <select class="form-control" id="id_jurusan" name="id_jurusan" required>
-                    <option value="">Pilih Jurusan</option>
                     <?php echo $jurusan_options; ?>
                 </select>
             </div>

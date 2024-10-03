@@ -74,6 +74,17 @@ h2 {
     border-radius: 4px;
 }
 
+.btn-large {
+    padding: 15px 30px; /* Adjust padding for larger buttons */
+    font-size: 1.2rem; /* Increase font size */
+}
+
+.check-icon {
+    margin-left: 10px; /* Space between button and checkmark */
+    color: green; /* Color for the checkmark */
+}
+
+
 /* Style untuk Materi */
 .accordion-body h4 {
     font-size: 1.25rem;

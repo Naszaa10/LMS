@@ -95,14 +95,14 @@ $result = $stmt->get_result();
                                             <?php echo htmlspecialchars(basename($row['file_path'])); ?>
                                         </a>
                                     <?php elseif ($row['tugas_text']): ?>
-                                        <p><?php echo htmlspecialchars($row['tugas_text']); ?></p>
+                                        <div><?php echo nl2br(htmlspecialchars($row['tugas_text'])); ?></div>
                                     <?php else: ?>
                                         Tidak Ada
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($row['tanggal_pengumpulan']); ?></td>
                                 <td>
-                                    <input type="number" name="nilai[<?php echo htmlspecialchars($row['nis']); ?>]" value="<?php echo htmlspecialchars($row['nilai_tugas']); ?>" step="0.1">
+                                    <input type="number" name="nilai[<?php echo htmlspecialchars($row['nis']); ?>]" value="<?php echo htmlspecialchars($row['nilai_tugas']); ?>" step="0.1" class="form-control">
                                     <input type="hidden" name="id_tugas[<?php echo htmlspecialchars($row['nis']); ?>]" value="<?php echo htmlspecialchars($row['id_tugas']); ?>">
                                 </td>
                             </tr>
