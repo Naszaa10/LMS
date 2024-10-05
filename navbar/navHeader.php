@@ -75,9 +75,3 @@ $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto
                         </div>
                     </div>
             </nav>
-
-        <!-- <footer>
-        <p>&copy; 2024 LMS SMK AL FALAH. All rights reserved.</p>
-    </footer> -->
-</body>
-</html>

@@ -15,31 +15,33 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #1d1e1f; /* Warna latar belakang sidebar */
-    color: #ff0000; /* Warna teks */
-    box-shadow: 2px 0 5px rgba(255, 255, 255, 0.3); /* Efek bayangan sidebar */
-    overflow-y: auto; /* Menambahkan scroll jika konten melebihi tinggi */
-    transition: all 0.3s ease; /* Animasi transisi */
+    background-color: #282a36; /* Warna latar belakang sidebar lebih gelap */
+    color: #f8f9fa; /* Warna teks lebih terang */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Efek bayangan sidebar */
+    overflow-y: auto;
+    transition: all 0.3s ease; /* Transisi untuk buka-tutup */
     z-index: 9999;
 }
 
 .sidebar-heading {
-    border-bottom: 1px solid #ff0000; /* Garis bawah pada heading */
+    border-bottom: 1px solid #44475a;
 }
 
 .logo-img {
-    max-width: 100px; /* Ukuran maksimal logo */
+    max-width: 100px;
+    border-radius: 50%; /* Membulatkan logo */
 }
 
 .list-group-item {
-    background-color: #1d1d1d;
-    color: #ffffff;
-    border: none; /* Menghilangkan border pada item */
-    border-radius: 0; /* Menghilangkan border-radius pada item */
-    padding: 10px 20px; /* Padding item */
-    font-size: 16px; /* Ukuran font item */
-    transition: background-color 0.3s, color 0.3s; /* Efek transisi */
+    background-color: #282a36;
+    color: #f8f9fa;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s ease; /* Menambahkan efek transformasi */
 }
+
 
 .list-group-item:hover {
     background-color: #007bff; /* Warna latar belakang saat hover */

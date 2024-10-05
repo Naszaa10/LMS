@@ -2,6 +2,13 @@
 session_start();
 include '../db.php'; // Koneksi database
 
+// Pastikan siswa sudah login
+if (!isset($_SESSION['nis_siswa'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+
 // Ambil NIS dari sesi (asumsi Anda menyimpan NIS siswa di session)
 $nis_siswa = $_SESSION['nis_siswa'];
 
@@ -17,28 +24,39 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISWA</title>
+    <title>Dashboard Siswa - SMK AlFALAH</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="..\css\styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4">
+            <div class="sidebar-heading text-center">
                 <img src="..\uploads\gambar\logo.png" alt="Logo" class="logo-img">
-                <h4 class="mt-2">SMK AlFALAH</h4>
+                <h4>SMK AlFALAH</h4>
             </div>
             <div class="list-group list-group-flush">
-                <a href="dasboardSiswa.php" class="list-group-item list-group-item-action">Dashboard</a>
-                <a href="index.php" class="list-group-item list-group-item-action">Mata Pelajaran</a>
-                <a href="jadwalSiswa.php" class="list-group-item list-group-item-action">Jadwal</a>
-                <a href="nilaiSiswa.php" class="list-group-item list-group-item-action">Nilai</a>
-                <a href="nilaiTugas.php" class="list-group-item list-group-item-action">Nilai Tugas</a>
+                <a href="dasboardSiswa.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-home-alt"></i> Dashboard
+                </a>
+                <a href="index.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-book"></i> Mata Pelajaran
+                </a>
+                <a href="jadwalSiswa.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-calendar-alt"></i> Jadwal
+                </a>
+                <a href="nilaiSiswa.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-graduation-cap"></i> Nilai
+                </a>
+                <a href="nilaiTugas.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-pencil-alt"></i> Nilai Tugas
+                </a>
             </div>
         </div>
         
-
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -51,25 +69,19 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
                             </li>
                         </ul>
                     </div>
-                        <div class="dropdown">
-                            <ul class="navbar-nav ms-auto">
-                                <li class="nav-item-dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="<?php echo $fotoProfil; ?>" class="rounded-circle" alt="Profile Image" style="width: 30px; height: 30px;">
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
-                                        <li><a class="dropdown-item" href="profileSiswa.php">Profile</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="dropdown">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item-dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="<?php echo $fotoProfil; ?>" class="rounded-circle" alt="Profile Image" style="width: 30px; height: 30px;">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
+                                    <li><a class="dropdown-item" href="profileSiswa.php">Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
+                </div>
             </nav>
-
-        <!-- <footer>
-        <p>&copy; 2024 LMS SMK AL FALAH. All rights reserved.</p>
-    </footer> -->
-</body>
-</html>

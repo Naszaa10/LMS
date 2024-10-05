@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
     <style>
         /* CSS untuk mengatur ukuran gambar */
         .card-img-top {
@@ -18,12 +17,8 @@
 </head>
 <body>
 <?php
-session_start();
 include '../navbar/navSiswa.php';
-include '../db.php'; // File koneksi ke database
-
-// Ambil NIS siswa yang login
-$nis_siswa = $_SESSION['nis_siswa']; // Sesuaikan dengan variabel session yang kamu gunakan
+ // Sesuaikan dengan variabel session yang kamu gunakan
 
 // Query untuk mendapatkan tugas yang belum dikerjakan oleh siswa
 $query_tugas = "
@@ -63,25 +58,30 @@ $result_mapel = mysqli_query($conn, $query_mapel);
 ?>
 
 
-
-
-
 <!-- Main Content -->
 <div id="mainContent" class="container mt-4">
     <!-- Upcoming Tasks -->
     <section class="tasks mb-4">
-    <div class="card mb-4 bg-primary">
-        <h3>Upcoming Tasks</h3>
-        <ul class="list-group">
-            <?php while ($row = mysqli_fetch_assoc($result_tugas)): ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center bg-success">
-                    <a href="tugas.php?topik_id=<?php echo htmlspecialchars($row['topik_id']) ;?>&kode_mapel=<?php echo htmlspecialchars($row['kode_mapel']); ?>" class="text-white text-decoration-none">
-                        <?php echo htmlspecialchars($row['judul']); ?>
-                    </a>
-                    <span class="badge bg-primary rounded-pill">Due <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></span>
-                </li>
-            <?php endwhile; ?>
-        </ul>
+    <div class="card mb-4 bg-primary text-white">
+        <div class="card-header text-center">
+            <h3>Upcoming Tasks</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <?php if (mysqli_num_rows($result_tugas) > 0): ?>
+                    <?php while ($row = mysqli_fetch_assoc($result_tugas)): ?>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-light text-dark border-0">
+                            <a href="tugas.php?topik_id=<?php echo htmlspecialchars($row['topik_id']); ?>&kode_mapel=<?php echo htmlspecialchars($row['kode_mapel']); ?>" class="text-decoration-none">
+                                <?php echo htmlspecialchars($row['judul']); ?>
+                            </a>
+                            <span class="badge bg-danger rounded-pill">Due <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></span>
+                        </li>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <li class="list-group-item text-center">No upcoming tasks.</li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </div>
     </section>
 

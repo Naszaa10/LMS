@@ -1,9 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilai Tugas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/nilaiTugas.css">
+</head>
+<body>
+<?php include '../navbar/navSiswa.php'; ?>
 <?php
-session_start();
-include '../db.php'; // File koneksi ke database
-
-// Ambil NIS siswa yang login
-$nis_siswa = $_SESSION['nis_siswa'];
 
 // Query untuk mengambil nilai tugas berdasarkan NIS
 $query = "
@@ -26,18 +32,6 @@ $query = "
 
 $result = mysqli_query($conn, $query);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nilai Tugas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/nilaiTugas.css">
-</head>
-<body>
-<?php include '../navbar/navSiswa.php'; ?>
     <div id="mainContent" class="container mt-4">
         <h2 class="mb-4">Nilai Tugas</h2>
         <div class="mb-6">

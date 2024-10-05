@@ -1,9 +1,4 @@
 <?php
-session_start();
-include '../db.php';
-
-// Asumsi NIS disimpan dalam sesi setelah login
-$nis_siswa = $_SESSION['nis_siswa']; // Pastikan variabel sesi ini di-set saat login
 
 // Cek apakah form telah disubmit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

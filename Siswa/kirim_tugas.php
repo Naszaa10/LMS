@@ -1,14 +1,6 @@
 <?php
-session_start();
 include '../db.php';
 
-// Pastikan siswa sudah login
-if (!isset($_SESSION['nis_siswa'])) {
-    header("Location: ../login.php");
-    exit();
-}
-
-$nis_siswa = $_SESSION['nis_siswa'];
 $tugas_id = $_POST['tugas_id'];
 $topik_id = $_POST['topik_id'];
 $kode_mapel = $_POST['kode_mapel'];

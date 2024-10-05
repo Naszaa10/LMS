@@ -10,16 +10,10 @@
 </head>
 <body>
 <?php
-session_start();
 include '../navbar/navSiswa.php';
-include '../db.php';
-include '../navbar/navFooter.php';
 
 // Ambil kode mapel dari URL
 $kode_mapel = $_GET['kode_mapel'];
-
-// Ambil NIS siswa dari session
-$nis_siswa = $_SESSION['nis_siswa'];
 
 // Query untuk mendapatkan ID kelas siswa
 $query_kelas = "
@@ -83,7 +77,7 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
 
 // Query untuk mendapatkan tugas berdasarkan topik_id dan id_kelas
 $query_tugas = "
-    SELECT t.id_tugas, t.judul, t.deskripsi_tugas, t.is_completed, t.topik_id
+    SELECT t.id_tugas, t.judul, t.deskripsi_tugas, t.topik_id
     FROM tugas t
     WHERE t.id_kelas = $id_kelas AND t.kode_mapel = '$kode_mapel'
 ";
@@ -129,55 +123,47 @@ if (isset($_GET['id_tugas'])) {
     <!-- Topik dan Materi -->
     <div class="accordion" id="accordionExample">
     <h3>Materi dan Tugas</h3>
-        <?php
-        while ($row_topik = mysqli_fetch_assoc($result_topik)) {
-            $topik_id = $row_topik['topik_id'];
-            ?>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading<?php echo $topik_id; ?>">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $topik_id; ?>" aria-expanded="true" aria-controls="collapse<?php echo $topik_id; ?>">
-                        <?php echo htmlspecialchars($row_topik['nama_topik']); ?>
-                    </button>
-                </h2>
-                <div id="collapse<?php echo $topik_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $topik_id; ?>" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <!-- Materi Section -->
-                        <h4>Materi</h4>
-                            <?php if (isset($materi_by_topik[$topik_id])): ?>
-                                <?php foreach ($materi_by_topik[$topik_id] as $materi): ?>
-                                    <div class="mb-3 <?php echo $materi['is_downloaded'] ? 'materi-done' : ''; ?>">
-                                        <a href="../uploads/<?php echo htmlspecialchars($materi['file']); ?>?id_materi=<?php echo $materi['id_materi']; ?>" class="btn btn-primary" download>
-                                            <?php echo htmlspecialchars($materi['judul']); ?>
-                                        </a>
-                                        <?php if ($materi['is_downloaded']): ?>
-                                            <span class="check-icon">✔</span>
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <p>Tidak ada materi untuk topik ini.</p>
-                            <?php endif; ?>
-
-
-                            <!-- Tugas Section -->
-                            <div class="mt-2 <?php echo isset($tugas_by_topik[$topik_id]['is_completed']) && $tugas_by_topik[$topik_id]['is_completed'] ? 'tugas-done' : ''; ?>">
-                                <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
-                                    Kerjakan Tugas
+    <?php
+    while ($row_topik = mysqli_fetch_assoc($result_topik)) {
+        $topik_id = $row_topik['topik_id'];
+        ?>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading<?php echo $topik_id; ?>">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $topik_id; ?>" aria-expanded="true" aria-controls="collapse<?php echo $topik_id; ?>">
+                    <?php echo htmlspecialchars($row_topik['nama_topik']); ?>
+                </button>
+            </h2>
+            <div id="collapse<?php echo $topik_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $topik_id; ?>" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <!-- Materi Section -->
+                    <h4>Materi</h4>
+                    <?php if (isset($materi_by_topik[$topik_id])): ?>
+                        <?php foreach ($materi_by_topik[$topik_id] as $materi): ?>
+                            <div class="mb-3 <?php echo $materi['is_downloaded'] ? 'materi-done' : ''; ?>">
+                                <a href="../uploads/<?php echo htmlspecialchars($materi['file']); ?>?id_materi=<?php echo $materi['id_materi']; ?>" class="btn btn-primary" download>
+                                    <?php echo htmlspecialchars($materi['judul']); ?>
                                 </a>
-                                <?php if (isset($tugas_by_topik[$topik_id]['is_completed']) && $tugas_by_topik[$topik_id]['is_completed']): ?>
+                                <?php if ($materi['is_downloaded']): ?>
                                     <span class="check-icon">✔</span>
                                 <?php endif; ?>
                             </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Tidak ada materi untuk topik ini.</p>
+                    <?php endif; ?>
+
+                    <!-- Tugas Section -->
+                    <div class="mt-2">
+                        <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
+                            Kerjakan Tugas
+                        </a>
                     </div>
-
                 </div>
-
             </div>
-            <?php
-        }
-        ?>
-    </div>
-
+        </div>
+        <?php
+    }
+    ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

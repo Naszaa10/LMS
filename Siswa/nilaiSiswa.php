@@ -9,14 +9,7 @@
 </head>
 <body>
 <?php
-    session_start();
     include '../navbar/navSiswa.php';
-
-    // Koneksi ke database
-    include '../db.php';
-
-    // Ambil nis dari sesi login
-    $nis = $_SESSION['nis_siswa']; // Ganti sesuai dengan cara Anda menyimpan NIS di sesi
 
     // Ambil tahun ajaran dari formulir jika ada
     $tahunAjaran = isset($_POST['tahun_ajaran']) ? $_POST['tahun_ajaran'] : '';
@@ -25,7 +18,7 @@
     $querySiswa = "SELECT siswa.nama_siswa, siswa.nama_wali_kelas, kelas.nama_kelas
     FROM siswa
     JOIN kelas ON siswa.id_kelas = kelas.id_kelas
-    WHERE siswa.nis = '$nis'";
+    WHERE siswa.nis = '$nis_siswa'";
     $resultSiswa = mysqli_query($conn, $querySiswa);
     $dataSiswa = mysqli_fetch_assoc($resultSiswa);
 
@@ -37,12 +30,12 @@
     $queryNilai = "SELECT mata_pelajaran.nama_mapel, nilai.nilai 
                    FROM nilai 
                    JOIN mata_pelajaran ON nilai.kode_mapel = mata_pelajaran.kode_mapel 
-                   WHERE nilai.nis = '$nis' AND nilai.id_tahun_ajaran = '$tahunAjaran'";
+                   WHERE nilai.nis = '$nis_siswa' AND nilai.id_tahun_ajaran = '$tahunAjaran'";
     $resultNilai = mysqli_query($conn, $queryNilai);
 ?>
 
 <div id="mainContent">
-    <div class="container mt-0">
+    <div class="container mt-4">
         <h2 class="mb-4">Nilai Siswa</h2>
 
         <form method="POST" action="">

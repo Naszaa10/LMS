@@ -9,17 +9,10 @@
 </head>
 <body>
 <?php
-    session_start();
     include '../navbar/navSiswa.php';
 
-    // Koneksi ke database
-    include '../db.php';
-
-    // Ambil nis dari sesi login
-    $nis = $_SESSION['nis_siswa']; // Ganti sesuai dengan cara Anda menyimpan NIS di sesi
-
     // Ambil id_kelas siswa
-    $queryKelas = "SELECT id_kelas,nama_siswa FROM siswa WHERE nis = '$nis'";
+    $queryKelas = "SELECT id_kelas,nama_siswa FROM siswa WHERE nis = '$nis_siswa'";
     $resultKelas = mysqli_query($conn, $queryKelas);
     $dataKelas = mysqli_fetch_assoc($resultKelas);
     $idKelas = $dataKelas['id_kelas'];

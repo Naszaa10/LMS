@@ -9,12 +9,7 @@
 </head>
 <body>
 <?php
-session_start();
 include '../navbar/navSiswa.php'; // Navbar siswa
-include '../db.php'; // Koneksi database
-
-// Ambil NIS dari sesi
-$nis_siswa = $_SESSION['nis_siswa'];
 
 // Ambil data siswa dari database
 $querySiswa = "SELECT * FROM siswa WHERE nis = '$nis_siswa'";

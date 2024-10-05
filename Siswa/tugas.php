@@ -10,16 +10,11 @@
 </head>
 <body>
 <?php
-session_start();
 include '../navbar/navSiswa.php';
-include '../db.php';
 
 // Ambil topik_id dan kode_mapel dari URL
 $topik_id = $_GET['topik_id'];
 $kode_mapel = $_GET['kode_mapel'];
-
-// Ambil NIS siswa dari session
-$nis_siswa = $_SESSION['nis_siswa'];
 
 // Query untuk mengambil id_kelas berdasarkan nis_siswa
 $query_kelas = "SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa'";
@@ -56,7 +51,7 @@ $tugas = mysqli_fetch_assoc($result_tugas);
             <?php if (!empty($tugas['file_tugas'])): ?>
                 <p>
                     <strong>Download File Tugas:</strong> 
-                    <a href="../upload/tugasguru/<?php echo htmlspecialchars($tugas['file_tugas']); ?>" class="btn btn-link" download>Download</a>
+                    <a href="../uploads/tugasguru/<?php echo htmlspecialchars($tugas['file_tugas']); ?>" class="btn btn-link" download>Download</a>
                 </p>
             <?php endif; ?>
 
