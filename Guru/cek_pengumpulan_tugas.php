@@ -60,6 +60,9 @@ $result = $stmt->get_result();
     <title>Cek Pengumpulan Tugas</title>
     <link rel="stylesheet" href="../css/detailMapel.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- CKEditor CDN -->
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <body>
     <?php include '../navbar/navHeader.php'; ?>
@@ -95,7 +98,10 @@ $result = $stmt->get_result();
                                             <?php echo htmlspecialchars(basename($row['file_path'])); ?>
                                         </a>
                                     <?php elseif ($row['tugas_text']): ?>
-                                        <div><?php echo nl2br(htmlspecialchars($row['tugas_text'])); ?></div>
+                                        <!-- Tampilkan jawaban tugas dalam CKEditor -->
+                                        <textarea name="tugas_text[<?php echo htmlspecialchars($row['nis']); ?>]" class="ckeditor">
+                                            <?php echo htmlspecialchars($row['tugas_text']); ?>
+                                        </textarea>
                                     <?php else: ?>
                                         Tidak Ada
                                     <?php endif; ?>
@@ -117,6 +123,11 @@ $result = $stmt->get_result();
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Inisialisasi CKEditor untuk semua elemen textarea -->
+    <script>
+        CKEDITOR.replaceAll('ckeditor');
+    </script>
 </body>
 <?php include '../navbar/navFooter.php'; ?>
 </html>

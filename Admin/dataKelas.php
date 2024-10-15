@@ -12,9 +12,9 @@ if (isset($_GET['hapus_kelas'])) {
     $stmt->bind_param("i", $id_kelas);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Kelas berhasil dihapus!'); window.location.href='dataKelas.php';</script>";
+        header('Location: dataKelas.php'); // Kembali ke halaman data siswa setelah menghapus
     } else {
-        echo "<script>alert('Gagal menghapus kelas!');</script>";
+        echo "Gagal menghapus data kelas.";
     }
 }
 
@@ -29,7 +29,7 @@ $search = isset($_POST['search']) ? $_POST['search'] : '';
 // Menghitung total data kelas berdasarkan pencarian
 $total_query = "SELECT COUNT(*) AS total FROM kelas 
                 INNER JOIN jurusan ON kelas.id_jurusan = jurusan.id_jurusan 
-                WHERE nama_kelas LIKE ? OR jurusan.nama_jurusan LIKE ?";
+                WHERE jenjang LIKE ? OR jurusan.nama_jurusan LIKE ?";
 $search_param = "%" . $search . "%";
 $stmt_total = $conn->prepare($total_query);
 $stmt_total->bind_param("ss", $search_param, $search_param);
@@ -43,7 +43,7 @@ $sql = "SELECT kelas.*, tahun_ajaran.tahun_ajaran, jurusan.nama_jurusan
         FROM kelas 
         INNER JOIN tahun_ajaran ON kelas.id_tahun_ajaran = tahun_ajaran.id_tahun_ajaran 
         INNER JOIN jurusan ON kelas.id_jurusan = jurusan.id_jurusan
-        WHERE kelas.nama_kelas LIKE ? OR jurusan.nama_jurusan LIKE ?
+        WHERE kelas.jenjang LIKE ? OR jurusan.nama_jurusan LIKE ?
         LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ssii", $search_param, $search_param, $limit, $offset);

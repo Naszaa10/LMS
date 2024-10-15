@@ -13,7 +13,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 $total_siswa_query = "SELECT COUNT(*) AS total FROM siswa
                        JOIN kelas ON siswa.id_kelas = kelas.id_kelas
                        JOIN jurusan ON siswa.id_jurusan = jurusan.id_jurusan
-                       WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%'";
+                       WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.jenjang LIKE '%$search%' OR siswa.nis LIKE '%$search%'";
 $total_siswa_result = $conn->query($total_siswa_query);
 $total_siswa = $total_siswa_result->fetch_assoc()['total'];
 $total_pages_siswa = ceil($total_siswa / $limit);
@@ -23,7 +23,7 @@ $sql_siswa = "SELECT siswa.nis, siswa.nama_siswa, siswa.email, kelas.nama_kelas,
               FROM siswa
               JOIN kelas ON siswa.id_kelas = kelas.id_kelas
               JOIN jurusan ON siswa.id_jurusan = jurusan.id_jurusan
-              WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%' OR kelas.jenjang LIKE '%$search%'
+              WHERE siswa.nama_siswa LIKE '%$search%' OR kelas.nama_kelas LIKE '%$search%' OR kelas.jenjang LIKE '%$search%' OR siswa.nis LIKE '%$search%'
               LIMIT $limit OFFSET $offset_siswa";
 $result_siswa = $conn->query($sql_siswa);
 

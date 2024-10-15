@@ -67,6 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Menjalankan statement
     if ($stmt->execute()) {
         echo "<p>Mata pelajaran berhasil ditambahkan.</p>";
+        header("Location: dataMapel.php");
+        exit();
     } else {
         echo "<p>Error: " . $stmt->error . "</p>";
     }

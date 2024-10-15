@@ -19,11 +19,12 @@ if (isset($_POST['submit_kelas'])) {
     $sql = "INSERT INTO kelas (nama_kelas, id_tahun_ajaran, id_jurusan, jenjang) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("siii", $nama_kelas, $id_tahun_ajaran, $id_jurusan, $jenjang);
-
+    
     if ($stmt->execute()) {
-        echo "<script>alert('Kelas berhasil ditambahkan!'); window.location.href='dataKelas.php';</script>";
+        header("Location: dataKelas.php");
+        exit();
     } else {
-        echo "<script>alert('Gagal menambahkan kelas!');</script>";
+        echo "<p>Error: " . $stmt->error . "</p>";
     }
 }
 

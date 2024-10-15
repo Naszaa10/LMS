@@ -87,12 +87,10 @@ if (isset($_GET['hapus_mapel'])) {
     $stmt->bind_param("s", $kode_mapel);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Mata pelajaran berhasil dihapus!'); window.location.href='dataMapel.php';</script>";
+        header("Location: dataMapel.php");
     } else {
-        echo "<script>alert('Gagal menghapus mata pelajaran!');</script>";
+        echo "Gagal menghapus data kelas.";
     }
-
-    $stmt->close();
 }
 
 // Menutup koneksi

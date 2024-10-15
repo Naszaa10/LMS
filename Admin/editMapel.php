@@ -36,9 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_update->bind_param("sssss", $nama_mapel, $deskripsi, $jenis, $target_file, $kode_mapel);
 
     if ($stmt_update->execute()) {
-        echo "<script>alert('Mata pelajaran berhasil diperbarui!'); window.location.href='dataMapel.php';</script>";
+        header("Location: dataMapel.php");
+        exit();
     } else {
-        echo "<script>alert('Gagal memperbarui mata pelajaran!');</script>";
+        echo "<p>Error: " . $stmt->error . "</p>";
     }
 
     $stmt_update->close();

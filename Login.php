@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
+<?php include 'navbar/navHome.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-<?php include 'navbar/navHome.php'; ?>
+
     <div class="login-container">
         <div class="card">
             <h2>Login</h2>
