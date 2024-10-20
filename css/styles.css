@@ -1,14 +1,4 @@
-:root {
-    --sidebar-bg: #282a36;
-    --sidebar-text: #f8f9fa;
-    --sidebar-hover-bg: #007bff;
-    --sidebar-active-bg: #d0ff01;
-    --sidebar-heading: #f5caca;
-    --navbar-bg: #f8f9fa;
-    --navbar-text: #000;
-    --card-shadow: rgba(0, 0, 0, 0.2);
-}
-
+/* General Styling */
 body {
     overflow-x: hidden;
     text-decoration: none;
@@ -25,98 +15,104 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-    overflow-y: auto;
-    transition: all 0.3s ease;
+    background: linear-gradient(to bottom, #b3cde0, #ffffff); /* Warna latar belakang sidebar */
+    color: #ff0000; /* Warna teks */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Efek bayangan sidebar */
+    overflow-y: auto; /* Menambahkan scroll jika konten melebihi tinggi */
+    transition: all 0.3s ease; /* Animasi transisi */
     z-index: 9999;
 }
 
 .sidebar-heading {
-    border-bottom: 1px solid #44475a;
-    padding: 10px;
-    font-size: 20px;
-    color: var(--sidebar-heading);
+    border-bottom: 1px solid #c5b9b9; /* Garis bawah pada heading */
 }
 
 .logo-img {
-    max-width: 100px;
-    border-radius: 50%;
+    max-width: 100px; /* Ukuran maksimal logo */
 }
 
-.list-group-item {
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s ease;
+.sidebar-item {
+    text-decoration: none;
+    color: #0d0f11;
+    border: none; /* Menghilangkan border pada item */
+    border-radius: 0; /* Menghilangkan border-radius pada item */
+    padding: 10px 20px; /* Padding item */
+    font-size: 16px; /* Ukuran font item */
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, color 0.3s; /* Efek transisi */
 }
 
-.list-group-item:hover {
-    background-color: var(--sidebar-hover-bg);
-    color: #ffffff;
+a {
+    text-decoration: none;
 }
 
-.list-group-item.active {
-    background-color: var(--sidebar-active-bg);
-    color: #ffffff;
+.sidebar-item:hover {
+    text-decoration: none;
+    background-color: #8ba9ca; /* Warna latar belakang saat hover */
+    color: #118d17; /* Warna teks saat hover */
 }
 
+.sidebar-item.active {
+    background: #d0ff01; /* Warna latar belakang item aktif */
+     /* Warna teks item aktif */
+}
+
+.sidebar-heading h4 {
+    font-size: 20px; /* Ukuran font judul */
+    margin: 0; /* Menghilangkan margin default */
+    color: #2c3e50; /* Warna teks judul */
+}
+
+/* Dropdown sidebar */
 .dropdown-toggle {
-    cursor: pointer;
+    cursor: pointer; /* Pointer cursor for dropdown items */
 }
 
 .list-group .collapse {
-    display: none;
+    display: none; /* Hide submenu initially */
 }
 
 .list-group .collapse.show {
-    display: block;
+    display: block; /* Show submenu when active */
 }
 
 .list-group-item .dropdown-toggle::after {
-    content: " ▼";
+    content: " ▼"; /* Dropdown arrow */
     font-size: 20px;
-    float: right;
+    float: right; /* Align arrow to the right */
 }
 
 .list-group-item .dropdown-toggle.collapsed::after {
-    content: " ▶";
+    content: " ▶"; /* Arrow for collapsed state */
 }
 
+/* Optional: Styling for dropdown items */
 .list-group .list-group-item a {
-    text-decoration: none;
-    color: #a09999;
+    text-decoration: none; /* Remove underline from links */
+    color: #a09999; /* Text color for dropdown items */
+    display: block;
     padding-left: 10px;
 }
 
 /* Page Content */
 #page-content-wrapper {
     width: 100%;
-    padding-left: 260px;
-    transition: padding-left 0.25s ease;
+    padding-left: 260px; /* Adjust based on sidebar width */
+    transition: padding-left 0.25s ease-out;
     padding-top: 50px;
 }
 
-/* Navbar */
+/* Navbar Fixed Position */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 250px;
-    width: calc(100% - 250px);
-    z-index: 1000;
-    background-color: var(--navbar-bg);
-    border-bottom: 1px solid #dee2e6;
-    transition: left 0.3s ease, width 0.3s ease;
-}
-
-.navbar .navbar-nav .nav-link {
-    color: var(--navbar-text);
-    font-size: 20px;
-    font-weight: bolder;
-    font-family: 'Calibri';
+    position: fixed; /* Menempatkan navbar tetap di bagian atas */
+    top: 0; /* Perbaiki nilai 'top' menjadi 0 */
+    left: 250px; /* Menyesuaikan posisi berdasarkan lebar sidebar */
+    width: calc(100% - 250px); /* Menghindari overlap dengan sidebar */
+    z-index: 1000; /* Pastikan navbar berada di atas elemen lain */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #000000; /* Warna latar belakang navbar */
+    border-bottom: 1px solid #b3cde0; /* Garis bawah untuk navbar */
+    transition: left 0.3s ease, width 0.3s ease; /* Tambahkan transisi untuk animasi */
 }
 
 .navbar .dropdown-menu {
@@ -126,15 +122,46 @@ body {
     border: 1.5px solid #1d1d1d;
 }
 
+.navbar .navbar-nav .nav-link {
+    color: #000000;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Calibri';
+}
+
+.navbar .navbar-nav .nav-link span {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+/* Navbar atas dropdown untuk profile */
 .dropdown-item {
     color: rgb(0, 0, 0);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-item:hover {
-    background-color: #1d1e1f;
-    color: #ffffff;
-    border-radius: 4px;
+    background-color: #1d1e1f; /* Warna latar belakang saat di-hover */
+    color: #ffffff; /* Ubah teks jadi putih saat di-hover */
+    border-radius: 4px; /* Tambahkan sedikit border-radius saat hover */
+}
+
+/* Hover effect for dropdown menu */
+.dropdown-menu {
+    background-color: #ffffff;
+    opacity: 90%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu:hover {
+    opacity: 90%; /* Tingkatkan opacity saat di-hover */
+    transform: scale(1.02); /* Sedikit perbesar ukuran dropdown saat hover */
+}
+
+/* Hilangkan caret dari dropdown-toggle */
+.navbar-nav .dropdown-toggle::after {
+    display: none;
 }
 
 /* Sidebar Toggle Button */
@@ -142,8 +169,8 @@ body {
     position: fixed;
     top: 15px;
     left: 15px;
-    z-index: 1001;
-    background-color: var(--sidebar-hover-bg);
+    z-index: 1001; /* Above all other elements */
+    background-color: #007bff;
     color: #ffffff;
     border: none;
     padding: 10px 15px;
@@ -151,34 +178,63 @@ body {
     cursor: pointer;
 }
 
-.toggled #sidebar {
+/* Responsive Behavior */
+.toggled .navbar {
+    left: 0; /* Navbar menyesuaikan posisi jika sidebar ditutup */
+    width: 100%; /* Memastikan navbar memenuhi lebar layar saat sidebar ditutup */
+}
+
+/* tombol pada navbar */
+.navbar .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+/* Sidebar Toggle */
+.toggled #sidebar-wrapper {
     margin-left: -250px;
-    transition: margin 0.3s ease;
 }
 
 .toggled #page-content-wrapper {
     padding-left: 0;
 }
 
-.toggled .navbar {
-    left: 0;
+footer {
+    height: 50px;
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
     width: 100%;
+    position: relative;
+    bottom: 0;
 }
 
-/* Cards */
+
+
+.container h1 {
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin-top: 2rem; /* Jarak dari atas kontainer */
+    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
+}
+
+/* Style untuk Card */
 .mapel .card {
     background-color: #ffffff;
-    border: 1px solid #010101;
+    border: px solid #010101;
     border-radius: 0.5rem;
-    width: 100%;
-    max-width: 27rem;
-    margin: 1px auto;
+    width: 100%; /* Lebar card mengikuti lebar container */
+    max-width: 27rem; /* Lebar maksimum card */
+    height: auto; /* Tinggi card akan disesuaikan secara otomatis */
+    margin: 1px auto; /* Menjaga card tetap berada di tengah */
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mapel .card:hover {
-    box-shadow: 0 4px 8px var(--card-shadow);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .mapel .card-link {
@@ -187,9 +243,13 @@ body {
 }
 
 .mapel .card-img-top {
-    width: 100%;
-    height: 15rem;
-    object-fit: contain;
+    width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
+    height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
+    object-fit: contain; /* Memastikan gambar menutupi area card */
+}
+
+.mapel .card-body {
+    flex: 1; /* Mengizinkan card-body mengisi ruang yang tersisa */
 }
 
 .mapel .card-title {
@@ -206,52 +266,9 @@ body {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    #sidebar {
-        position: fixed;
-        left: -250px;
-        transition: all 0.3s ease;
-    }
-    .toggled #sidebar {
-        left: 0;
-    }
-    .toggled #page-content-wrapper {
-        padding-left: 0;
-    }
-}
-
-
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1001; /* Tetap di atas elemen lainnya */
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: left 0.3s ease; /* Tambahkan transisi untuk perubahan posisi */
-}
-
-/* Atur posisi tombol toggle saat sidebar ditutup */
-.toggled .sidebar-toggle {
-    left: 15px; /* Tetap di layar meskipun sidebar ditutup */
-}
-
-/* Responsive Sidebar */
-@media (max-width: 768px) {
-    .toggled #sidebar-wrapper {
-        margin-left: -250px; /* Sembunyikan sidebar */
-    }
-
-    .toggled #page-content-wrapper {
-        padding-left: 0; /* Sesuaikan padding konten */
-    }
-
-    /* Posisikan tombol toggle agar tetap terlihat */
-    .toggled .sidebar-toggle {
-        left: 15px; /* Pastikan tombol tetap di posisi yang sama saat sidebar ditutup */
+    #sidebar-wrapper {
+        position: fixed; /* Overlay for small screens */
+        z-index: 1000; /* Make sure it appears above content */
+        left: 0; /* Align to the left */
     }
 }

@@ -24,7 +24,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Siswa - SMK AlFALAH</title>
+    <title>Dashboard Siswa - SMK AL FALAH</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -34,24 +34,24 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center">
+            <div class="sidebar-heading text-center py-4">
                 <img src="..\uploads\gambar\logo.png" alt="Logo" class="logo-img">
-                <h4>SMK AlFALAH</h4>
+                <h4 class="mt-2">SMK AL FALAH</h4>
             </div>
             <div class="list-group list-group-flush">
-                <a href="dasboardSiswa.php" class="list-group-item list-group-item-action">
+                <a href="dasboardSiswa.php" class="sidebar-item">
                     <i class="fas fa-home-alt"></i> Dashboard
                 </a>
-                <a href="index.php" class="list-group-item list-group-item-action">
+                <a href="index.php" class="sidebar-item">
                     <i class="fas fa-book"></i> Mata Pelajaran
                 </a>
-                <a href="jadwalSiswa.php" class="list-group-item list-group-item-action">
+                <a href="jadwalSiswa.php" class="sidebar-item">
                     <i class="fas fa-calendar-alt"></i> Jadwal
                 </a>
-                <a href="nilaiSiswa.php" class="list-group-item list-group-item-action">
+                <a href="nilaiSiswa.php" class="sidebar-item">
                     <i class="fas fa-graduation-cap"></i> Nilai
                 </a>
-                <a href="nilaiTugas.php" class="list-group-item list-group-item-action">
+                <a href="nilaiTugas.php" class="sidebar-item">
                     <i class="fas fa-pencil-alt"></i> Nilai Tugas
                 </a>
             </div>

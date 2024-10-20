@@ -35,14 +35,14 @@ $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto
         <div class="sidebar" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4">
                 <img src="..\uploads\gambar\logo.png" alt="Logo" class="logo-img">
-                <h4 class="mt-2">SMK AlFALAH</h4>
+                <h4 class="mt-2">SMK AL FALAH</h4>
             </div>
             <div class="list-group list-group-flush">
-                <a href="dashboardGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-home-alt"></i> Dashboard</a>
-                <a href="index.php" class="list-group-item list-group-item-action"><i class="fas fa-book"></i> Mata Pelajaran</a>
-                <a href="jadwalGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-calendar-alt"></i> Jadwal</a>
-                <a href="nilaiGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-graduation-cap"></i> Nilai</a>
-                <a href="nilaiTugasGuru.php" class="list-group-item list-group-item-action"><i class="fas fa-pencil-alt"></i> Nilai Tugas</a>
+                <a href="dashboardGuru.php" class="sidebar-item"><i class="fas fa-home-alt"></i> Dashboard</a>
+                <a href="index.php" class="sidebar-item"><i class="fas fa-book"></i> Mata Pelajaran</a>
+                <a href="jadwalGuru.php" class="sidebar-item"><i class="fas fa-calendar-alt"></i> Jadwal</a>
+                <a href="nilaiGuru.php" class="sidebar-item"><i class="fas fa-graduation-cap"></i> Nilai</a>
+                <a href="nilaiTugasGuru.php" class="sidebar-item"><i class="fas fa-pencil-alt"></i> Nilai Tugas</a>
             </div>
         </div>
         

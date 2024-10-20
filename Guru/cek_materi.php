@@ -1,12 +1,14 @@
-<?php
-session_start();
-include '../db.php'; // Menghubungkan dengan database
-
-// Pastikan guru sudah login
-if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
-    exit();
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Materi Guru</title>
+    <link rel="stylesheet" href="../css/detailMapel.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<?php include '../navbar/navHeader.php';
 
 $topik_id = $_GET['topik_id'];
 $kode_mapel = $_GET['kode_mapel'];
@@ -19,17 +21,6 @@ $stmt->bind_param("i", $topik_id);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Materi Guru</title>
-    <link rel="stylesheet" href="../css/detailMapel.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<?php include '../navbar/navHeader.php'; ?>
 
 <div id="mainContent" class="container mt-4">
     <h2>Cek Materi</h2>

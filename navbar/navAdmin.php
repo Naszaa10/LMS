@@ -13,32 +13,32 @@
         <div class="sidebar" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4">
                 <img src="..\uploads\gambar\logo.png" alt="Logo" class="logo-img">
-                <h4 class="mt-2">SMK AlFALAH</h4>
+                <h4 class="mt-2">SMK AL FALAH</h4>
             </div>
             <div class="list-group list-group-flush">
-                <a href="index.php" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="index.php" class="sidebar-item">Dashboard</a>
                 <!-- Dropdown Data Akun -->
                 <div class="dropdown">
-                    <a href="dataGuru.php" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#dataAkunSubmenu" aria-expanded="false">
+                    <a href="dataGuru.php" class="sidebar-item dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#dataAkunSubmenu" aria-expanded="false">
                         Data Akun
                     </a>
                     <ul id="dataAkunSubmenu" class="list-group collapse">
-                        <li class="list-group-item list-group-item-action">
-                            <a href="dataGuru.php">Data Guru</a>
+                        <li class="sidebar-item">
+                            <a href="dataGuru.php" class="sidebar-item">Data Guru</a>
                         </li>
-                        <li class="list-group-item list-group-item-action">
-                            <a href="dataSiswa.php">Data Siswa</a>
+                        <li class="sidebar-item">
+                            <a href="dataSiswa.php" class="sidebar-item">Data Siswa</a>
                         </li>
                     </ul>
                 </div>
-                <a href="dataKelas.php" class="list-group-item list-group-item-action">Data Kelas</a>
-                <a href="dataMapel.php" class="list-group-item list-group-item-action">Data Mata Pelajaran</a>
-                <a href="dataJadwal.php" class="list-group-item list-group-item-action">Kelola Jadwal</a>
-                <a href="tahunAjaran.php" class="list-group-item list-group-item-action">Tahun Ajaran</a>
-                <a href="dataNilaiSiswa.php" class="list-group-item list-group-item-action">Data Nilai Siswa</a>
-                <a href="naikKelas.php" class="list-group-item list-group-item-action">Naik Kelas</a>
-                <a href="rapot.php" class="list-group-item list-group-item-action">Cetak Raport</a>
-                <a href="pengumuman.php" class="list-group-item list-group-item-action">Berita/Pengumuman</a>
+                <a href="dataKelas.php" class="sidebar-item">Data Kelas</a>
+                <a href="dataMapel.php" class="sidebar-item">Data Mata Pelajaran</a>
+                <a href="dataJadwal.php" class="sidebar-item">Kelola Jadwal</a>
+                <a href="tahunAjaran.php" class="sidebar-item">Tahun Ajaran</a>
+                <a href="dataNilaiSiswa.php" class="sidebar-item">Data Nilai Siswa</a>
+                <a href="naikKelas.php" class="sidebar-item">Naik Kelas</a>
+                <a href="rapot.php" class="sidebar-item">Cetak Raport</a>
+                <a href="pengumuman.php" class="sidebar-item">Berita/Pengumuman</a>
             </div>
         </div>
         

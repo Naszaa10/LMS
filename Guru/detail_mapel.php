@@ -93,7 +93,7 @@ $mapel = $result->fetch_assoc();
         <div class="row mt-4">
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="col-md-5">
+                    <div class="col-md-3 mb-4"> <!-- Change to col-md-3 for 4 cards in a row -->
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_topik']); ?></h5>
@@ -120,6 +120,7 @@ $mapel = $result->fetch_assoc();
                 <p>Tidak ada topik ditemukan.</p>
             <?php endif; ?>
         </div>
+
 
     <!-- Modal Upload Materi -->
     <div class="modal fade" id="uploadMateriModal" tabindex="-1" role="dialog" aria-labelledby="uploadMateriModalLabel" aria-hidden="true">

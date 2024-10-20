@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-lg custom-bg">
         <!-- <button id="sidebarToggle" class="btn btn-primary me-3">☰</button> -->
         <img src="uploads\gambar\logo.png" alt="logoalfalah">
-        <a href="index.php" class="navbar-logo">SMK<span>AlFalah</span></a>
+        <a href="index.php" class="navbar-logo">SMK<span>Al Falah</span></a>
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,4 +40,16 @@
         </div>
     </nav>
 </body>
+
+<script>
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 0) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+
 </html>

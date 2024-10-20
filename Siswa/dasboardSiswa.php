@@ -156,8 +156,6 @@ if (mysqli_num_rows($resultPengumuman) > 0) {
 </div>
 
 <!-- Bootstrap JS dan custom JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
 <script>
     // Fungsi untuk menampilkan jam dengan tampilan yang lebih menarik
