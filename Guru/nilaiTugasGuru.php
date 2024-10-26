@@ -38,7 +38,7 @@ $resultSubjects = $stmtSubjects->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nilai Tugas Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/nilaiTugas.css">
+    <!-- <link rel="stylesheet" href="../css/nilaiTugas.css"> -->
 </head>
 <?php include '../navbar/navHeader.php'; ?>
 <body>
@@ -51,7 +51,7 @@ $resultSubjects = $stmtSubjects->get_result();
                     <select class="form-select" id="kelas" name="kelas" required>
                         <option value="">Pilih Kelas</option>
                         <?php while ($row = $resultClasses->fetch_assoc()) { ?>
-                            <option value="<?php echo $row['id_kelas']; ?>"> <?php echo $row['jenjang']. " " .$row['nama_kelas']; ?></option>
+                            <option value="<?php echo $row['id_kelas']; ?>"><?php echo $row['jenjang'] . " " . $row['nama_kelas']; ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -60,9 +60,7 @@ $resultSubjects = $stmtSubjects->get_result();
                     <select class="form-select" id="mataPelajaran" name="mataPelajaran" required>
                         <option value="">Pilih Mata Pelajaran</option>
                         <?php while ($row = $resultSubjects->fetch_assoc()) { ?>
-                            <option value="<?php echo $row['kode_mapel']; ?>">
-                                <?php echo $row['nama_mapel'] . " - " . $row['deskripsi'] . " (" . $row['jenis'] . ")"; ?>
-                            </option>
+                            <option value="<?php echo $row['kode_mapel']; ?>"><?php echo $row['nama_mapel'] . " - " . $row['deskripsi'] . " (" . $row['jenis'] . ")"; ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -86,22 +84,13 @@ $resultSubjects = $stmtSubjects->get_result();
 
             if (selectedKelas && selectedMataPelajaran) {
                 fetch(`fetch_students_and_assignments.php?kelas=${selectedKelas}&mata_pelajaran=${selectedMataPelajaran}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
-                        console.log(data); // Log the data to see what’s being returned
                         if (data.error) {
                             tableContainer.innerHTML = `<p>Error: ${data.error}</p>`;
-                        } else if (data.message) {
-                            tableContainer.innerHTML = `<p>${data.message}</p>`;
                         } else {
-                            let tableHtml = '<table class="table table-bordered">';
+                            let tableHtml = '<table id="example" class="table table-bordered">';
                             tableHtml += '<thead><tr><th>Nama Siswa</th><th>Nama Tugas</th><th>Nilai</th></tr></thead><tbody>';
-
                             data.forEach(student => {
                                 const nilaiValue = student.nilai_tugas !== null ? student.nilai_tugas : '';
                                 const tugasTitle = student.judul || 'Belum ada tugas';
@@ -111,9 +100,11 @@ $resultSubjects = $stmtSubjects->get_result();
                                                 <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
                                             </tr>`;
                             });
-
                             tableHtml += '</tbody></table>';
                             tableContainer.innerHTML = tableHtml;
+
+                            // Initialize DataTables on new table
+                            $('#example').DataTable();
                         }
                     })
                     .catch(error => console.error('Error:', error));
@@ -126,9 +117,12 @@ $resultSubjects = $stmtSubjects->get_result();
         mataPelajaranSelect.addEventListener('change', updateTable);
     });
     </script>
-<?php include '../navbar/navFooter.php'; ?>
+
+    <?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/tabelSeries.php'; ?>
 </body>
 </html>
+
 
 <?php
 // Tutup koneksi database

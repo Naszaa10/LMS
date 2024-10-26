@@ -125,10 +125,9 @@ html, body {
 /* Responsif: menyesuaikan padding dan margin untuk layar kecil */
 @media (max-width: 576px) {
     .btn {
-        padding: 8px 16px;
+        padding: 10px 16px;
         margin-bottom: 10px; /* Menambahkan margin bawah antar tombol */
         margin-right: 0; /* Menghilangkan margin kanan pada layar kecil */
-        width: 100%; /* Tombol menjadi full-width pada layar kecil */
     }
 }
 
@@ -142,40 +141,23 @@ html, body {
     margin: 20px 0;
 }
 
-/* Table */
+/* Tabel */
 .table {
-    width: 100%; /* Ukuran tabel responsif, dapat diubah sesuai kebutuhan */
-    margin-top: 20px;
-    border-collapse: separate; /* Memisahkan border untuk border-radius */
-    border-spacing: 0; /* Menghapus jarak antar sel tabel */
-    border-radius: 8px; /* Sudut membulat tabel */
-    overflow: hidden; /* Menyembunyikan bagian yang melebihi border-radius */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header Tabel */
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
-    border: 1px solid #ced4da;
+.table th {
+    background-color: #343a40;
+    color: #fff;
     text-align: center;
-    padding: 10px;
-    white-space: nowrap; /* Mencegah pemecahan teks dalam header */
+    font-weight: bold;
 }
 
-/* Sel Tabel */
-.table tbody td {
-    text-align: center; /* Memperbaiki typo */
-    padding: 5px;
-    border: 1px solid #ced4da;
-    white-space: nowrap; /* Mencegah pemecahan teks dalam sel */
-}
-
-/* Menyempitkan Kolom */
-.table th, .table td {
-    max-width: 150px; /* Atur lebar maksimum kolom */
-    overflow: hidden; /* Menyembunyikan teks yang melebihi lebar maksimum */
-    text-overflow: ellipsis; /* Menampilkan elipsis (...) jika teks terlalu panjang */
-    word-wrap: break-word; /* Memastikan teks panjang tetap dalam satu baris jika diperlukan */
+.table td {
+    text-align: center;
+    color: #495057;
 }
 
 

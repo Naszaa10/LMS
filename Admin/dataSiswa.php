@@ -37,26 +37,26 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="..\css\jadwal.css">
+    <!-- <link rel="stylesheet" href="..\css\jadwal.css"> -->
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
     <div class="container mt-4">
-        <h2>Data Siswa</h2>
+        <h1>Data Siswa</h1>
         <form class="form-inline mb-3" method="GET" action="">
             <input type="text" name="search" class="form-control mr-2" placeholder="Cari siswa atau kelas" value="<?php echo htmlspecialchars($search); ?>">
             <button type="submit" class="btn btn-primary">Cari</button>
         </form>
         <a href="tambahSiswa.php" class="btn btn-primary mb-3">Tambah Siswa</a>
-        <table class="table table-striped">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>NIS</th>
                     <th>Nama Siswa</th>
                     <th>Email</th>
                     <th>Kelas</th>
-                    <th>Nama Wali Kelas</th>
+                    <th>Wali Kelas</th>
                     <th>Jurusan</th>
                     <th>Angkatan</th>
                     <th>Aksi</th>
@@ -99,5 +99,6 @@ $conn->close();
         </nav>
     </div>
     <?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/tabelSeries.php'; ?>
 </body>
 </html>

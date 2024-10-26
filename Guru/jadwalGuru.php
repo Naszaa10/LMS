@@ -14,12 +14,10 @@ $stmt->bind_param("s", $nip);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
-    <div id="mainContent" class="container-fluid mt-5">
-        <h1 class="mb-4">Jadwal Mengajar</h1>
-        <div class="mb-6">
-            <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Mata Pelajaran">
-        </div>
-        <table class="table" id="jadwalTable">
+
+<div class="container mt-4">
+        <h1>Jadwal Mengajar</h1>
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Nama Guru</th>
@@ -45,6 +43,7 @@ $result = $stmt->get_result();
         </table>
     </div>
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function() {
         let filter = this.value.toLowerCase();

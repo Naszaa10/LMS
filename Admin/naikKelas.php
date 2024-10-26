@@ -98,12 +98,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
         </div>
 
         <?php if ($id_kelas_terpilih && isset($resultSiswa)): ?>
-            <div class="card mt-4">
+            <div class="card mt-4" style="padding: 5px;">
                 <div class="card-header">
                     <h2>Daftar Siswa di Kelas Terpilih</h2>
                 </div>
                 <!-- Tabel daftar siswa -->
-                <table class="table table-striped table-hover">
+                <table  id="example" class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>NIS</th>
@@ -160,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
         <?php endif; ?>
     </div>
     <?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/tabelSeries.php'; ?>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>

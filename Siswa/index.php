@@ -62,7 +62,7 @@ $result_mapel = mysqli_query($conn, $query_mapel);
 <div id="mainContent" class="container mt-4">
     <!-- Upcoming Tasks -->
     <section class="tasks mb-4">
-    <div class="card mb-4 bg-primary text-white">
+    <div class="card mb-4 bg-light text-black">
         <div class="card-header text-center">
             <h3>Upcoming Tasks</h3>
         </div>

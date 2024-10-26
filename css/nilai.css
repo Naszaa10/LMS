@@ -1,22 +1,21 @@
-/* Nilai Input Guru */
-.table-container {
+/* Tabel */
+.table {
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.table tbody td input {
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%; /* Full width for better alignment */
-    box-sizing: border-box;
+.table th {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
 }
 
-.table tbody td.siswa {
-    text-align: left;
+.table td {
+    text-align: center;
+    color: #495057;
 }
-
 .form-label {
     font-weight: bold;
 }
@@ -37,15 +36,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
 /* Nilai untuk Siswa */
 .main-container {
     padding: 20px;
@@ -54,56 +44,6 @@
 .container h2 {
     font-weight: bolder;
     margin-bottom: 20px; /* Spacing below the heading */
-}
-
-/* Table Styles */
-.table {
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-bottom: 1rem;
-    background-color: #ffffff;
-}
-
-/* Kolom judul tabel */
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
-    border: 1px solid #dee2e6;
-    padding: 10px; /* Add padding for better spacing */
-}
-
-.table thead th.nilai {
-    text-align: center; /* Center text horizontally */
-    vertical-align: middle; /* Center text vertically */
-}
-
-.table thead th.mapel {
-    padding-left: 20px;
-}
-
-/* Kolom isi tabel */
-.table tbody td {
-    border: 1px solid #dee2e6;
-    padding: 10px; /* Add padding for better spacing */
-}
-
-.table tbody td.nilai {
-    text-align: center; /* Center text horizontally */
-    vertical-align: middle; /* Center text vertically */
-}
-
-.table tbody td.mapel {
-    text-align: left; /* Align text to the left */
-    vertical-align: middle; /* Center text vertically */
-    padding-left: 20px;
-}
-
-.table tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
-
-.table tbody tr:hover {
-    background-color: #e9ecef;
 }
 
 /* Button Styles */

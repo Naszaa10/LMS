@@ -29,7 +29,7 @@ $result = $stmt->get_result();
 <div class="container mt-3">
     <h1>Daftar Mata Pelajaran</h1>
     <a href="tambah_matapelajaran.php" class="btn btn-primary mb-3">Tambah Mata Pelajaran</a>
-    <table class="table table-bordered">
+    <table id="example" class="table table-bordered">
         <thead>
             <tr>
                 <th>Kode Mapel</th>
@@ -98,6 +98,7 @@ $conn->close();
 ?>
 
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
 
 </body>
 </html>

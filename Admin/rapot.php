@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapot Cetak</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/rapot.css">
+    <!-- <link rel="stylesheet" href="../css/rapot.css"> -->
 </head>
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
-    <div class="container mt-5">
-        <h2>Cetak Rapot</h2>
+    <div class="container mt-2">
+        <h1>Cetak Rapot</h1>
 
         <!-- Select Kelas -->
         <div class="mb-3">
@@ -26,8 +26,8 @@
 
         <!-- Table with student names and print options -->
         <div id="studentsContainer" style="display:none;">
-            <h4>Daftar Siswa</h4>
-            <table class="table table-bordered" id="studentsTable">
+            <h3>Daftar Siswa</h3>
+            <table id="example" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>
@@ -45,7 +45,7 @@
         </div>
 
         <div id="nilaiContainer" style="display:none;">
-            <table class="table" id="nilaiTable">
+        <table id="example" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -181,5 +181,7 @@
     </script>
 
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
+
 </body>
 </html>

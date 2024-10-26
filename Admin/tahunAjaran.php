@@ -60,8 +60,7 @@ $result = $conn->query($sql);
         <!-- Button to add new tahun ajaran -->
         <a href="tambahAjaran.php" class="btn btn-primary">Tambah Tahun Ajaran</a>
 
-
-        <table class="table table-bordered mt-4">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -109,8 +108,7 @@ $result = $conn->query($sql);
     </div>
 
     <?php include '../navbar/navFooter.php'; ?>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <?php include '../navbar/tabelSeries.php'; ?>
+
 </body>
 </html>

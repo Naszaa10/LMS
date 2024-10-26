@@ -72,7 +72,7 @@ if (isset($_POST['fetch_nilai'])) {
     <title>Manage Nilai</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <link rel="stylesheet" href="..\css\nilaiTugas.css">
+    <!-- <link rel="stylesheet" href="..\css\nilaiTugas.css"> -->
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
@@ -121,7 +121,7 @@ if (isset($_POST['fetch_nilai'])) {
             </div>
         </form>
 
-        <table class="table table-bordered">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>NIS</th>
@@ -140,6 +140,7 @@ if (isset($_POST['fetch_nilai'])) {
     </div>
 
     <?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/tabelSeries.php'; ?>
 
     <script>
         $(document).ready(function() {

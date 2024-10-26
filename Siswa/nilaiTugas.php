@@ -37,7 +37,7 @@ $result = mysqli_query($conn, $query);
         <div class="mb-6">
             <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Mata Pelajaran">
         </div>
-        <table class="table" id="jadwalTable">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Hari/Tanggal</th>
@@ -59,6 +59,7 @@ $result = mysqli_query($conn, $query);
         </table>
     </div>
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function() {
         let filter = this.value.toLowerCase();

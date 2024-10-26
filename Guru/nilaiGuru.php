@@ -38,7 +38,7 @@ $resultSubjects = $stmtSubjects->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Nilai Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/nilai.css">
+    <!-- <link rel="stylesheet" href="../css/nilai.css"> -->
 </head>
 <?php include '../navbar/navHeader.php'; ?>
 <body>
@@ -46,6 +46,7 @@ $resultSubjects = $stmtSubjects->get_result();
         <div class="container mt-4">
             <h2 class="mb-4">Input Nilai Siswa</h2>
             <form id="nilaiForm" method="post" action="save_nilai.php">
+                <!-- Form Pilihan Kelas dan Mata Pelajaran -->
                 <div class="mb-3">
                     <label for="kelas" class="form-label">Kelas</label>
                     <select class="form-select" id="kelas" name="kelas" required>
@@ -73,7 +74,6 @@ $resultSubjects = $stmtSubjects->get_result();
             </form>
         </div>
     </div>
-
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const kelasSelect = document.getElementById('kelas');
@@ -88,25 +88,40 @@ $resultSubjects = $stmtSubjects->get_result();
                 fetch(`fetch_students.php?kelas=${selectedKelas}&mata_pelajaran=${selectedMataPelajaran}`)
                     .then(response => response.json())
                     .then(data => {
-                        let tableHtml = '<table class="table table-bordered">';
-                        tableHtml += '<thead><tr><th>Nama Siswa</th><th>Pengetahuan</th><th>Keterampilan</th><th>Nilai</th><th>Predikat</th></tr></thead><tbody>';
+                        let tableHtml = `
+                            <table id="example" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Siswa</th>
+                                        <th>Pengetahuan</th>
+                                        <th>Keterampilan</th>
+                                        <th>Nilai</th>
+                                        <th>Predikat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
 
                         data.forEach(student => {
                             const pengetahuanValue = student.pengetahuan !== null ? student.pengetahuan : '';
                             const keterampilanValue = student.keterampilan !== null ? student.keterampilan : '';
                             const nilaiValue = student.nilai !== null ? student.nilai : '';
                             const predikatValue = student.predikat !== null ? student.predikat : '';
-                            tableHtml += `<tr>
-                                            <td>${student.nama_siswa}</td>
-                                            <td><input type="number" class="form-control" name="pengetahuan[${student.nis}]" value="${pengetahuanValue}" min="0" max="100"></td>
-                                            <td><input type="number" class="form-control" name="keterampilan[${student.nis}]" value="${keterampilanValue}" min="0" max="100"></td>
-                                            <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
-                                            <td><input type="text" class="form-control" name="predikat[${student.nis}]" value="${predikatValue}"></td>
-                                        </tr>`;
+
+                            tableHtml += `
+                                <tr>
+                                    <td>${student.nama_siswa}</td>
+                                    <td><input type="number" class="form-control" name="pengetahuan[${student.nis}]" value="${pengetahuanValue}" min="0" max="100"></td>
+                                    <td><input type="number" class="form-control" name="keterampilan[${student.nis}]" value="${keterampilanValue}" min="0" max="100"></td>
+                                    <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
+                                    <td><input type="text" class="form-control" name="predikat[${student.nis}]" value="${predikatValue}"></td>
+                                </tr>`;
                         });
 
                         tableHtml += '</tbody></table>';
                         tableContainer.innerHTML = tableHtml;
+
+                        // Inisialisasi DataTables setelah tabel di-render
+                        $('#example').DataTable();
                     });
             } else {
                 tableContainer.innerHTML = '';
@@ -117,8 +132,12 @@ $resultSubjects = $stmtSubjects->get_result();
         mataPelajaranSelect.addEventListener('change', updateTable);
     });
     </script>
-<?php include '../navbar/navFooter.php'; ?>
+
+    <?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/tabelSeries.php'; ?>
+</body>
 </html>
+
 
 <?php
 // Tutup koneksi database

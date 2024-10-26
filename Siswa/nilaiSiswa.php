@@ -53,7 +53,7 @@
             <button type="submit" class="btn btn-primary">Tampilkan</button>
         </form>
 
-        <table class="table mt-4">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th class="mapel">Mata Pelajaran</th>
@@ -123,6 +123,7 @@
 
 <?php
     include '../navbar/navFooter.php';
+    include '../navbar/tabelSeries.php';
     ?>
 </body>
 </html>

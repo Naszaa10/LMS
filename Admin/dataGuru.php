@@ -36,19 +36,19 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Guru</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="..\css\jadwal.css">
+    <!-- <link rel="stylesheet" href="..\css\jadwal.css"> -->
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
 
     <div class="container mt-4">
-        <h2>Data Guru</h2>
+        <h1>Data Guru</h1>
         <form class="form-inline mb-3" method="GET" action="">
             <input type="text" name="search" class="form-control mr-2" placeholder="Cari nama atau jurusan" value="<?php echo htmlspecialchars($search); ?>">
             <button type="submit" class="btn btn-primary">Cari</button>
         </form>
         <a href="tambahGuru.php" class="btn btn-primary mb-3">Tambah Guru</a>
-        <table class="table table-striped">
+        <table id="example" class="table table-bordered">
             <thead>
                 <tr>
                     <th>NIP</th>
@@ -92,5 +92,6 @@ $conn->close();
         </nav>
     </div>
     <?php include '../navbar/navFooter.php'; ?>
+    <?php include '../navbar/tabelSeries.php'; ?>
 </body>
 </html>

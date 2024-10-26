@@ -95,36 +95,24 @@ body {
     border: 1px solid #ced4da;
 }
 
-/* Table Styles */
+/* Tabel */
 .table {
     background-color: #ffffff;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
+.table th {
+    background-color: #343a40;
+    color: #fff;
     text-align: center;
-    padding: 10px;
-    border: 1px solid #ced4da;
+    font-weight: bold;
 }
 
-.table tbody td {
+.table td {
     text-align: center;
-    padding: 5px;
-    border: none;
-    vertical-align: middle;
-    border: 1px solid #ced4da;
+    color: #495057;
 }
-
-.table tbody tr:hover {
-    background-color: #00d9ff;
-}
-
 /* kelas siswa */
 .container p {
     color: #000000;
@@ -284,25 +272,23 @@ td .btn {
 }
 
 
-/* Table */
+/* Tabel */
 .table {
-    margin-top: 20px;
-    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
+.table th {
+    background-color: #343a40;
+    color: #fff;
     text-align: center;
+    font-weight: bold;
 }
 
-.table tbody td {
+.table td {
     text-align: center;
-    vertical-align: middle;
-}
-
-.table tbody td .btn {
-    margin-right: 5px;
+    color: #495057;
 }
 
 

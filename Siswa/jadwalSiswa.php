@@ -28,7 +28,7 @@
 
 <div id="mainContent" class="container mt-4">
     <h2 class="mb-4">Jadwal Pelajaran : <?php echo $dataKelas['nama_siswa']; ?></h2>
-    <table class="table">
+    <table id="example" class="table table-bordered">
         <thead>
             <tr>
                 <th>Mata Pelajaran</th>
@@ -51,6 +51,7 @@
 </div>
 <?php
 include '../navbar/navFooter.php';
+include '../navbar/tabelSeries.php';
 ?>
 </body>
 </html>
