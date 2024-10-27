@@ -6,11 +6,17 @@
     <title>Detail Mata Pelajaran</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/detailSiswa.css">
-</style>
 </head>
 <body>
 <?php
+// Include the necessary parts
 include '../navbar/navSiswa.php';
+
+// Get the latest academic year
+$query_latest_tahun_ajaran = "SELECT id_tahun_ajaran, tahun_ajaran FROM tahun_ajaran ORDER BY tahun_ajaran DESC LIMIT 1";
+$result_latest_tahun_ajaran = mysqli_query($conn, $query_latest_tahun_ajaran);
+$row_latest_tahun_ajaran = mysqli_fetch_assoc($result_latest_tahun_ajaran);
+$id_tahun_ajaran = $row_latest_tahun_ajaran['id_tahun_ajaran'];
 
 // Ambil kode mapel dari URL
 $kode_mapel = $_GET['kode_mapel'];
@@ -50,21 +56,23 @@ $query_guru = "
 $result_guru = mysqli_query($conn, $query_guru);
 $row_guru = mysqli_fetch_assoc($result_guru);
 
-// Query untuk mendapatkan topik berdasarkan kode_mapel dan id_kelas
+// Query untuk mendapatkan topik berdasarkan kode_mapel, id_kelas, dan tahun ajaran terbaru
 $query_topik = "
     SELECT t.topik_id, t.nama_topik
     FROM topik t
-    WHERE t.kode_mapel = '$kode_mapel' AND t.id_kelas = $id_kelas
+    JOIN kelas k ON t.id_kelas = k.id_kelas
+    WHERE t.kode_mapel = '$kode_mapel' AND k.id_tahun_ajaran = $id_tahun_ajaran
     ORDER BY t.topik_id
 ";
 $result_topik = mysqli_query($conn, $query_topik);
 
-// Query untuk mendapatkan materi berdasarkan topik_id
+// Query untuk mendapatkan materi berdasarkan topik_id dan tahun ajaran terbaru
 $query_materi = "
-    SELECT m.id_materi, m.is_downloaded, m.judul, m.file, m.topik_id
+    SELECT m.id_materi, m.judul, m.file, m.topik_id
     FROM materi m
     JOIN topik t ON m.topik_id = t.topik_id
-    WHERE t.kode_mapel = '$kode_mapel' AND t.id_kelas = $id_kelas
+    JOIN kelas k ON t.id_kelas = k.id_kelas
+    WHERE t.kode_mapel = '$kode_mapel' AND k.id_tahun_ajaran = $id_tahun_ajaran
     ORDER BY m.topik_id
 ";
 $result_materi = mysqli_query($conn, $query_materi);
@@ -75,38 +83,21 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
     $materi_by_topik[$row_materi['topik_id']][] = $row_materi;
 }
 
-// Query untuk mendapatkan tugas berdasarkan topik_id dan id_kelas
+// Query untuk mendapatkan tugas berdasarkan topik_id, id_kelas, dan tahun ajaran terbaru
 $query_tugas = "
     SELECT t.id_tugas, t.judul, t.deskripsi_tugas, t.topik_id
     FROM tugas t
-    WHERE t.id_kelas = $id_kelas AND t.kode_mapel = '$kode_mapel'
+    JOIN kelas k ON t.id_kelas = k.id_kelas
+    WHERE t.kode_mapel = '$kode_mapel' AND k.id_tahun_ajaran = $id_tahun_ajaran
 ";
 $result_tugas = mysqli_query($conn, $query_tugas);
 
 // Array untuk menyimpan tugas berdasarkan topik_id
 $tugas_by_topik = [];
 while ($row_tugas = mysqli_fetch_assoc($result_tugas)) {
-    $tugas_by_topik[$row_tugas['topik_id']] = $row_tugas;
+    $tugas_by_topik[$row_tugas['topik_id']][] = $row_tugas; // Store tasks in an array
 }
 
-// Logika untuk update status download materi
-if (isset($_GET['id_materi'])) {
-    $id_materi = $_GET['id_materi'];
-    $update_query = "UPDATE materi SET is_downloaded = 0 WHERE id_materi = ?";
-    $stmt = $conn->prepare($update_query);
-    $stmt->bind_param('i', $id_materi);
-    $stmt->execute();
-}
-
-
-// Logika untuk update status tugas
-if (isset($_GET['id_tugas'])) {
-    $id_tugas = $_GET['id_tugas'];
-    $update_query = "UPDATE tugas SET is_completed = 1 WHERE id_tugas = ?";
-    $stmt = $conn->prepare($update_query);
-    $stmt->bind_param('i', $id_tugas);
-    $stmt->execute();
-}
 ?>
 
 <div id="mainContent" class="container mt-4">
@@ -122,48 +113,50 @@ if (isset($_GET['id_tugas'])) {
 
     <!-- Topik dan Materi -->
     <div class="accordion" id="accordionExample">
-    <h3>Materi dan Tugas</h3>
-    <?php
-    while ($row_topik = mysqli_fetch_assoc($result_topik)) {
-        $topik_id = $row_topik['topik_id'];
-        ?>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="heading<?php echo $topik_id; ?>">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $topik_id; ?>" aria-expanded="true" aria-controls="collapse<?php echo $topik_id; ?>">
-                    <?php echo htmlspecialchars($row_topik['nama_topik']); ?>
-                </button>
-            </h2>
-            <div id="collapse<?php echo $topik_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $topik_id; ?>" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <!-- Materi Section -->
-                    <h4>Materi</h4>
-                    <?php if (isset($materi_by_topik[$topik_id])): ?>
-                        <?php foreach ($materi_by_topik[$topik_id] as $materi): ?>
-                            <div class="mb-3 <?php echo $materi['is_downloaded'] ? 'materi-done' : ''; ?>">
-                                <a href="../uploads/<?php echo htmlspecialchars($materi['file']); ?>?id_materi=<?php echo $materi['id_materi']; ?>" class="btn btn-primary" download>
-                                    <?php echo htmlspecialchars($materi['judul']); ?>
-                                </a>
-                                <?php if ($materi['is_downloaded']): ?>
-                                    <span class="check-icon">✔</span>
-                                <?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Tidak ada materi untuk topik ini.</p>
-                    <?php endif; ?>
+        <h3>Materi dan Tugas</h3>
+        <?php
+        while ($row_topik = mysqli_fetch_assoc($result_topik)) {
+            $topik_id = $row_topik['topik_id'];
+            ?>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading<?php echo $topik_id; ?>">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $topik_id; ?>" aria-expanded="true" aria-controls="collapse<?php echo $topik_id; ?>">
+                        <?php echo htmlspecialchars($row_topik['nama_topik']); ?>
+                    </button>
+                </h2>
+                <div id="collapse<?php echo $topik_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $topik_id; ?>" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <!-- Materi Section -->
+                        <h4>Materi</h4>
+                        <?php if (isset($materi_by_topik[$topik_id])): ?>
+                            <?php foreach ($materi_by_topik[$topik_id] as $materi): ?>
+                                <div class="mb-3">
+                                    <a href="../uploads/<?php echo htmlspecialchars($materi['file']); ?>?id_materi=<?php echo $materi['id_materi']; ?>" class="btn btn-primary" download>
+                                        <?php echo htmlspecialchars($materi['judul']); ?>
+                                    </a>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>Tidak ada materi untuk topik ini.</p>
+                        <?php endif; ?>
 
-                    <!-- Tugas Section -->
-                    <div class="mt-2">
-                        <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
-                            Kerjakan Tugas
-                        </a>
+                        <!-- Tugas Section -->
+                        <?php if (isset($tugas_by_topik[$topik_id])): ?>
+                            <div class="mt-2">
+                                <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
+                                    Kerjakan Tugas
+                                </a>
+                            </div>
+                        <?php else: ?>
+                            <p>Tidak ada tugas untuk topik ini.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
-        </div>
-        <?php
-    }
-    ?>
+            <?php
+        }
+        ?>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

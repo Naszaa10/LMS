@@ -14,8 +14,14 @@ $nip = $_SESSION['teacher_nip'];
 $kode_mapel = $_GET['kode_mapel'];
 $id_kelas = $_GET['kelas_id'];
 
+// Mendapatkan tahun ajaran terbaru
+$query_tahun_ajaran = "SELECT id_tahun_ajaran FROM tahun_ajaran ORDER BY tahun_ajaran DESC LIMIT 1";
+$result_tahun_ajaran = mysqli_query($conn, $query_tahun_ajaran);
+$row_tahun_ajaran = mysqli_fetch_assoc($result_tahun_ajaran);
+$id_tahun_ajaran = $row_tahun_ajaran['id_tahun_ajaran'];
+
 $query_kelas = "
-    SELECT kelas.id_kelas, tahun_ajaran.id_tahun_ajaran, tahun_ajaran.tahun_ajaran
+    SELECT kelas.id_kelas, tahun_ajaran.tahun_ajaran
     FROM kelas JOIN tahun_ajaran ON tahun_ajaran.id_tahun_ajaran = kelas.id_tahun_ajaran
     WHERE id_kelas = '$id_kelas'
 ";
@@ -75,6 +81,7 @@ $mapel = $result->fetch_assoc();
                             </div>
                             <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
                             <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                            <input type="hidden" name="id_tahun_ajaran" value="<?php echo htmlspecialchars($id_tahun_ajaran); ?>"> <!-- Added hidden input -->
                             <button type="submit" class="btn btn-primary">Tambah</button>
                         </form>
                     </div>
@@ -93,7 +100,7 @@ $mapel = $result->fetch_assoc();
         <div class="row mt-4">
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="col-md-3 mb-4"> <!-- Change to col-md-3 for 4 cards in a row -->
+                    <div class="col-md-3 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_topik']); ?></h5>
@@ -121,7 +128,6 @@ $mapel = $result->fetch_assoc();
             <?php endif; ?>
         </div>
 
-
     <!-- Modal Upload Materi -->
     <div class="modal fade" id="uploadMateriModal" tabindex="-1" role="dialog" aria-labelledby="uploadMateriModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -136,6 +142,7 @@ $mapel = $result->fetch_assoc();
                     <form action="proses_upload_materi.php" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
                         <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                        <input type="hidden" name="id_tahun_ajaran" value="<?php echo htmlspecialchars($id_tahun_ajaran); ?>"> <!-- Added hidden input -->
                         <input type="hidden" name="topik_id" id="uploadMateriTopikId">
                         <div class="form-group">
                             <label for="nama_materi">Nama Materi</label>
@@ -166,6 +173,7 @@ $mapel = $result->fetch_assoc();
                     <form action="proses_tambah_tugas.php" method="post" enctype="multipart/form-data">  
                         <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
                         <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
+                        <input type="hidden" name="id_tahun_ajaran" value="<?php echo htmlspecialchars($id_tahun_ajaran); ?>"> <!-- Added hidden input -->
                         <input type="hidden" name="topik_id" id="tugasTopikId">
                         <div class="form-group">
                             <label for="nama_tugas">Nama Tugas</label>
@@ -196,7 +204,6 @@ $mapel = $result->fetch_assoc();
             </div>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

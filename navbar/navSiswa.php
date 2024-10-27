@@ -12,6 +12,7 @@ if (!isset($_SESSION['nis_siswa'])) {
 // Ambil NIS dari sesi (asumsi Anda menyimpan NIS siswa di session)
 $nis_siswa = $_SESSION['nis_siswa'];
 
+
 // Query untuk mendapatkan data siswa
 $querySiswa = "SELECT foto_profil FROM siswa WHERE nis = '$nis_siswa'";
 $resultSiswa = mysqli_query($conn, $querySiswa);

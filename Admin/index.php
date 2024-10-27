@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin </title>
+    <title>Dashboard Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/dashboardAdmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -15,6 +15,18 @@
 <?php 
 // Koneksi ke database
 include '../db.php'; 
+
+// Query untuk menghitung jumlah login siswa hari ini
+$query_login_siswa = "SELECT COUNT(*) AS jumlah FROM siswa WHERE DATE(terakhir_login) = CURDATE()";
+$result_login_siswa = $conn->query($query_login_siswa);
+$row_login_siswa = $result_login_siswa->fetch_assoc();
+$jumlah_login_siswa = $row_login_siswa['jumlah'];
+
+// Query untuk menghitung jumlah login guru hari ini
+$query_login_guru = "SELECT COUNT(*) AS jumlah FROM guru WHERE DATE(terakhir_login) = CURDATE()";
+$result_login_guru = $conn->query($query_login_guru);
+$row_login_guru = $result_login_guru->fetch_assoc();
+$jumlah_login_guru = $row_login_guru['jumlah'];
 
 // Query untuk menghitung jumlah guru
 $query_guru = "SELECT COUNT(*) AS jumlah FROM guru";
@@ -46,13 +58,6 @@ $result_mata_pelajaran = $conn->query($query_mata_pelajaran);
 $row_mata_pelajaran = $result_mata_pelajaran->fetch_assoc();
 $jumlah_mapel = $row_mata_pelajaran['jumlah'];
 
-// Query untuk menghitung jumlah jadwal
-$query_jadwal = "SELECT COUNT(*) AS jumlah FROM jadwal";
-$result_jadwal = $conn->query($query_jadwal);
-$row_jadwal = $result_jadwal->fetch_assoc();
-$jumlah_jadwal = $row_jadwal['jumlah'];
-
-
 // Query untuk menghitung jumlah siswa per kelas
 $query_siswa_per_kelas = "
     SELECT k.nama_kelas, COUNT(s.nis) AS jumlah 
@@ -61,7 +66,6 @@ $query_siswa_per_kelas = "
     GROUP BY k.nama_kelas";
 $siswa_per_kelas_result = $conn->query($query_siswa_per_kelas);
 
-// Array untuk menyimpan data kelas dan jumlah siswa
 $kelas_labels = [];
 $kelas_data = [];
 
@@ -79,7 +83,6 @@ $query_siswa_per_jurusan = "
     GROUP BY j.nama_jurusan";
 $siswa_per_jurusan_result = $conn->query($query_siswa_per_jurusan);
 
-// Array untuk menyimpan data jurusan dan jumlah siswa
 $jurusan_labels = [];
 $jurusan_data = [];
 
@@ -120,40 +123,41 @@ while ($row = $siswa_per_jurusan_result->fetch_assoc()) {
         </div>
 
         <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card bg-warning text-white shadow">
-                    <div class="card-body d-flex align-items-center">
-                        <i class="fas fa-book-open fa-2x me-3"></i>
-                        <div>
-                            Jurusan
-                            <div class="text-white-50 small">Jumlah: <?php echo $jumlah_jurusan; ?></div>
-                        </div>
+            <div class="card bg-warning text-white shadow">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-book-open fa-2x me-3"></i>
+                    <div>
+                        Jurusan
+                        <div class="text-white-50 small">Jumlah: <?php echo $jumlah_jurusan; ?></div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card bg-dark text-white shadow">
-                    <div class="card-body d-flex align-items-center">
-                        <i class="fas fa-school fa-2x me-3"></i>
-                        <div>
-                            Kelas
-                            <div class="text-white-50 small">Jumlah: <?php echo $jumlah_kelas; ?></div>
-                        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-dark text-white shadow">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-school fa-2x me-3"></i>
+                    <div>
+                        Kelas
+                        <div class="text-white-50 small">Jumlah: <?php echo $jumlah_kelas; ?></div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card bg-danger text-white shadow">
-                    <div class="card-body d-flex align-items-center">
-                        <i class="fas fa-book fa-2x me-3"></i>
-                        <div>
-                            Mata Pelajaran
-                            <div class="text-white-50 small">Jumlah: <?php echo $jumlah_mapel; ?></div>
-                        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-danger text-white shadow">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-book fa-2x me-3"></i>
+                    <div>
+                        Mata Pelajaran
+                        <div class="text-white-50 small">Jumlah: <?php echo $jumlah_mapel; ?></div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
     <!-- Grafik Perbandingan Jumlah Siswa per Kelas -->
     <div class="row">
@@ -178,12 +182,25 @@ while ($row = $siswa_per_jurusan_result->fetch_assoc()) {
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="card-title">Jumlah Login Guru dan Siswa Hari Ini</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="loginChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Footer -->
 <?php include '../navbar/navFooter.php'; ?>
 
+
+<!-- Script Chart.js untuk menampilkan grafik -->
 <!-- Script Chart.js untuk menampilkan grafik -->
 <script>
     const ctxKelas = document.getElementById('kelasChart').getContext('2d');
@@ -201,15 +218,8 @@ while ($row = $siswa_per_jurusan_result->fetch_assoc()) {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false
+                    position: 'top',
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return Math.round(tooltipItem.raw) + ' siswa';
-                        }
-                    }
-                }
             },
             scales: {
                 y: {
@@ -230,22 +240,44 @@ while ($row = $siswa_per_jurusan_result->fetch_assoc()) {
             datasets: [{
                 label: 'Jumlah Siswa per Jurusan',
                 data: <?php echo json_encode($jurusan_data); ?>,
-                backgroundColor: '#28a745',
+                backgroundColor: '#FF6384',
             }]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false
+                    position: 'top',
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return Math.round(tooltipItem.raw) + ' siswa';
-                        }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0 // memastikan sumbu y hanya menunjukkan angka bulat
                     }
                 }
+            }
+        }
+    });
+
+    const ctxLogin = document.getElementById('loginChart').getContext('2d');
+    const loginChart = new Chart(ctxLogin, {
+        type: 'bar',
+        data: {
+            labels: ['Guru', 'Siswa'],
+            datasets: [{
+                label: 'Jumlah Login Hari Ini',
+                data: [<?php echo $jumlah_login_guru; ?>, <?php echo $jumlah_login_siswa; ?>],
+                backgroundColor: ['#DC3545', '#28A745'],
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
             },
             scales: {
                 y: {
@@ -258,6 +290,8 @@ while ($row = $siswa_per_jurusan_result->fetch_assoc()) {
         }
     });
 </script>
+
+
 
 </body>
 </html>

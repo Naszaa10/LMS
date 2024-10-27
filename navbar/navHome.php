@@ -31,7 +31,7 @@
                     <button type="button" class="btn btn-dark">Masuk</button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
-                        <li><a class="dropdown-item" href="login.php">Login</a></li>
+                        <li><a class="dropdown-item" href="login_siswa.php">Login</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="register.php">Register</a>
                     </ul>
