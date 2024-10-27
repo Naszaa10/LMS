@@ -63,7 +63,7 @@ $result = $stmt->get_result();
         <input type="hidden" name="kode_mapel" value="<?php echo htmlspecialchars($kode_mapel); ?>">
         <input type="hidden" name="id_kelas" value="<?php echo htmlspecialchars($id_kelas); ?>">
         <div class="table-container">
-            <table class="table">
+        <table id="example" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Nomor</th>
@@ -114,4 +114,5 @@ $result = $stmt->get_result();
 
 </body>
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
 </html>

@@ -52,16 +52,15 @@ $mapel = $result->fetch_assoc();
 <body>
     <?php include '../navbar/navHeader.php'; ?>
 
-    <div id="mainContent" class="container mt-4">
+    <div id="mainContent" class="container mt-1">
         <h2>Detail Mata Pelajaran</h2>
         <p>Kode Mata Pelajaran: <?php echo htmlspecialchars($kode_mapel); ?></p>
         <p>Nama Mata Pelajaran: <?php echo htmlspecialchars($mapel['nama_mapel']); ?></p>
         <p>Tahun Ajaran: <?php echo htmlspecialchars($row_kelas['tahun_ajaran']); ?></p>
 
         <!-- Button untuk membuka modal tambah topik -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahTopikModal">
-            Tambah Topik
-        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahTopikModal" title="Add">
+        <i class="fa fa-table"></i> Tambah Topik</button>
 
         <!-- Modal Tambah Topik -->
         <div class="modal fade" id="tambahTopikModal" tabindex="-1" role="dialog" aria-labelledby="tambahTopikModalLabel" aria-hidden="true">
@@ -107,17 +106,20 @@ $mapel = $result->fetch_assoc();
                                 <a href="#" class="btn btn-custom upload" data-toggle="modal" data-target="#uploadMateriModal" data-topik-id="<?php echo $row['topik_id']; ?>">
                                     Upload Materi
                                 </a>
-                                <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#tugasModal" data-topik-id="<?php echo $row['topik_id']; ?>">
-                                    Tugas
-                                </a><br><br>
                                 <a href="cek_materi.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-info">
                                     Cek Materi
+                                </a>
+                                <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#tugasModal" data-topik-id="<?php echo $row['topik_id']; ?>">
+                                    Tugas
+                                </a>
+                                <a href="cek_tugas.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-success">
+                                    Cek Tugas
                                 </a>
                                 <a href="cek_pengumpulan_tugas.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-warning">
                                     Cek Pengumpulan
                                 </a>
                                 <a href="hapus_topik.php?topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>&id_kelas=<?php echo htmlspecialchars($id_kelas); ?>" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus topik ini?');">
-                                    Hapus Topik
+                                    Hapus<br>Topik
                                 </a>
                             </div>
                         </div>
