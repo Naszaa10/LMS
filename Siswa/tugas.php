@@ -39,7 +39,7 @@ $result_tugas = mysqli_query($conn, $query_tugas);
 $tugas = mysqli_fetch_assoc($result_tugas);
 ?>
 
-<div class="container mt-2">
+<div class="container mt-4">
     <h2>Mengerjakan Tugas</h2>
     <div class="card mb-4">
         <div class="card-body">
@@ -51,7 +51,7 @@ $tugas = mysqli_fetch_assoc($result_tugas);
             <?php if (!empty($tugas['file_tugas'])): ?>
                 <p>
                     <strong>Download File Tugas:</strong> 
-                    <a href="../uploads/tugasguru/<?php echo htmlspecialchars($tugas['file_tugas']); ?>" class="btn btn-link" download>Download</a>
+                    <a href="../uploads/tugasguru/<?php echo htmlspecialchars($tugas['file_tugas']); ?>" class="btn btn-primary" download>Download</a>
                 </p>
             <?php endif; ?>
 

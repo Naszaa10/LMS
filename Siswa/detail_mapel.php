@@ -83,23 +83,23 @@ while ($row_materi = mysqli_fetch_assoc($result_materi)) {
     $materi_by_topik[$row_materi['topik_id']][] = $row_materi;
 }
 
-// Query untuk mendapatkan tugas berdasarkan topik_id, id_kelas, dan tahun ajaran terbaru
+// Query to get tasks along with their deadlines
 $query_tugas = "
-    SELECT t.id_tugas, t.judul, t.deskripsi_tugas, t.topik_id
+    SELECT t.id_tugas, t.judul, t.deskripsi_tugas, t.topik_id, t.tanggal_tenggat
     FROM tugas t
     JOIN kelas k ON t.id_kelas = k.id_kelas
     WHERE t.kode_mapel = '$kode_mapel' AND k.id_tahun_ajaran = $id_tahun_ajaran
 ";
 $result_tugas = mysqli_query($conn, $query_tugas);
 
-// Array untuk menyimpan tugas berdasarkan topik_id
+// Array to store tasks by topik_id with deadlines
 $tugas_by_topik = [];
 while ($row_tugas = mysqli_fetch_assoc($result_tugas)) {
-    $tugas_by_topik[$row_tugas['topik_id']][] = $row_tugas; // Store tasks in an array
+    $tugas_by_topik[$row_tugas['topik_id']][] = $row_tugas;
 }
-
 ?>
 
+<!-- Display Topics, Materials, and Tasks -->
 <div id="mainContent" class="container mt-4">
     <h2>Detail Mata Pelajaran</h2>
     <div class="card mb-4">
@@ -140,24 +140,36 @@ while ($row_tugas = mysqli_fetch_assoc($result_tugas)) {
                             <p>Tidak ada materi untuk topik ini.</p>
                         <?php endif; ?>
 
-                        <!-- Tugas Section -->
-                        <?php if (isset($tugas_by_topik[$topik_id])): ?>
+                    <!-- Tugas Section -->
+                    <?php if (isset($tugas_by_topik[$topik_id])): ?>
+                        <?php foreach ($tugas_by_topik[$topik_id] as $tugas): ?>
+                            <?php
+                            // Check if the deadline has passed
+                            $current_date = date('Y-m-d');
+                            $deadline = $tugas['tanggal_tenggat'];
+                            $is_past_deadline = strtotime($current_date) > strtotime($deadline);
+                            ?>
                             <div class="mt-2">
-                                <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
-                                    Kerjakan Tugas
-                                </a>
+                                <?php if ($is_past_deadline): ?>
+                                    <button class="btn btn-lg btn-warning" disabled>Sudah Melewati Waktu Pengumpulan</button>
+                                <?php else: ?>
+                                    <a href="tugas.php?topik_id=<?php echo htmlspecialchars($topik_id); ?>&kode_mapel=<?php echo htmlspecialchars($kode_mapel); ?>" class="btn btn-lg btn-warning">
+                                        Kerjakan Tugas
+                                    </a>
+                                <?php endif; ?>
                             </div>
-                        <?php else: ?>
-                            <p>Tidak ada tugas untuk topik ini.</p>
-                        <?php endif; ?>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Tidak ada tugas untuk topik ini.</p>
+                    <?php endif; ?>
                 </div>
             </div>
-            <?php
-        }
-        ?>
-    </div>
+        </div>
+        <?php
+    }
+    ?>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

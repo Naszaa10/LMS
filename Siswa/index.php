@@ -23,8 +23,9 @@ include '../navbar/navSiswa.php';
 // Query untuk mendapatkan tugas yang belum dikerjakan oleh siswa
 $query_tugas = "
     SELECT * FROM tugas 
-    WHERE id_kelas IN (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa') 
-    AND id_tugas NOT IN (SELECT id_tugas FROM pengumpulan_tugas WHERE nis = '$nis_siswa')
+WHERE id_kelas IN (SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa') 
+AND id_tugas NOT IN (SELECT id_tugas FROM pengumpulan_tugas WHERE nis = '$nis_siswa')
+AND tanggal_tenggat >= CURDATE();
 ";
 $result_tugas = mysqli_query($conn, $query_tugas);
 
