@@ -69,12 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Materi</title>
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/detailMapel.css">
 </head>
 <?php include '../navbar/navHeader.php'; ?>
 
-<div id="mainContent" class="container mt-4">
+<div id="mainContent" class="container mt-1">
     <h2>Edit Materi</h2>
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
@@ -85,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="file">Unggah File Baru (opsional)</label>
             <input type="file" class="form-control" name="file">
         </div>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <button type="submit" class="btn btn-primary mt-2">Simpan Perubahan</button>
     </form>
 </div>
 <?php include '../navbar/navFooter.php'; ?>

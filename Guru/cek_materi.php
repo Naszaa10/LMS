@@ -25,7 +25,7 @@ $result = $stmt->get_result();
 <div id="mainContent" class="container mt-4">
     <h2>Cek Materi</h2>
 <div class="table-container">
-<table class="table">
+<table id="example" class="table table-bordered">
     <thead>
         <tr>
             <th>Nama Materi</th>
@@ -39,8 +39,11 @@ $result = $stmt->get_result();
                 <td><?php echo htmlspecialchars($row['judul']); ?></td>
                 <td><a href="../uploads/materi<?php echo htmlspecialchars($row['file']); ?>" target="_blank">Lihat File</a></td>
                 <td>
-                    <a href="edit_materi.php?materi_id=<?php echo $row['id_materi']; ?>&topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo $row['kode_mapel']; ?>&id_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-edit btn-sm btn-warning">Edit</a>
-                    <a href="proses_hapus_materi.php?materi_id=<?php echo $row['id_materi']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus materi ini?');">Hapus</a>
+                <a href="edit_materi.php?materi_id=<?php echo $row['id_materi']; ?>&topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo $row['kode_mapel']; ?>&id_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-edit btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
+                <i class="fa fa-edit"></i> Edit</a>
+
+                <a href="proses_hapus_materi.php?materi_id=<?php echo $row['id_materi']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus materi ini?'); data-toggle="tooltip" data-placement="top" title="Delete">
+                <i class="fa fa-trash"></i> Hapus</a>
                 </td>
             </tr>
         <?php endwhile; ?>
@@ -54,4 +57,5 @@ $result = $stmt->get_result();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
 </html>

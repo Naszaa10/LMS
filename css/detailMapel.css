@@ -2,8 +2,6 @@
 .container h2, p {
     margin-bottom: 20px;
     font-weight: 600;
-    margin-left: 20px;
-    margin-top: 20px;
     text-align: left; /* Memastikan header h2 di tengah */
 }
 
@@ -25,6 +23,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
     margin-bottom: 20px;
+    width: 300px;
 }
 
 .card:hover {
@@ -36,21 +35,30 @@
     font-weight: 500;
     color: #343a40;
     text-align: center;
+    width: 100%;
 }
 
 /* Buttons */
-.btn {
+.card-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Jarak antar tombol */
+    justify-content: space-between;
+}
+
+.card-body .btn {
+    font-size: medium;
     border-radius: 4px;
     transition: background-color 0.3s ease-in-out;
-    display: block;
     text-align: center;
+    flex: 0 0 48%; /* Membagi tombol menjadi dua kolom */
     margin-bottom: 10px;
 }
 
+/* Button Primary */
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
-    margin-left: 20px;
 }
 
 .btn-primary:hover {
@@ -58,13 +66,10 @@
     border-color: #0056b3;
 }
 
-
-
 /* Button Custom Colors */
 .btn-custom.upload {
     background-color: #007bff;
     border-color: #007bff;
-    width: 100%;
 }
 
 .btn-custom.upload:hover {
@@ -75,7 +80,6 @@
 .btn-secondary {
     background-color: #6c757d;
     border-color: #6c757d;
-    width: 100%;
 }
 
 .btn-secondary:hover {
@@ -86,7 +90,6 @@
 .btn-info {
     background-color: #17a2b8;
     border-color: #17a2b8;
-    width: 100%;
 }
 
 .btn-info:hover {
@@ -97,7 +100,7 @@
 .btn-warning {
     background-color: #ffc107;
     border-color: #ffc107;
-    width: 100%;
+    width: 100%; /* Penuh di seluruh kolom */
 }
 
 .btn-warning:hover {
@@ -108,19 +111,18 @@
 .btn-danger {
     background-color: #ff0707;
     border-color: #ff0707;
-    width: 100%;
+    width: 100%; /* Penuh di seluruh kolom */
 }
 
 .btn-danger:hover {
     background-color: #e02200;
     border-color: #d30000;
 }
-btn-danger
+
 
 /* Modals */
 .modal-header {
     border-bottom: none;
-    margin-top: 50px;
     text-align: center;
 }
 
@@ -143,6 +145,8 @@ btn-danger
     border-radius: 4px;
     border-color: #ced4da;
     transition: border-color 0.3s ease-in-out;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .form-control:focus {
@@ -151,54 +155,48 @@ btn-danger
 }
 
 
-
-
-/* Container  Tables  cek pengumpulan tugas dan Ceck materi*/
-.table-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px auto; /* Memusatkan container tabel */
-    max-width: 100%; /* Membatasi lebar maksimal container */
-    padding: 0 15px; /* Menambahkan padding horizontal untuk ruang */
-    overflow-x: auto; /* Mengaktifkan scroll horizontal jika tabel terlalu lebar */
-}
-
-/* Table */
+/* Tabel */
 .table {
-    width: 100%; /* Memastikan tabel mengisi lebar container */
-    border-collapse: separate; /* Mengaktifkan radius pada tabel */
-    border-spacing: 0; /* Menghilangkan jarak antar sel */
-    border-radius: 8px; /* Menambahkan radius pada sudut tabel */
-    overflow: hidden; /* Menyembunyikan overflow untuk radius */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan untuk efek kedalaman */
-
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header Tabel */
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
-    border: 1px solid #ced4da;
+.table th {
+    background-color: #343a40;
+    color: #fff;
     text-align: center;
-    padding: 5px;
-    white-space: nowrap; /* Mencegah pemecahan teks dalam header */
+    font-weight: bold;
 }
 
-/* Sel Tabel */
-.table tbody td {
-    text-align: center; /* Memperbaiki typo */
-    padding: 5px;
-    border: 1px solid #ced4da;
-    white-space: nowrap; /* Mencegah pemecahan teks dalam sel */
+.table td {
+    text-align: center;
+    color: #495057;
 }
 
-/* Menyempitkan Kolom */
-.table th, .table td {
-    max-width: 150px; /* Atur lebar maksimum kolom */
-    overflow: hidden; /* Menyembunyikan teks yang melebihi lebar maksimum */
-    text-overflow: ellipsis; /* Menampilkan elipsis (...) jika teks terlalu panjang */
-    word-wrap: break-word; /* Memastikan teks panjang tetap dalam satu baris jika diperlukan */
+
+/* 
+CEK MATERI */
+.table .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    width: 40%; /* Penuh di seluruh kolom */
+}
+
+.table .btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.table .btn-danger {
+    background-color: #ff0707;
+    border-color: #ff0707;
+    width: 40%; /* Penuh di seluruh kolom */
+}
+
+.table .btn-danger:hover {
+    background-color: #e02200;
+    border-color: #d30000;
 }
 
 /* Responsive Styles */
@@ -220,34 +218,19 @@ btn-danger
     }
 }
 
-/* CEK Materi btn */
-.btn-edit {
-    background-color: #ffc107; /* Warna latar belakang tombol Edit */
-    color: #212529; /* Warna teks tombol Edit */
-    width: 80px;
-    
-}
-
-.btn-edit:hover {
-    background-color: #e0a800; /* Warna latar belakang saat hover */
-    color: #ffffff; /* Warna teks saat hover */
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5); /* Efek bayangan saat hover */
-}
-
-.btn-delete {
-    background-color: #dc3545; /* Warna latar belakang tombol Hapus */
-    color: #fff; /* Warna teks tombol Hapus */
-    width: 80px;
-}
-
-.btn-delete:hover {
-    background-color: #c82333; /* Warna latar belakang saat hover */
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5); /* Efek bayangan saat hover */
-}
-
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+    .card-body .btn {
+        flex: 0 0 100%; 
+    }
+
+    .col-md-5 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-left: 0;
+    }
+
     #mainContent {
         padding: 15px;
         margin: 10px auto;
