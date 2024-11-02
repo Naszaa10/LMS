@@ -47,14 +47,14 @@ if (isset($_POST['save_changes'])) {
             }
         }
 
+
         if (in_array($fileType, $allowedTypes)) {
-            // Generate a new file name using nis_siswa and current timestamp
-            $newFileName = $nis_siswa . '_' . time() . '.' . $fileType; // NIS and timestamp
+            // Atur zona waktu ke Jakarta
+            date_default_timezone_set('Asia/Jakarta');
 
-            // $timestamp = date('H-i-s-u');
-            // $newFileName = $nis_siswa . '_' . $timestamp . '.' . $fileType; 
-
-            $targetFilePath = $targetDir . $newFileName; // Update target file path
+            // Ganti nama file dengan NIP dan timestamp
+            $newFileName = $nip . '_' . date("Ymd_His") . '_' . round(microtime(true) * 1000) . "." . $fileType;
+            $targetFilePath = $targetDir . $newFileName;
 
             // Upload file ke folder
             if (move_uploaded_file($_FILES["profileImage"]["tmp_name"], $targetFilePath)) {

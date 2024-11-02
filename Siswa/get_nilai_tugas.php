@@ -1,5 +1,12 @@
 <?php
-include '../db.php';
+session_start();
+include '../db.php'; // Menghubungkan dengan database
+
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
 if (isset($_GET['tugas_id'])) {
     $tugas_id = $_GET['tugas_id'];

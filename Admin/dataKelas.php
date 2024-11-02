@@ -67,16 +67,6 @@ $result = $stmt->get_result();
         <h1>Data Kelas</h1>
         <a href="tambahKelas.php" class="btn btn-primary mb-3">Tambah Kelas</a>
 
-        <!-- Form Pencarian -->
-        <form action="" method="post" class="mb-3">
-            <div class="input-group">
-                <input type="text" class="form-control" name="search" placeholder="Cari berdasarkan nama kelas atau jurusan" value="<?php echo htmlspecialchars($search); ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Cari</button>
-                </div>
-            </div>
-        </form>
-
         <table id="example" class="table table-bordered">
             <thead>
                 <tr>

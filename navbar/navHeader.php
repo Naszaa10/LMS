@@ -4,7 +4,7 @@ include '../db.php'; // Menghubungkan dengan database
 
 // Pastikan guru sudah login
 if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
+    header("Location:../login_guru.php");
     exit();
 }
 
@@ -34,7 +34,7 @@ $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4">
-                <img src="..\uploads\gambar\logo.png" alt="Logo" class="logo-img">
+                <img src="..\uploads\gambar\SMK_AF.png" alt="Logo" class="logo-img">
                 <h4 class="mt-2">SMK AL FALAH</h4>
             </div>
             <div class="list-group list-group-flush">

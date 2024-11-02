@@ -1,13 +1,13 @@
-<?php
-session_start();
-include '../db.php'; // Menghubungkan dengan database
-
-// Pastikan guru sudah login
-if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
-    exit();
-}
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Mata Pelajaran</title>
+    <link rel="stylesheet" href="../css/detailMapel.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<?php include '../navbar/navHeader.php';
 $nip = $_SESSION['teacher_nip'];
 
 // Mendapatkan detail mata pelajaran
@@ -39,18 +39,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $mapel = $result->fetch_assoc();
 ?>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Mata Pelajaran</title>
-    <link rel="stylesheet" href="../css/detailMapel.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <?php include '../navbar/navHeader.php'; ?>
 
     <div id="mainContent" class="container mt-1">
         <h2>Detail Mata Pelajaran</h2>
@@ -99,7 +87,7 @@ $mapel = $result->fetch_assoc();
         <div class="row mt-4">
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($row['nama_topik']); ?></h5>

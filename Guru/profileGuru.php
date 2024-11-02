@@ -47,8 +47,11 @@ if (isset($_POST['save_changes'])) {
             }
         }
 
+        // Atur zona waktu ke Jakarta
+        date_default_timezone_set('Asia/Jakarta');
+
         // Ganti nama file dengan NIP dan timestamp
-        $fileName = $nip . '_' . time() . '.' . $fileType;
+        $fileName = $nip . '_' . date("Ymd_His") . '_' . round(microtime(true) * 1000) . "." . $fileType;
         $targetFilePath = $targetDir . $fileName;
 
         if (in_array($fileType, $allowedTypes)) {
@@ -58,17 +61,25 @@ if (isset($_POST['save_changes'])) {
                 $imageQuery = "UPDATE guru SET foto_profil = '$fileName' WHERE nip = '$nip'";
                 mysqli_query($conn, $imageQuery);
             } else {
-                echo "Terjadi kesalahan saat mengunggah file.";
+                echo "<script>
+                alert('Terjadi kesalahan saat mengunggah file.');
+                windows.locaton.href = 'profileGuru.php';
+                </script> ";
             }
         } else {
-            echo "Hanya file JPG, JPEG, PNG, dan GIF yang diperbolehkan.";
+            echo "<script>
+                alert('Hanya file JPG, JPEG, PNG, dan GIF yang diperbolehkan.');
+                windows.locaton.href = 'profileGuru.php';
+                </script> ";
         }
     }
 
     if ($resultUpdate) {
         // Redirect ke halaman yang sama setelah update
-        header("Location: profileGuru.php");
-        exit(); // Pastikan untuk exit setelah redirect
+        echo "<script>
+                alert('Foto Profile Berhasil di Perbarui');
+                windows.locaton.href = 'profileGuru.php';
+                </script> "; // Pastikan untuk exit setelah redirect
     } else {
         echo "<div class='alert alert-danger'>Terjadi kesalahan saat mengubah data.</div>";
     }

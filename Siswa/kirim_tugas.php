@@ -1,22 +1,43 @@
 <?php
-include '../db.php';
+session_start();
+include '../db.php'; // Menghubungkan dengan database
+
+// Pastikan guru sudah login
+if (!isset($_SESSION['teacher_nip'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
 $tugas_id = $_POST['tugas_id'];
 $topik_id = $_POST['topik_id'];
 $kode_mapel = $_POST['kode_mapel'];
 $id_kelas = $_POST['id_kelas'];
+$nis_siswa = $_POST['nis_siswa'];
 $jawaban = $_POST['jawaban'] ?? null;
 
+// Pastikan nis_siswa sudah didefinisikan
+if (!isset($nis_siswa)) {
+    die("NIS siswa tidak ditemukan.");
+}
+
 // Jika tipe tugas adalah teks
-if (isset($jawaban)) {
+if (isset($jawaban) && !empty($jawaban)) {
     // Query untuk menyimpan jawaban teks
     $query = "
         INSERT INTO pengumpulan_tugas (nis, id_tugas, tugas_text, topik_id, kode_mapel, id_kelas, tanggal_pengumpulan)
         VALUES (?, ?, ?, ?, ?, ?, NOW())
     ";
     $stmt = $conn->prepare($query);
+    if ($stmt === false) {
+        die("Error preparing statement: " . $conn->error);
+    }
+
     $stmt->bind_param('sisisi', $nis_siswa, $tugas_id, $jawaban, $topik_id, $kode_mapel, $id_kelas);
-    $stmt->execute();
+    
+    if (!$stmt->execute()) {
+        die("Error executing statement: " . $stmt->error);
+    }
+    $stmt->close();
 }
 
 // Jika tipe tugas adalah upload
@@ -33,13 +54,23 @@ if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == UPLOAD_E
             VALUES (?, ?, ?, ?, ?, ?, NOW())
         ";
         $stmt = $conn->prepare($query);
+        if ($stmt === false) {
+            die("Error preparing statement: " . $conn->error);
+        }
+
         $stmt->bind_param('sisisi', $nis_siswa, $tugas_id, $file_name, $topik_id, $kode_mapel, $id_kelas);
-        $stmt->execute();
+        
+        if (!$stmt->execute()) {
+            die("Error executing statement: " . $stmt->error);
+        }
+        $stmt->close();
     } else {
         echo "Gagal mengunggah file.";
+        exit();
     }
 }
 
+// Redirect after successful submission
 header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
 exit();
 ?>

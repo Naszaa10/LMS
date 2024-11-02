@@ -1,12 +1,13 @@
-<?php
-session_start();
-include '../db.php'; // Menghubungkan dengan database
-
-// Pastikan guru sudah login
-if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
-    exit();
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganti Password</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<?php include '../navbar/navHeader.php';
 
 $nip = $_SESSION['teacher_nip'];
  // Pastikan variabel sesi ini di-set saat login
@@ -46,16 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ganti Password</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<?php include '../navbar/navHeader.php'; ?>
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">

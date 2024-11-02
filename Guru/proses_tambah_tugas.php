@@ -16,7 +16,7 @@ $nama_tugas = $_POST['nama_tugas'];
 $deskripsi_tugas = $_POST['deskripsi_tugas'];
 $jenis_tugas = $_POST['jenis_tugas'];
 $tenggat_waktu = $_POST['tenggat_waktu'];
-$id_tahun_ajaran = $_POST['id_tahun_ajaran']; // Ambil id_tahun_ajaran dari form
+$id_tahun_ajaran = $_POST['id_tahun_ajaran']; 
 
 // Handle file upload
 $file_tugas = $_FILES['file_tugas'] ?? null;
@@ -25,8 +25,11 @@ $file_path = null;
 if ($file_tugas && $file_tugas['error'] === UPLOAD_ERR_OK) {
     $upload_dir = '../uploads/tugasguru/';
     
-    // Generate a unique file name to avoid overwriting
-    $file_name = uniqid() . '_' . basename($file_tugas['name']);
+    // Generate a unique file name based on the specified format
+    $topik_nama = str_replace(' ', '_', $topik_id); // Sanitize for filename
+    $nama_tugas_sanitized = str_replace(' ', '_', $nama_tugas); // Sanitize for filename
+    $tahun_ajaran_sanitized = str_replace(' ', '_', $id_tahun_ajaran); // Sanitize for filename
+    $file_name = "{$topik_nama}_{$nama_tugas_sanitized}_{$kode_mapel}_{$tahun_ajaran_sanitized}_" . '.' . pathinfo($file_tugas['name'], PATHINFO_EXTENSION);
     $file_path = $upload_dir . $file_name;
 
     // Create the upload directory if it doesn't exist

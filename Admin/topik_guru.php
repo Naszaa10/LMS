@@ -85,7 +85,7 @@ $result = $stmt->get_result();
         </div>
     </form>
 
-    <table class="table table-bordered">
+    <table id="example" class="table table-bordered">
         <thead>
             <tr>
                 <th>No</th>
@@ -112,5 +112,6 @@ $result = $stmt->get_result();
 </div>
 
 <?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/tabelSeries.php'; ?>
 </body>
 </html>

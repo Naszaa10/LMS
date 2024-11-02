@@ -1,5 +1,4 @@
-<?php include '../navbar/navHeader.php'; ?>
-<?php
+<?php include '../navbar/navHeader.php';
 
 // Query untuk mendapatkan data jadwal berdasarkan NIP guru
 $sql = "

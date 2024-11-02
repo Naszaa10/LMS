@@ -1,12 +1,13 @@
-<?php
-session_start();
-include '../db.php'; // Koneksi ke database
-
-// Pastikan guru sudah login
-if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
-    exit();
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilai Tugas Siswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../css/nilaiTugas.css"> -->
+</head>
+<?php include '../navbar/navHeader.php';
 
 $nip = $_SESSION['teacher_nip'];
 
@@ -31,21 +32,10 @@ $stmtSubjects->execute();
 $resultSubjects = $stmtSubjects->get_result();
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nilai Tugas Siswa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="../css/nilaiTugas.css"> -->
-</head>
-<?php include '../navbar/navHeader.php'; ?>
-<body>
     <div id="mainContent">
         <div class="container mt-4">
             <h2 class="mb-4">Nilai Tugas Siswa</h2>
-            <form id="nilaiForm" method="post" action="save_nilai.php">
+            <form id="nilaiForm" method="post" action="save_nilai_tugas.php">
                 <div class="mb-3">
                     <label for="kelas" class="form-label">Kelas</label>
                     <select class="form-select" id="kelas" name="kelas" required>

@@ -4,7 +4,7 @@ include '../db.php'; // Koneksi database
 
 // Pastikan siswa sudah login
 if (!isset($_SESSION['nis_siswa'])) {
-    header("Location: ../login.php");
+    header("Location:../login_siswa.php");
     exit();
 }
 
@@ -36,7 +36,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4">
-                <img src="..\uploads\gambar\logo.png" alt="Logo" class="logo-img">
+                <img src="..\uploads\gambar\SMK_AF.png" alt="Logo" class="logo-img">
                 <h4 class="mt-2">SMK AL FALAH</h4>
             </div>
             <div class="list-group list-group-flush">

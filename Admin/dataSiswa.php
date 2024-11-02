@@ -44,10 +44,6 @@ $conn->close();
 
     <div class="container mt-4">
         <h1>Data Siswa</h1>
-        <form class="form-inline mb-3" method="GET" action="">
-            <input type="text" name="search" class="form-control mr-2" placeholder="Cari siswa atau kelas" value="<?php echo htmlspecialchars($search); ?>">
-            <button type="submit" class="btn btn-primary">Cari</button>
-        </form>
         <a href="tambahSiswa.php" class="btn btn-primary mb-3">Tambah Siswa</a>
         <table id="example" class="table table-bordered">
             <thead>

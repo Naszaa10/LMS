@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kerjakan Tugas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tambahkan CKEditor -->
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 </head>
 <body>
@@ -15,6 +14,12 @@ include '../navbar/navSiswa.php';
 // Ambil topik_id dan kode_mapel dari URL
 $topik_id = $_GET['topik_id'];
 $kode_mapel = $_GET['kode_mapel'];
+
+// Pastikan nis_siswa didefinisikan
+if (!isset($nis_siswa)) {
+    echo "NIS siswa tidak ditemukan.";
+    exit;
+}
 
 // Query untuk mengambil id_kelas berdasarkan nis_siswa
 $query_kelas = "SELECT id_kelas FROM siswa WHERE nis = '$nis_siswa'";
@@ -44,15 +49,20 @@ $tugas = mysqli_fetch_assoc($result_tugas);
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title"><?php echo htmlspecialchars($tugas['judul']); ?></h5>
-            <p class="card-text">Deskripsi Tugas : <?php echo htmlspecialchars($tugas['deskripsi_tugas']); ?></p>
+            <p class="card-text">Deskripsi Tugas: <?php echo htmlspecialchars($tugas['deskripsi_tugas']); ?></p>
             <p class="card-text"><strong>Tanggal Tenggat:</strong> <?php echo htmlspecialchars($tugas['tanggal_tenggat']); ?></p>
             
             <!-- Link untuk download file tugas jika ada -->
             <?php if (!empty($tugas['file_tugas'])): ?>
-                <p>
-                    <strong>Download File Tugas:</strong> 
-                    <a href="../uploads/tugasguru/<?php echo htmlspecialchars($tugas['file_tugas']); ?>" class="btn btn-primary" download>Download</a>
-                </p>
+                <?php $file_path = '' . htmlspecialchars($tugas['file_tugas']); ?>
+                <?php if (file_exists($file_path)): ?>
+                    <p>
+                        <strong>Download File Tugas:</strong> 
+                        <a href="<?php echo $file_path; ?>" class="btn btn-primary" download>Download</a>
+                    </p>
+                <?php else: ?>
+                    <p class="text-danger">File tidak ditemukan.</p>
+                <?php endif; ?>
             <?php endif; ?>
 
             <!-- Form Mengerjakan Tugas -->
@@ -67,11 +77,9 @@ $tugas = mysqli_fetch_assoc($result_tugas);
                 <?php if ($tugas['opsi_tugas'] == 'teks'): ?>
                     <div class="mb-3">
                         <label for="jawaban" class="form-label">Jawaban:</label>
-                        <!-- Textarea yang diubah menjadi CKEditor -->
                         <textarea class="form-control" id="jawaban" name="jawaban" rows="5"></textarea>
                     </div>
                     <script>
-                        // Mengaktifkan CKEditor pada textarea
                         CKEDITOR.replace('jawaban');
                     </script>
                 <?php elseif ($tugas['opsi_tugas'] == 'upload'): ?>

@@ -23,7 +23,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
     margin-bottom: 20px;
-    width: 300px;
+    width: 320px;
 }
 
 .card:hover {
@@ -44,6 +44,7 @@
     flex-wrap: wrap;
     gap: 10px; /* Jarak antar tombol */
     justify-content: space-between;
+    
 }
 
 .card-body .btn {

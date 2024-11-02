@@ -1,11 +1,12 @@
 <?php
 session_start();
+include '../db.php'; // Menghubungkan dengan database
+
+// Pastikan guru sudah login
 if (!isset($_SESSION['teacher_nip'])) {
     header("Location: ../login.php");
     exit();
 }
-
-include '../db.php'; // Koneksi ke database
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kelas = $_POST['kelas'];

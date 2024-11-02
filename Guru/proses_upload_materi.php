@@ -41,19 +41,21 @@ $uploadOk = 1;
 
 // Validasi file
 if (file_exists($target_file)) {
-    echo "File sudah ada.";
+    echo "<script>alert('File sudah ada. Silakan hapus terlebih dahulu materi sebelumnya.');</script>";
     $uploadOk = 0;
 }
 
 // Cek ukuran file
 if ($file_materi["size"] > 30000000) { // 30MB
-    echo "File terlalu besar.";
+    echo "<script>alert('File terlalu besar. Ukuran maksimal adalah 30MB.');</script>";
     $uploadOk = 0;
 }
 
+
 // Jika upload tidak berhasil
 if ($uploadOk == 0) {
-    echo "File tidak di-upload.";
+    header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel) . "&kelas_id=" . urlencode($id_kelas) . "&tahun_ajaran=" . urlencode($id_tahun_ajaran));
+    exit();
 } else {
     if (move_uploaded_file($file_materi["tmp_name"], $target_file)) {
         // Query untuk menambahkan materi ke database
@@ -63,15 +65,19 @@ if ($uploadOk == 0) {
         $stmt->bind_param("issssii", $topik_id, $nama_materi, $target_file, $tanggal_unggah, $kode_mapel, $id_kelas, $id_tahun_ajaran);
 
         if ($stmt->execute()) {
-            // Redirect kembali ke halaman detail_mapel.php
-            header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel) . "&kelas_id=" . urlencode($id_kelas) . "&tahun_ajaran=" . urlencode($id_tahun_ajaran));
+            // Jika berhasil, tampilkan alert dan redirect menggunakan JavaScript
+            echo "<script>
+                alert('Materi berhasil ditambahkan!');
+                window.location.href = 'detail_mapel.php?kode_mapel=" . urlencode($kode_mapel) . "&kelas_id=" . urlencode($id_kelas) . "&tahun_ajaran=" . urlencode($id_tahun_ajaran) . "';
+            </script>";
             exit();
         } else {
-            echo "Gagal menambahkan materi: " . $conn->error;
-        }
-    } else {
-        echo "Gagal meng-upload file.";
-    }
+            // Tampilkan pesan kesalahan jika gagal
+            echo "<script>
+                alert('Gagal menambahkan materi: " . addslashes($conn->error) . "');
+            </script>";
+        }   
+    }     
 }
 
 // Tutup koneksi database
