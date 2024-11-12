@@ -4,7 +4,7 @@ include '../db.php'; // Menghubungkan dengan database
 
 // Pastikan guru sudah login
 if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
+    header("Location: ../login_guru.php");
     exit();
 }
 

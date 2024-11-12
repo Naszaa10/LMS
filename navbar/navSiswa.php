@@ -8,10 +8,8 @@ if (!isset($_SESSION['nis_siswa'])) {
     exit();
 }
 
-
 // Ambil NIS dari sesi (asumsi Anda menyimpan NIS siswa di session)
 $nis_siswa = $_SESSION['nis_siswa'];
-
 
 // Query untuk mendapatkan data siswa
 $querySiswa = "SELECT foto_profil FROM siswa WHERE nis = '$nis_siswa'";
@@ -27,7 +25,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Siswa - SMK AL FALAH</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -36,7 +34,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4">
-                <img src="..\uploads\gambar\SMK_AF.png" alt="Logo" class="logo-img">
+                <img src="../uploads/gambar/SMK_AF.png" alt="Logo" class="logo-img">
                 <h4 class="mt-2">SMK AL FALAH</h4>
             </div>
             <div class="list-group list-group-flush">
@@ -62,7 +60,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container-fluid">
-                    <button class="btn btn-primary" id="menu-toggle">☰</button>
+                    <button class="btn btn-primary" id="sidebarToggle">☰</button>
                     <div class="collapse navbar-collapse" id="navbarContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -86,3 +84,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
                     </div>
                 </div>
             </nav>
+        </div>
+    </div>
+
+

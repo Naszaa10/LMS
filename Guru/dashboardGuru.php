@@ -103,8 +103,8 @@ while ($row = mysqli_fetch_assoc($resultSiswaLogin)) {
 }
 ?>
 <div id="mainContent" class="container-fluid mt-4">
-    <h1 class="mt-4">Dashboard Siswa</h1>
-    <p>Selamat datang di dashboard Siswa. Di sini Anda dapat melihat informasi penting.</p>
+    <h1 class="mt-4">Dashboard Guru</h1>
+    <p>Selamat datang di dashboard Guru. Di sini Anda dapat melihat informasi penting.</p>
 
     <div class="row mb-4">
         <div class="col-lg-8 col-md-8 mb-4">

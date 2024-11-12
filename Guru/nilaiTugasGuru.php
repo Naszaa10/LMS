@@ -35,7 +35,7 @@ $resultSubjects = $stmtSubjects->get_result();
     <div id="mainContent">
         <div class="container mt-4">
             <h2 class="mb-4">Nilai Tugas Siswa</h2>
-            <form id="nilaiForm" method="post" action="save_nilai_tugas.php">
+            <form id="nilaiForm">
                 <div class="mb-3">
                     <label for="kelas" class="form-label">Kelas</label>
                     <select class="form-select" id="kelas" name="kelas" required>
@@ -57,7 +57,6 @@ $resultSubjects = $stmtSubjects->get_result();
                 <div id="tableContainer">
                     <!-- Tabel akan diisi dengan data siswa berdasarkan kelas yang dipilih -->
                 </div>
-                <button type="submit" class="btn btn-primary mt-4">Simpan Nilai</button>
             </form>
         </div>
     </div>
@@ -87,7 +86,7 @@ $resultSubjects = $stmtSubjects->get_result();
                                 tableHtml += `<tr>
                                                 <td>${student.nama_siswa}</td>
                                                 <td>${tugasTitle}</td>
-                                                <td><input type="number" class="form-control" name="nilai[${student.nis}]" value="${nilaiValue}" min="0" max="100"></td>
+                                                <td>${nilaiValue}</td>
                                             </tr>`;
                             });
                             tableHtml += '</tbody></table>';
@@ -112,7 +111,6 @@ $resultSubjects = $stmtSubjects->get_result();
     <?php include '../navbar/tabelSeries.php'; ?>
 </body>
 </html>
-
 
 <?php
 // Tutup koneksi database

@@ -84,7 +84,7 @@ $result = $stmt->get_result();
                             <td>
                                 <?php if ($row['file_path']): ?>
                                     <a href="../uploads/tugas/<?php echo htmlspecialchars($row['file_path']); ?>" download>
-                                        <?php echo htmlspecialchars(basename($row['file_path'])); ?>
+                                        Download File Jawaban
                                     </a>
                                 <?php elseif ($row['tugas_text']): ?>
                                     <a href="lihat_jawaban.php?nis=<?php echo htmlspecialchars($row['nis']); ?>&id_tugas=<?php echo htmlspecialchars($row['id_tugas']); ?>" class="btn btn-info">

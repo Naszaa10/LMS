@@ -11,10 +11,10 @@
 <?php include '../navbar/navSiswa.php'; ?>
 <?php
 
-// Query untuk mengambil nilai tugas berdasarkan NIS
+// Query untuk mengambil nilai tugas berdasarkan NIS dengan tanggal pengumpulan
 $query = "
     SELECT 
-        pt.tanggal_penilaian, 
+        pg.tanggal_pengumpulan,
         mp.nama_mapel, 
         t.judul, 
         pt.nilai_tugas 
@@ -24,23 +24,22 @@ $query = "
         tugas t ON pt.id_tugas = t.id_tugas
     JOIN 
         mata_pelajaran mp ON t.kode_mapel = mp.kode_mapel
+    JOIN 
+        pengumpulan_tugas pg ON pt.id_tugas = pg.id_tugas AND pt.nis = pg.nis
     WHERE 
         pt.nis = '$nis_siswa'
     ORDER BY 
-        pt.tanggal_penilaian DESC
+        pg.tanggal_pengumpulan DESC
 ";
 
 $result = mysqli_query($conn, $query);
 ?>
     <div id="mainContent" class="container mt-4">
         <h2 class="mb-4">Nilai Tugas</h2>
-        <div class="mb-6">
-            <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Mata Pelajaran">
-        </div>
         <table id="example" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Hari/Tanggal</th>
+                    <th>Hari/Tanggal Pengumpulan</th>
                     <th onclick="sortTable(1)">Mata Pelajaran</th>
                     <th>Nama Tugas</th>
                     <th>Nilai</th>
@@ -49,7 +48,7 @@ $result = mysqli_query($conn, $query);
             <tbody>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['tanggal_penilaian']); ?></td>
+                        <td><?php echo htmlspecialchars($row['tanggal_pengumpulan']); ?></td>
                         <td><?php echo htmlspecialchars($row['nama_mapel']); ?></td>
                         <td><?php echo htmlspecialchars($row['judul']); ?></td>
                         <td><?php echo htmlspecialchars($row['nilai_tugas']); ?></td>
@@ -58,7 +57,7 @@ $result = mysqli_query($conn, $query);
             </tbody>
         </table>
     </div>
-<?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/navFooterSiswa.php'; ?>
 <?php include '../navbar/tabelSeries.php'; ?>
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function() {

@@ -10,6 +10,11 @@
 <body>
 <?php include '../navbar/navHeader.php'; 
 
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-primary text-black mt-4">' . htmlspecialchars($_SESSION['message']) . '</div>';
+    unset($_SESSION['message']);
+}
+
 $topik_id = $_GET['topik_id'];
 $kode_mapel = $_GET['kode_mapel'];
 $id_kelas = $_GET['id_kelas'];

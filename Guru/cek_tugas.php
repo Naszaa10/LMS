@@ -10,6 +10,11 @@
 <body>
 <?php include '../navbar/navHeader.php';
 
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-primary text-black mt-4">' . htmlspecialchars($_SESSION['message']) . '</div>';
+    unset($_SESSION['message']);
+}
+
 $topik_id = $_GET['topik_id'];
 $kode_mapel = $_GET['kode_mapel'];
 $id_kelas = $_GET['id_kelas'];
@@ -42,7 +47,7 @@ $result = $stmt->get_result();
                 <a href="edit_tugas.php?id_tugas=<?php echo $row['id_tugas']; ?>&topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo $row['kode_mapel']; ?>&id_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-edit btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Edit">
                 <i class="fa fa-edit"></i> Edit</a>
 
-                <a href="proses_hapus_tugas.php?id_tugas=<?php echo $row['id_tugas']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus tugas ini?'); data-toggle="tooltip data-placement="top" title="Delete">
+                <a href="proses_hapus_tugas.php?id_tugas=<?php echo $row['id_tugas']; ?> &topik_id=<?php echo $row['topik_id']; ?>&kode_mapel=<?php echo $row['kode_mapel']; ?>&id_kelas=<?php echo $row['id_kelas']; ?>" class="btn btn-delete btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus tugas ini?'); data-toggle="tooltip data-placement="top" title="Delete">
                 <i class="fa fa-trash"></i> Hapus</a>
                 </td>
             </tr>

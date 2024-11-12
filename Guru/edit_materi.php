@@ -81,10 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("ssii", $judul, $file, $tahun_ajaran_id, $materi_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Materi berhasil diperbarui!'); window.location.href='cek_materi.php?topik_id=$topik_id&kode_mapel=$kode_mapel&id_kelas=$id_kelas';</script>";
+        $_SESSION['message'] = "Tugas berhasil diperbarui.";
+        header("Location: cek_materi.php?topik_id=$topik_id&kode_mapel=$kode_mapel&id_kelas=$id_kelas");
+        exit;
     } else {
-        echo "<script>alert('Gagal memperbarui materi!');</script>";
+        $_SESSION['message'] = "Terjadi kesalahan saat memperbarui tugas.";
     }
+
 }
 ?>
 
@@ -108,18 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="form-group">
-            <label for="file">File Saat Ini</label><br>
-            <?php if ($materi['file']): ?>
-                <a href="<?php echo htmlspecialchars($materi['file']); ?>" target="_blank">Lihat File</a>
-                <label><input type="checkbox" name="hapus_file"> Hapus File</label>
-            <?php else: ?>
-                <p>Tidak ada file yang diunggah.</p>
-            <?php endif; ?>
-        </div>
-        
-        <div class="form-group">
-            <label for="file">Unggah File Baru (opsional)</label>
-            <input type="file" class="form-control" name="file">
+            <label for="file">File Tugas</label><br>
+            <input type="file" class="form-control-file" id="file" name="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip">
+            <br><small>File saat ini: <?php echo htmlspecialchars($materi['file']); ?></small>
         </div>
         
         <button type="submit" class="btn btn-primary mt-2">Simpan Perubahan</button>

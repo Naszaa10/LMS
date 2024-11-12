@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <?php include '../navbar/navHeader.php';
+
+if (isset($_SESSION['message'])) {
+    echo '<script type="text/javascript">';
+    echo 'alert("' . addslashes($_SESSION['message']) . '");'; // Use addslashes to escape any quotes
+    echo '</script>';
+    unset($_SESSION['message']); // Clear the message after displaying
+}
+
 $nip = $_SESSION['teacher_nip'];
 
 // Mendapatkan detail mata pelajaran

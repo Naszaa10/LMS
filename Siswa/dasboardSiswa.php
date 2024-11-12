@@ -186,6 +186,6 @@ if (mysqli_num_rows($resultPengumuman) > 0) {
     });
 </script>
 
-<?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/navFooterSiswa.php'; ?>
 </body>
 </html>

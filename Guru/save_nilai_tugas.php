@@ -4,43 +4,73 @@ include '../db.php'; // Menghubungkan dengan database
 
 // Pastikan guru sudah login
 if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
+    header("Location: ../login_guru.php");
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $kelas = $_POST['kelas'];
-    $mataPelajaran = $_POST['mataPelajaran'];
-    $nilai = $_POST['nilai']; // Array of nilai keyed by NIS and ID tugas
+// Ambil data dari form
+$kelas = $_POST['kelas'] ?? null;
+$mataPelajaran = $_POST['mataPelajaran'] ?? null;
+$nilaiTugas = $_POST['nilai'] ?? [];
+$tanggal_penilaian = date("Y-m-d"); // Atur tanggal penilaian saat ini
 
-    foreach ($nilai as $nis => $tugasData) {
-        foreach ($tugasData as $id_tugas => $nilai_tugas) {
-            // Check if this entry already exists
-            $query = "SELECT COUNT(*) FROM penilaian_tugas WHERE nis = ? AND id_tugas = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("ss", $nis, $id_tugas);
-            $stmt->execute();
-            $stmt->bind_result($count);
-            $stmt->fetch();
+// Pastikan data kelas dan mata pelajaran tidak kosong
+if (!$kelas || !$mataPelajaran) {
+    die("Data kelas atau mata pelajaran tidak lengkap.");
+}
 
-            if ($count > 0) {
-                // Update existing record
-                $query = "UPDATE penilaian_tugas SET nilai_tugas = ?, tanggal_penilaian = NOW() WHERE nis = ? AND id_tugas = ?";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param("sss", $nilai_tugas, $nis, $id_tugas);
-                $stmt->execute();
-            } else {
-                // Insert new record
-                $query = "INSERT INTO penilaian_tugas (nis, id_tugas, kode_mapel, id_kelas, nilai_tugas, tanggal_penilaian)
-                          VALUES (?, ?, ?, ?, ?, NOW())";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param("sssss", $nis, $id_tugas, $mataPelajaran, $kelas, $nilai_tugas);
-                $stmt->execute();
-            }
+// Mulai transaksi untuk menghindari kesalahan data
+$conn->begin_transaction();
+
+try {
+    // Iterasi nilai setiap siswa dan simpan ke database
+    foreach ($nilaiTugas as $nis => $nilai) {
+        // Tentukan id_tugas yang terkait (misal diambil dari form atau input hidden, disesuaikan)
+        $id_tugas = $_POST['id_tugas'] ?? null;
+
+        if (!$id_tugas) {
+            die("ID Tugas tidak ditemukan.");
         }
+
+        // Cek apakah nilai sudah ada di tabel
+        $queryCheck = "SELECT id_nilai_tugas FROM penilaian_tugas WHERE nis = ? AND id_tugas = ? AND kode_mapel = ? AND id_kelas = ?";
+        $stmtCheck = $conn->prepare($queryCheck);
+        $stmtCheck->bind_param("sisi", $nis, $id_tugas, $mataPelajaran, $kelas);
+        $stmtCheck->execute();
+        $resultCheck = $stmtCheck->get_result();
+
+        if ($resultCheck->num_rows > 0) {
+            // Jika nilai sudah ada, update nilai tugas dan tanggal penilaian
+            $queryUpdate = "UPDATE penilaian_tugas SET nilai_tugas = ?, tanggal_penilaian = ? WHERE nis = ? AND id_tugas = ? AND kode_mapel = ? AND id_kelas = ?";
+            $stmtUpdate = $conn->prepare($queryUpdate);
+            $stmtUpdate->bind_param("issisi", $nilai, $tanggal_penilaian, $nis, $id_tugas, $mataPelajaran, $kelas);
+            $stmtUpdate->execute();
+            $stmtUpdate->close();
+        } else {
+            // Jika nilai belum ada, insert nilai baru
+            $queryInsert = "INSERT INTO penilaian_tugas (nis, id_tugas, kode_mapel, id_kelas, nilai_tugas, tanggal_penilaian) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmtInsert = $conn->prepare($queryInsert);
+            $stmtInsert->bind_param("sisiss", $nis, $id_tugas, $mataPelajaran, $kelas, $nilai, $tanggal_penilaian);
+            $stmtInsert->execute();
+            $stmtInsert->close();
+        }
+
+        $stmtCheck->close();
     }
 
-    header("Location: nilaiTugasGuru.php"); // Redirect ke halaman sukses atau yang sesuai
-    exit();
+    // Jika semua operasi berhasil, commit transaksi
+    $conn->commit();
+    echo "Nilai berhasil disimpan.";
+} catch (Exception $e) {
+    // Jika terjadi kesalahan, rollback transaksi
+    $conn->rollback();
+    echo "Terjadi kesalahan: " . $e->getMessage();
 }
+
+// Tutup koneksi database
+$conn->close();
+
+// Redirect kembali ke halaman nilai tugas
+header("Location: nilai_tugas.php");
+exit();
 ?>

@@ -50,7 +50,7 @@
     </table>
 </div>
 <?php
-include '../navbar/navFooter.php';
+include '../navbar/navFooterSiswa.php';
 include '../navbar/tabelSeries.php';
 ?>
 </body>

@@ -4,7 +4,7 @@ include '../db.php'; // Menghubungkan dengan database
 
 // Pastikan guru sudah login
 if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
+    header("Location: ../login_guru.php");
     exit();
 }
 
@@ -34,7 +34,11 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $materi_id);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Materi berhasil dihapus!'); window.location.href='cek_materi.php?topik_id=$topik_id&kode_mapel=$kode_mapel&id_kelas=$id_kelas';</script>";
+    // Set a success message
+    $_SESSION['message'] = 'Tugas berhasil dihapus!';
+    $_SESSION['msg_type'] = 'success';
+    header("Location: cek_tugas.php?topik_id=$topik_id&kode_mapel=$kode_mapel&id_kelas=$id_kelas'");
+    exit();
 } else {
     echo "<script>alert('Gagal menghapus materi!');</script>";
 }

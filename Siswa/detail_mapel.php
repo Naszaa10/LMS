@@ -9,8 +9,13 @@
 </head>
 <body>
 <?php
-// Include the necessary parts
+
 include '../navbar/navSiswa.php';
+
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-info">' . htmlspecialchars($_SESSION['message']) . '</div>';
+    unset($_SESSION['message']);
+}
 
 // Get the latest academic year
 $query_latest_tahun_ajaran = "SELECT id_tahun_ajaran, tahun_ajaran FROM tahun_ajaran ORDER BY tahun_ajaran DESC LIMIT 1";
@@ -172,6 +177,6 @@ while ($row_tugas = mysqli_fetch_assoc($result_tugas)) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/navFooterSiswa.php'; ?>
 </body>
 </html>

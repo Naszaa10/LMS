@@ -89,12 +89,13 @@
         const siswaNama = "<?php echo addslashes($dataSiswa['nama_siswa']); ?>";
         const siswaKelas = "<?php echo addslashes($dataSiswa['nama_kelas']); ?>";
         const waliKelas = "<?php echo addslashes($dataSiswa['nama_wali_kelas']); ?>";
+        const nisSiswa = "<?php echo addslashes($nis_siswa); ?>"; // Include NIS from PHP
 
         // Add title and student information
         doc.text('Rapor Nilai Siswa', 10, 10);
         doc.text(`Nama Siswa: ${siswaNama}`, 10, 20);
         doc.text(`Kelas: ${siswaKelas}`, 10, 30);
-        doc.text(`Tahun Ajaran: ${tahunAjaran}`, 10, 40);
+        doc.text(`Tahun Ajaran: ${tahunAjaran}`, 10, 40); // Ensure this line reads the correct value
         doc.text(`Nama Wali Kelas: ${waliKelas}`, 10, 50);
 
         // Adding headers
@@ -115,14 +116,15 @@
             startY: 60
         });
 
-        // Save the PDF file
-        const fileName = `Nilai_${tahunAjaran}.pdf`;
+        // Save the PDF file with format: Nilai_nis_tahun_ajaran.pdf
+        const fileName = `Nilai_${nisSiswa}_${tahunAjaran}.pdf`;
         doc.save(fileName);
     });
 </script>
 
+
 <?php
-    include '../navbar/navFooter.php';
+    include '../navbar/navFooterSiswa.php';
     include '../navbar/tabelSeries.php';
     ?>
 </body>

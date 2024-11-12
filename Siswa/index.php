@@ -7,11 +7,47 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* CSS untuk mengatur ukuran gambar */
+        .card {
+        background-color: #ffffff;
+        border: px solid #010101;
+        border-radius: 0.5rem;
+        width: 100%; /* Lebar card mengikuti lebar container */
+        max-width: 27rem; /* Lebar maksimum card */
+        height: auto; /* Tinggi card akan disesuaikan secara otomatis */
+        margin: 1px auto; /* Menjaga card tetap berada di tengah */
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
         .card-img-top {
-            width: 250px; /* Lebar gambar */
-            height: 250px; /* Tinggi gambar */
-            object-fit: contain; /* Memastikan gambar tidak terpotong */
-            margin: auto; /* Centering the image */
+            width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
+            height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
+            object-fit: contain; /* Memastikan gambar menutupi area card */
+        }
+
+        .card-body {
+            flex: 1; /* Mengizinkan card-body mengisi ruang yang tersisa */
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+            padding: 10px;
+        }
+
+        .card-text {
+            color: #555;
+            margin-left: 10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -72,7 +108,7 @@ $result_mapel = mysqli_query($conn, $query_mapel);
                 <?php if (mysqli_num_rows($result_tugas) > 0): ?>
                     <?php while ($row = mysqli_fetch_assoc($result_tugas)): ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center bg-light text-dark border-0">
-                            <a href="tugas.php?topik_id=<?php echo htmlspecialchars($row['topik_id']); ?>&kode_mapel=<?php echo htmlspecialchars($row['kode_mapel']); ?>" class="text-decoration-none">
+                            <a href="tugas.php?topik_id=<?php echo htmlspecialchars($row['topik_id']); ?>&kode_mapel=<?php echo htmlspecialchars($row['kode_mapel']); ?>" class="text-decoration-none text-black" >
                                 <?php echo htmlspecialchars($row['judul']); ?>
                             </a>
                             <span class="badge bg-danger rounded-pill">Due <?php echo htmlspecialchars($row['tanggal_tenggat']); ?></span>
@@ -119,8 +155,6 @@ $result_mapel = mysqli_query($conn, $query_mapel);
         <?php endwhile; ?>
     </div>
 </div>
-<?php
-include '../navbar/navFooter.php';
-?>
+<?php include '../navbar/navFooterSiswa.php'; ?>
 </body>
 </html>

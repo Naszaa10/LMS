@@ -4,7 +4,7 @@ include '../db.php'; // Menghubungkan dengan database
 
 // Pastikan guru sudah login
 if (!isset($_SESSION['teacher_nip'])) {
-    header("Location: ../login.php");
+    header("Location: ../login_siswa.php");
     exit();
 }
 
@@ -20,6 +20,9 @@ if (!isset($nis_siswa)) {
     die("NIS siswa tidak ditemukan.");
 }
 
+// Flag to check if submission was successful
+$submission_successful = false;
+
 // Jika tipe tugas adalah teks
 if (isset($jawaban) && !empty($jawaban)) {
     // Query untuk menyimpan jawaban teks
@@ -29,22 +32,33 @@ if (isset($jawaban) && !empty($jawaban)) {
     ";
     $stmt = $conn->prepare($query);
     if ($stmt === false) {
-        die("Error preparing statement: " . $conn->error);
+        $_SESSION['message'] = "Error preparing statement: " . $conn->error;
+        header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
+        exit();
     }
 
     $stmt->bind_param('sisisi', $nis_siswa, $tugas_id, $jawaban, $topik_id, $kode_mapel, $id_kelas);
     
-    if (!$stmt->execute()) {
-        die("Error executing statement: " . $stmt->error);
+    if ($stmt->execute()) {
+        $submission_successful = true; // Mark submission as successful
+    } else {
+        $_SESSION['message'] = "Error executing statement: " . $stmt->error;
+        header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
+        exit();
     }
     $stmt->close();
 }
 
 // Jika tipe tugas adalah upload
-if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == UPLOAD_ERR_OK) {
-    $file_tmp = $_FILES['file_upload']['tmp_name'];
-    $file_name = basename($_FILES['file_upload']['name']);
+if (isset($_FILES['file_tugas']) && $_FILES['file_tugas']['error'] == UPLOAD_ERR_OK) {
+    $file_tmp = $_FILES['file_tugas']['tmp_name'];
+    $file_name = basename($_FILES['file_tugas']['name']);
     $file_dest = '../uploads/tugas/' . $file_name;
+
+    // Periksa apakah direktori tujuan ada, jika tidak buat direktori
+    if (!is_dir('../uploads/tugas/')) {
+        mkdir('../uploads/tugas/', 0777, true);
+    }
 
     // Pindahkan file dari lokasi sementara ke folder tujuan
     if (move_uploaded_file($file_tmp, $file_dest)) {
@@ -55,19 +69,37 @@ if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == UPLOAD_E
         ";
         $stmt = $conn->prepare($query);
         if ($stmt === false) {
-            die("Error preparing statement: " . $conn->error);
+            $_SESSION['message'] = "Error preparing statement: " . $conn->error;
+            header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
+            exit();
         }
 
         $stmt->bind_param('sisisi', $nis_siswa, $tugas_id, $file_name, $topik_id, $kode_mapel, $id_kelas);
         
-        if (!$stmt->execute()) {
-            die("Error executing statement: " . $stmt->error);
+        if ($stmt->execute()) {
+            $submission_successful = true; // Mark submission as successful
+        } else {
+            $_SESSION['message'] = "Error executing statement: " . $stmt->error;
+            header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
+            exit();
         }
         $stmt->close();
     } else {
-        echo "Gagal mengunggah file.";
+        $_SESSION['message'] = "Gagal mengunggah file.";
+        header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
         exit();
     }
+} else {
+    if (isset($_FILES['file_upload']['error']) && $_FILES['file_upload']['error'] != UPLOAD_ERR_NO_FILE) {
+        $_SESSION['message'] = "Terjadi kesalahan saat mengunggah file: " . $_FILES['file_upload']['error'];
+        header("Location: detail_mapel.php?kode_mapel=" . urlencode($kode_mapel));
+        exit();
+    }
+}
+
+// Set success message after successful submission
+if ($submission_successful) {
+    $_SESSION['message'] = "Pengumpulan tugas berhasil.";
 }
 
 // Redirect after successful submission

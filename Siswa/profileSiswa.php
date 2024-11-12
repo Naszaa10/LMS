@@ -119,8 +119,6 @@ if (isset($_POST['save_changes'])) {
 
     </div>
 </div>
-<?php
-include '../navbar/navFooter.php'; // Footer
-?>
+<?php include '../navbar/navFooterSiswa.php'; ?>
 </body>
 </html>

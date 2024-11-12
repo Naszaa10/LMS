@@ -54,14 +54,18 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("siisssssi", $kode_mapel, $id_kelas, $topik_id, $nama_tugas, $deskripsi_tugas, $jenis_tugas, $file_path, $tenggat_waktu, $id_tahun_ajaran);
 
 if ($stmt->execute()) {
-    // Redirect back with success message
-    header("Location: detail_mapel.php?kode_mapel=$kode_mapel&kelas_id=$id_kelas&tahun_ajaran=$id_tahun_ajaran&success=1");
-    exit();
+    echo "<script>
+    alert('Tugas berhasil ditambahkan!');
+    window.location.href = 'detail_mapel.php?kode_mapel=" . urlencode($kode_mapel) . "&kelas_id=" . urlencode($id_kelas) . "&tahun_ajaran=" . urlencode($id_tahun_ajaran) . "';
+    </script>";
 } else {
-    // Redirect back with error message
-    header("Location: detail_mapel.php?kode_mapel=$kode_mapel&kelas_id=$id_kelas&tahun_ajaran=$id_tahun_ajaran&error=1");
+    // Set an error message in the session
+    $_SESSION['message'] = 'Gagal Menambah Tugas, Ulangi.';
+    $_SESSION['msg_type'] = 'error'; // Set a type for error
+    header("Location: detail_mapel.php?kode_mapel=$kode_mapel&kelas_id=$id_kelas&tahun_ajaran=$id_tahun_ajaran");
     exit();
 }
+
 
 // Tutup koneksi
 $stmt->close();

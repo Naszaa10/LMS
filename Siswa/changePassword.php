@@ -73,6 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-<?php include '../navbar/navFooter.php'; ?>
+<?php include '../navbar/navFooterSiswa.php'; ?>
 </body>
 </html>
