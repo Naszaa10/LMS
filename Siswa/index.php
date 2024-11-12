@@ -5,51 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        /* CSS untuk mengatur ukuran gambar */
-        .card {
-        background-color: #ffffff;
-        border: px solid #010101;
-        border-radius: 0.5rem;
-        width: 100%; /* Lebar card mengikuti lebar container */
-        max-width: 27rem; /* Lebar maksimum card */
-        height: auto; /* Tinggi card akan disesuaikan secara otomatis */
-        margin: 1px auto; /* Menjaga card tetap berada di tengah */
-        cursor: pointer;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+</style>
 
-        .card:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .card-img-top {
-            width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
-            height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
-            object-fit: contain; /* Memastikan gambar menutupi area card */
-        }
-
-        .card-body {
-            flex: 1; /* Mengizinkan card-body mengisi ruang yang tersisa */
-        }
-
-        .card-title {
-            font-weight: bold;
-            font-size: 1.25rem;
-            padding: 10px;
-        }
-
-        .card-text {
-            color: #555;
-            margin-left: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
+    
 </head>
 <body>
 <?php
@@ -123,7 +88,7 @@ $result_mapel = mysqli_query($conn, $query_mapel);
     </section>
 
     <!-- Mata Pelajaran Cards -->
-    <div class="row justify-content-start pt-3">
+    <div class=" mapel row justify-content-start pt-3">
         <?php while ($row_mapel = mysqli_fetch_assoc($result_mapel)): 
             // Hitung progres persentase
             $total_materi = $row_mapel['total_materi'];

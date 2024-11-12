@@ -1,63 +1,9 @@
-body {
-    font-family: 'Poppins', sans-serif;
-}
-
-#sidebar-wrapper {
-    min-height: 100vh;
-    width: 250px; /* Width of the sidebar */
-    background-color: #343a40; /* Dark background */
-    transition: all 0.3s ease; /* Smooth transition */
-}
-
-.sidebar {
-    transform: translateX(-100%); /* Start hidden */
-    transition: transform 0.3s ease; /* Smooth transition when toggled */
-}
-
-.sidebar.show {
-    transform: translateX(0); /* Show the sidebar */
-}
-
-.sidebar-heading {
-    color: #ffffff; /* White text for heading */
-}
-
-.list-group-item {
-    color: #ffffff; /* White text for links */
-    transition: background-color 0.3s; /* Smooth hover effect */
-}
-
-.list-group-item:hover {
-    background-color: #495057; /* Darker background on hover */
-}
-
-.sidebar-item {
-    padding: 10px 15px;
-    text-decoration: none;
-}
-
-.sidebar-item i {
-    margin-right: 10px; /* Spacing between icon and text */
-}
-
-#page-content-wrapper {
-    flex-grow: 1;
-    padding: 20px; /* Padding for page content */
-}
-
-.navbar {
-    background-color: #ffffff; /* White background for navbar */
-}
-
-.dropdown-menu {
-    background-color: #ffffff; /* White dropdown */
-}
-
-
 /* General Styling */
 body {
     overflow-x: hidden;
     text-decoration: none;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 #wrapper {
@@ -70,84 +16,45 @@ body {
     height: 100vh;
     position: fixed;
     top: 0;
-    left: 0;
-    background: linear-gradient(to bottom, #b3cde0, #ffffff); /* Warna latar belakang sidebar */
-    color: #ff0000; /* Warna teks */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Efek bayangan sidebar */
-    overflow-y: auto; /* Menambahkan scroll jika konten melebihi tinggi */
-    transition: all 0.3s ease; /* Animasi transisi */
+    left: -250px; /* Sidebar initially hidden */
+    background: linear-gradient(to bottom, #b3cde0, #ffffff); /* Background color */
+    color: #ff0000; /* Text color */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    overflow-y: auto;
+    transition: left 0.3s ease; /* Only animate left position */
     z-index: 9999;
 }
 
 .sidebar-heading {
-    border-bottom: 1px solid #c5b9b9; /* Garis bawah pada heading */
+    border-bottom: 1px solid #c5b9b9; /* Bottom border for heading */
 }
 
 .logo-img {
-    max-width: 100px; /* Ukuran maksimal logo */
+    max-width: 100px;
 }
 
 .sidebar-item {
     text-decoration: none;
     color: #0d0f11;
-    border: none; /* Menghilangkan border pada item */
-    border-radius: 0; /* Menghilangkan border-radius pada item */
-    padding: 10px 20px; /* Padding item */
-    font-size: 16px; /* Ukuran font item */
+    padding: 10px 20px;
+    font-size: 16px;
     font-family: 'Poppins', sans-serif;
-    transition: background-color 0.3s, color 0.3s; /* Efek transisi */
-}
-
-a {
-    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .sidebar-item:hover {
-    text-decoration: none;
-    background-color: #8ba9ca; /* Warna latar belakang saat hover */
-    color: #118d17; /* Warna teks saat hover */
+    background-color: #8ba9ca; /* Background color on hover */
+    color: #118d17; /* Text color on hover */
 }
 
 .sidebar-item.active {
-    background: #d0ff01; /* Warna latar belakang item aktif */
-     /* Warna teks item aktif */
+    background: #d0ff01; /* Background color for active item */
 }
 
 .sidebar-heading h4 {
-    font-size: 20px; /* Ukuran font judul */
-    margin: 0; /* Menghilangkan margin default */
-    color: #2c3e50; /* Warna teks judul */
-}
-
-/* Dropdown sidebar */
-.dropdown-toggle {
-    cursor: pointer; /* Pointer cursor for dropdown items */
-}
-
-.list-group .collapse {
-    display: none; /* Hide submenu initially */
-}
-
-.list-group .collapse.show {
-    display: block; /* Show submenu when active */
-}
-
-.list-group-item .dropdown-toggle::after {
-    content: " ▼"; /* Dropdown arrow */
     font-size: 20px;
-    float: right; /* Align arrow to the right */
-}
-
-.list-group-item .dropdown-toggle.collapsed::after {
-    content: " ▶"; /* Arrow for collapsed state */
-}
-
-/* Optional: Styling for dropdown items */
-.list-group .list-group-item a {
-    text-decoration: none; /* Remove underline from links */
-    color: #a09999; /* Text color for dropdown items */
-    display: block;
-    padding-left: 10px;
+    margin: 0;
+    color: #2c3e50;
 }
 
 /* Page Content */
@@ -158,24 +65,21 @@ a {
     padding-top: 50px;
 }
 
-/* Navbar Fixed Position */
-.navbar {
-    position: fixed; /* Menempatkan navbar tetap di bagian atas */
-    top: 0; /* Perbaiki nilai 'top' menjadi 0 */
-    left: 250px; /* Menyesuaikan posisi berdasarkan lebar sidebar */
-    width: calc(100% - 250px); /* Menghindari overlap dengan sidebar */
-    z-index: 1000; /* Pastikan navbar berada di atas elemen lain */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background: #000000; /* Warna latar belakang navbar */
-    border-bottom: 1px solid #b3cde0; /* Garis bawah untuk navbar */
-    transition: left 0.3s ease, width 0.3s ease; /* Tambahkan transisi untuk animasi */
+#page-content-wrapper.toggled {
+    padding-left: 0; /* Remove padding when sidebar is toggled */
 }
 
-.navbar .dropdown-menu {
-    top: 54px;
-    right: 0;
-    left: auto;
-    border: 1.5px solid #1d1d1d;
+/* Navbar Fixed Position */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #000000;
+    border-bottom: 1px solid #b3cde0;
+    transition: left 0.3s ease, width 0.3s ease;
 }
 
 .navbar .navbar-nav .nav-link {
@@ -185,47 +89,12 @@ a {
     font-family: 'Calibri';
 }
 
-.navbar .navbar-nav .nav-link span {
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: 400;
-    font-size: 15px;
-}
-
-/* Navbar atas dropdown untuk profile */
-.dropdown-item {
-    color: rgb(0, 0, 0);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dropdown-item:hover {
-    background-color: #1d1e1f; /* Warna latar belakang saat di-hover */
-    color: #ffffff; /* Ubah teks jadi putih saat di-hover */
-    border-radius: 4px; /* Tambahkan sedikit border-radius saat hover */
-}
-
-/* Hover effect for dropdown menu */
-.dropdown-menu {
-    background-color: #ffffff;
-    opacity: 90%;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.dropdown-menu:hover {
-    opacity: 90%; /* Tingkatkan opacity saat di-hover */
-    transform: scale(1.02); /* Sedikit perbesar ukuran dropdown saat hover */
-}
-
-/* Hilangkan caret dari dropdown-toggle */
-.navbar-nav .dropdown-toggle::after {
-    display: none;
-}
-
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     position: fixed;
     top: 15px;
     left: 15px;
-    z-index: 1001; /* Above all other elements */
+    z-index: 1001;
     background-color: #007bff;
     color: #ffffff;
     border: none;
@@ -234,97 +103,85 @@ a {
     cursor: pointer;
 }
 
-/* Responsive Behavior */
-.toggled .navbar {
-    left: 0; /* Navbar menyesuaikan posisi jika sidebar ditutup */
-    width: 100%; /* Memastikan navbar memenuhi lebar layar saat sidebar ditutup */
-}
-
-/* tombol pada navbar */
-.navbar .btn-primary {
-    background-color: #007bff;
-    border: none;
-}
-
 /* Sidebar Toggle */
-.toggled #sidebar-wrapper {
-    margin-left: -250px;
+.toggled .sidebar {
+    left: 0; /* Show sidebar */
+}
+
+.toggled .navbar {
+    left: 250px;
+    width: calc(100% - 250px); /* Adjust navbar width */
 }
 
 .toggled #page-content-wrapper {
-    padding-left: 0;
+    padding-left: 250px; /* Content adjusted to make room for sidebar */
 }
 
-footer {
-    height: 50px;
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 1rem;
-    text-align: center;
-    width: 100%;
-    position: relative;
-    bottom: 0;
-}
+/* Sidebar Collapse for Mobile */
+@media (max-width: 767.98px) {
+    .sidebar {
+        width: 150px; /* Smaller sidebar on mobile */
+        transform: translateX(-250px); /* Sidebar hidden */
+    }
 
+    .sidebar.show {
+        transform: translateX(0); /* Sidebar visible */
+    }
 
+    .main-container {
+        margin-left: 0; /* Remove margin for mobile */
+    }
 
-.container h1 {
-    font-weight: bold;
-    color: #000000;
-    text-align: center;
-    margin-top: 2rem; /* Jarak dari atas kontainer */
-    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
-}
+    #mainContent {
+        margin-left: 0;
+        padding-left: 10px; /* Adjust content padding */
+    }
 
-/* Style untuk Card */
-.mapel .card {
-    background-color: #ffffff;
-    border: px solid #010101;
-    border-radius: 0.5rem;
-    width: 100%; /* Lebar card mengikuti lebar container */
-    max-width: 27rem; /* Lebar maksimum card */
-    height: auto; /* Tinggi card akan disesuaikan secara otomatis */
-    margin: 1px auto; /* Menjaga card tetap berada di tengah */
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.mapel .card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.mapel .card-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-.mapel .card-img-top {
-    width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
-    height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
-    object-fit: contain; /* Memastikan gambar menutupi area card */
-}
-
-.mapel .card-body {
-    flex: 1; /* Mengizinkan card-body mengisi ruang yang tersisa */
-}
-
-.mapel .card-title {
-    font-weight: bold;
-    font-size: 1.25rem;
-    padding: 10px;
-}
-
-.mapel .card-text {
-    color: #555;
-    margin-left: 10px;
-    margin-bottom: 10px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    #sidebar-wrapper {
-        position: fixed; /* Overlay for small screens */
-        z-index: 1000; /* Make sure it appears above content */
-        left: 0; /* Align to the left */
+    .navbar-toggler {
+        margin-right: 10px;
     }
 }
+
+/* Additional Styles for Sidebar and Content */
+.sidebar .sidebar-item.active {
+    background: #d0ff01;
+}
+
+.sidebar .sidebar-item:hover {
+    background-color: #8ba9ca;
+    color: #118d17;
+}
+
+.sidebar-heading h4 {
+    color: #2c3e50;
+}
+
+/* General layout adjustments */
+#mainContent {
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+#mainContent h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+#page-content-wrapper {
+    transition: padding-left 0.3s ease-out;
+    padding-left: 260px; /* Default padding */
+    padding-top: 50px;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
