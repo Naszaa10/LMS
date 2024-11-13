@@ -23,6 +23,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     </script>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const currentPage = window.location.pathname; // Get the current page's path
+    const sidebarLinks = document.querySelectorAll('.sidebar-item'); // Select all sidebar items
+
+    sidebarLinks.forEach(link => {
+        // Check if the href attribute of the link matches the current page path
+        if (currentPage.includes(link.getAttribute('href'))) {
+            link.classList.add('active'); // Add the 'active' class to the current link
+        } else {
+            link.classList.remove('active'); // Remove 'active' class from other links
+        }
+    });
+});
+
+</script>
+
 
 
 

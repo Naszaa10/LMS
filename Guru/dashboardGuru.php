@@ -102,7 +102,7 @@ while ($row = mysqli_fetch_assoc($resultSiswaLogin)) {
     $jumlahLoginData[] = $row['jumlah_login'];
 }
 ?>
-<div id="mainContent" class="container-fluid mt-4">
+<div id="mainContent" class="container mt-4">
     <h1 class="mt-4">Dashboard Guru</h1>
     <p>Selamat datang di dashboard Guru. Di sini Anda dapat melihat informasi penting.</p>
 

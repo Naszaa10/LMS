@@ -64,7 +64,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
                     <div class="collapse navbar-collapse" id="navbarContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">Kontak : <span>Alfalah@sakola.coid</span></a>
+                                <a class="nav-link" aria-current="page" href="https://www.smkalfalahbandung.sch.id/konten/kontak">Kontak : <span>smkalfalah@yahoo.com</span></a>
                             </li>
                         </ul>
                     </div>
@@ -84,7 +84,7 @@ $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['fo
                     </div>
                 </div>
             </nav>
-        </div>
-    </div>
+        
+
 
 

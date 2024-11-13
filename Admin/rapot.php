@@ -1,187 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rapot Cetak</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="../css/rapot.css"> -->
-</head>
-<body>
-<?php include '../navbar/navAdmin.php'; ?>
-    <div class="container mt-2">
-        <h1>Cetak Rapot</h1>
+<?php
+include '../navbar/navAdmin.php';
+include '../db.php'; // Include the database connection
 
-        <!-- Select Kelas -->
-        <div class="mb-3">
-            <label for="kelasSelect" class="form-label">Pilih Kelas</label>
-            <select id="kelasSelect" name="kelas" class="form-select">
-                <option value="">-- Pilih Kelas --</option>
-                <option value="1">Kelas 1</option>
-                <option value="2">Kelas 2</option>
-                <option value="3">Kelas 3</option>
-                <!-- Add more class options as needed -->
-            </select>
-        </div>
+// Function to get students by class
+function getStudentsByClass($classId) {
+    global $conn;
+    $sql = "SELECT nis, nama_siswa FROM siswa WHERE id_kelas = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $classId);
+    $stmt->execute();
+    return $stmt->get_result();
+}
 
-        <!-- Table with student names and print options -->
-        <div id="studentsContainer" style="display:none;">
-            <h3>Daftar Siswa</h3>
-            <table id="example" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" id="selectAllStudents">
-                            <label for="selectAllStudents">Pilih Semua</label>
-                        </th>
-                        <th>No</th>
-                        <th>Nama Siswa</th>
-                    </tr>
-                </thead>
-                <tbody id="studentsTableBody">
-                    <!-- Data siswa akan dimuat secara dinamis menggunakan JavaScript -->
-                </tbody>
-            </table>
-        </div>
+// Function to get all classes with jenjang (grade level)
+function getAllClasses() {
+    global $conn;
+    $sql = "SELECT id_kelas, nama_kelas, jenjang FROM kelas";
+    $result = $conn->query($sql);
+    return $result;
+}
+?>
 
-        <div id="nilaiContainer" style="display:none;">
-        <table id="example" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Mata Pelajaran</th>
-                        <th>Nilai</th>
-                        <th>Pengetahuan</th>
-                        <th>Keterampilan</th>
-                        <th>Tahun Ajaran</th>
-                        <th>Nilai Akhir</th>
-                        <th>Predikat</th>
-                    </tr>
-                </thead>
-                <tbody id="nilaiTableBody">
-                    <!-- Data nilai akan dimuat secara dinamis -->
-                </tbody>
-            </table>
-        </div>
-        <button class="btn btn-primary" id="printBtn">Cetak Rapot</button>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Cetak Rapot</h1>
+
+    <!-- Select Kelas (Classes dropdown populated from the database) -->
+    <div class="mb-4">
+        <label for="kelasSelect" class="form-label">Pilih Kelas</label>
+        <select id="kelasSelect" name="kelas" class="form-select">
+            <option value="">-- Pilih Kelas --</option>
+            <?php
+            // Fetch and display the list of classes with their jenjang
+            $kelasResult = getAllClasses();
+            while ($row = $kelasResult->fetch_assoc()) {
+                echo "<option value='" . $row['id_kelas'] . "'>" . $row['jenjang'] . " - " . $row['nama_kelas'] . "</option>";
+            }
+            ?>
+        </select>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const kelasSelect = document.getElementById('kelasSelect');
-            const studentsContainer = document.getElementById('studentsContainer');
-            const studentsTableBody = document.getElementById('studentsTableBody');
-            const nilaiContainer = document.getElementById('nilaiContainer');
-            const nilaiTable = document.getElementById('nilaiTable');
-            const nilaiTableBody = document.getElementById('nilaiTableBody');
-            const printBtn = document.getElementById('printBtn');
+    <!-- Students Table -->
+    <div id="studentsContainer" style="display:none;">
+        <h3 class="text-success">Daftar Siswa</h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selectAllStudents">
+                        <label for="selectAllStudents">Pilih Semua</label>
+                    </th>
+                    <th>No</th>
+                    <th>Nama Siswa</th>
+                </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+                <!-- Student rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
 
-            // Dummy function to simulate fetching students based on class selected
-            function loadStudents() {
-                const kelasId = kelasSelect.value;
+    <!-- Grades Table -->
+    <div id="nilaiContainer" style="display:none;">
+        <h3 class="text-info">Nilai Siswa</h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Nilai</th>
+                    <th>Pengetahuan</th>
+                    <th>Keterampilan</th>
+                    <th>Tahun Ajaran</th>
+                    <th>Nilai Akhir</th>
+                    <th>Predikat</th>
+                </tr>
+            </thead>
+            <tbody id="nilaiTableBody">
+                <!-- Grades rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
 
-                if (kelasId) {
-                    // Dummy student data
-                    const students = [
-                        { no: 1, nama_siswa: 'John Doe', nis: '12345' },
-                        { no: 2, nama_siswa: 'Jane Smith', nis: '67890' },
-                        { no: 3, nama_siswa: 'Alice Johnson', nis: '54321' },
-                        // Add more students as needed
-                    ];
+    <button class="btn btn-primary btn-lg" id="printBtn">Cetak Rapot</button>
+</div>
 
-                    studentsTableBody.innerHTML = ''; // Clear table body
+<?php include '../navbar/navFooter.php'; ?>
 
-                    students.forEach(student => {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const kelasSelect = document.getElementById('kelasSelect');
+    const studentsContainer = document.getElementById('studentsContainer');
+    const studentsTableBody = document.getElementById('studentsTableBody');
+    const nilaiContainer = document.getElementById('nilaiContainer');
+    const nilaiTableBody = document.getElementById('nilaiTableBody');
+    const printBtn = document.getElementById('printBtn');
+
+    // Load students based on selected class
+    kelasSelect.addEventListener('change', function() {
+        const classId = kelasSelect.value;
+        if (classId) {
+            fetchStudents(classId); // Fetch students when a class is selected
+        } else {
+            studentsContainer.style.display = 'none'; // Hide student list if no class is selected
+        }
+    });
+
+    // Fetch and display students based on class selection
+    function fetchStudents(classId) {
+        fetch('panggilsiswa.php?class_id=' + classId) // Send request to fetch students
+            .then(response => response.json())
+            .then(data => {
+                studentsTableBody.innerHTML = ''; // Clear previous data
+                if (data.length > 0) {
+                    data.forEach((student, index) => {
                         const row = `
                             <tr>
-                                <td><input type="checkbox" class="student-checkbox" id="student-${student.nis}"></td>
-                                <td>${student.no}</td>
+                                <td><input type="checkbox" class="student-checkbox" data-nis="${student.nis}"></td>
+                                <td>${index + 1}</td>
                                 <td>${student.nama_siswa}</td>
                             </tr>`;
                         studentsTableBody.innerHTML += row;
                     });
-                    studentsContainer.style.display = 'block';
-
+                    studentsContainer.style.display = 'block'; // Show students table
                 } else {
-                    studentsContainer.style.display = 'none';
+                    studentsContainer.style.display = 'none'; // Hide if no students found
+                    alert("No students found for this class.");
                 }
-            }
+            })
+            .catch(error => console.error('Error fetching students:', error));
+    }
 
-            kelasSelect.addEventListener('change', loadStudents);
-
-            // Handle "Select All" checkbox functionality
-            document.getElementById('selectAllStudents').addEventListener('change', function() {
-                const checkboxes = document.querySelectorAll('input[type="checkbox"].student-checkbox');
-                checkboxes.forEach((checkbox) => {
-                    checkbox.checked = this.checked;
-                });
-            });
-
-            // Function to load grades based on selected students
-            function loadGrades() {
-                const selectedNIS = [];
-                const checkboxes = document.querySelectorAll('input[type="checkbox"].student-checkbox:checked');
-                checkboxes.forEach((checkbox) => {
-                    const studentId = checkbox.id.split('-')[1]; // Get NIS from checkbox id
-                    selectedNIS.push(studentId);
-                });
-
-                if (selectedNIS.length > 0) {
-                    // Dummy grades data based on selected students
-                    const dummyGrades = [
-                        { mata_pelajaran: 'Matematika', nilai: 85, pengetahuan: 'A', keterampilan: 'A', tahun_ajaran: '2024', nilai_akhir: '90', predikat: 'Baik' },
-                        { mata_pelajaran: 'Bahasa Inggris', nilai: 78, pengetahuan: 'B', keterampilan: 'B', tahun_ajaran: '2024', nilai_akhir: '85', predikat: 'Baik' },
-                        // Add more grades if needed
-                    ];
-
-                    nilaiTableBody.innerHTML = ''; // Clear table body
-
-                    dummyGrades.forEach((grade, index) => {
-                        const row = `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${grade.mata_pelajaran}</td>
-                                <td contenteditable="true">${grade.nilai}</td>
-                                <td contenteditable="true">${grade.pengetahuan}</td>
-                                <td contenteditable="true">${grade.keterampilan}</td>
-                                <td contenteditable="true">${grade.tahun_ajaran}</td>
-                                <td contenteditable="true">${grade.nilai_akhir}</td>
-                                <td contenteditable="true">${grade.predikat}</td>
-                            </tr>`;
-                        nilaiTableBody.innerHTML += row;
-                    });
-                    nilaiTable.style.display = 'table';
-                    nilaiContainer.style.display = 'block';
-                } else {
-                    nilaiTable.style.display = 'none';
-                    nilaiContainer.style.display = 'none';
-                }
-            }
-
-            // Event listener for print button
-            printBtn.addEventListener('click', () => {
-                loadGrades(); // Load grades before printing
-                const selectedStudents = [];
-                const checkboxes = document.querySelectorAll('input[type="checkbox"].student-checkbox:checked');
-                checkboxes.forEach((checkbox) => {
-                    const row = checkbox.closest('tr');
-                    const studentData = Array.from(row.cells).map(cell => cell.innerText);
-                    selectedStudents.push(studentData);
-                });
-
-                if (selectedStudents.length > 0) {
-                    console.log('Students selected for printing:', selectedStudents);
-                    // You can implement the actual print functionality here
-                    window.print();
-                } else {
-                    alert('Silakan pilih setidaknya satu siswa untuk dicetak.');
-                }
-            });
+    // Handle "Select All" checkbox functionality
+    document.getElementById('selectAllStudents').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"].student-checkbox');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = this.checked;
         });
-    </script>
+    });
 
-<?php include '../navbar/navFooter.php'; ?>
-<?php include '../navbar/tabelSeries.php'; ?>
+    // Fetch and display grades for selected students
+    printBtn.addEventListener('click', function() {
+        const selectedStudents = [];
+        const checkboxes = document.querySelectorAll('input[type="checkbox"].student-checkbox:checked');
+        checkboxes.forEach((checkbox) => {
+            const nis = checkbox.dataset.nis;
+            selectedStudents.push(nis);
+            fetchGrades(nis); // Fetch grades for each selected student
+        });
 
-</body>
-</html>
+        if (selectedStudents.length > 0) {
+            printGrades(); // Call function to print the grades table
+        } else {
+            alert('Silakan pilih setidaknya satu siswa untuk dicetak.');
+        }
+    });
+
+    // Fetch grades for a specific student
+    function fetchGrades(nis) {
+        fetch('getGrades.php?nis=' + nis) // Send request to get grades for the student
+            .then(response => response.json())
+            .then(data => {
+                data.forEach((grade, index) => {
+                    const row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${grade.mata_pelajaran}</td>
+                            <td>${grade.nilai}</td>
+                            <td>${grade.pengetahuan}</td>
+                            <td>${grade.keterampilan}</td>
+                            <td>${grade.tahun_ajaran}</td>
+                            <td>${grade.nilai_akhir}</td>
+                            <td>${grade.predikat}</td>
+                        </tr>`;
+                    nilaiTableBody.innerHTML += row;
+                });
+                nilaiContainer.style.display = 'block'; // Show the grades table
+            })
+            .catch(error => console.error('Error fetching grades:', error));
+    }
+
+    // Function to print only the grades table
+    function printGrades() {
+        const tableContent = document.getElementById('nilaiContainer').innerHTML;
+        const printWindow = window.open('', '', 'height=500,width=800');
+        printWindow.document.write('<html><head><title>Print Grades</title>');
+        printWindow.document.write('<style>body {font-family: Arial, sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ddd; padding: 8px; text-align: center;} th {background-color: #f2f2f2;}</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<h2>Daftar Nilai Siswa</h2>');
+        printWindow.document.write(tableContent);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.onload = function() {
+            printWindow.print();
+            printWindow.close();
+        };
+    }
+});
+</script>

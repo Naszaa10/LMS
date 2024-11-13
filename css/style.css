@@ -4,12 +4,19 @@ body {
     text-decoration: none;
     margin: 0;
     font-family: 'Poppins', sans-serif;
+    background-color: #e9eaec;
 }
 
 #wrapper {
     display: flex;
 }
 
+
+#sidebar-wrapper {
+    background-image: url(../uploads/gambar/bgsidebar.png);
+    width: 240px;
+    
+}
 /* Sidebar */
 .sidebar {
     width: 250px;
@@ -17,57 +24,72 @@ body {
     position: fixed;
     top: 0;
     left: -250px; /* Sidebar initially hidden */
-    background: linear-gradient(to bottom, #b3cde0, #ffffff); /* Background color */
-    color: #ff0000; /* Text color */
+    background: transparent; /* Background color */
+    color: #f1f1f1; 
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Shadow effect */
     overflow-y: auto;
     transition: left 0.3s ease; /* Only animate left position */
     z-index: 9999;
 }
-
 .sidebar-heading {
-    border-bottom: 1px solid #c5b9b9; /* Bottom border for heading */
+    border-bottom: 1px solid #c5b9b9;
+    
 }
 
 .logo-img {
-    max-width: 100px;
+    max-width: 100px; /* Ukuran maksimal logo */
 }
 
 .sidebar-item {
     text-decoration: none;
-    color: #0d0f11;
-    padding: 10px 20px;
-    font-size: 16px;
+    color: #c5b9b9;
+    border: none; /* Menghilangkan border pada item */
+    border-radius: 0; /* Menghilangkan border-radius pada item */
+    padding: 10px 20px; /* Padding item */
+    font-size: 16px; /* Ukuran font item */
     font-family: 'Poppins', sans-serif;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s; /* Efek transisi */
+}
+
+a {
+    text-decoration: none;
 }
 
 .sidebar-item:hover {
-    background-color: #8ba9ca; /* Background color on hover */
-    color: #118d17; /* Text color on hover */
+    text-decoration: none;
+    background-color: #3b3131; /* Warna latar belakang saat hover */
+    color: #ffffff; /* Warna teks saat hover */
 }
 
+/* Style for active sidebar item */
 .sidebar-item.active {
-    background: #d0ff01; /* Background color for active item */
+    background-color: #31363F; /* Example active color */
+    color: #f1f1f1; /* Change text color when active */
+}
+
+.sidebar-item.active i {
+    color: white; /* Change icon color when active */
 }
 
 .sidebar-heading h4 {
-    font-size: 20px;
-    margin: 0;
-    color: #2c3e50;
+    font-size: 20px; /* Ukuran font judul */
+    margin: 0; /* Menghilangkan margin default */
+    color: #fff; /* Warna teks judul */
 }
 
 /* Page Content */
 #page-content-wrapper {
     width: 100%;
-    padding-left: 260px; /* Adjust based on sidebar width */
+    padding-left: 0; /* Padding ketika sidebar terbuka */
     transition: padding-left 0.25s ease-out;
     padding-top: 50px;
+    overflow: hidden;
 }
 
 #page-content-wrapper.toggled {
-    padding-left: 0; /* Remove padding when sidebar is toggled */
+    padding-left: 0; /* Padding dihilangkan ketika sidebar tertutup */
 }
+
 
 /* Navbar Fixed Position */
 .navbar {
@@ -82,11 +104,24 @@ body {
     transition: left 0.3s ease, width 0.3s ease;
 }
 
+/* Navbar position when sidebar is open */
+.toggled .navbar {
+    left: 240px; /* Geser navbar 250px saat sidebar dibuka */
+    width: calc(100% - 250px); /* Sesuaikan lebar navbar */
+}
+
+
 .navbar .navbar-nav .nav-link {
     color: #000000;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bolder;
     font-family: 'Calibri';
+}
+
+.navbar .navbar-nav .nav-link span {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 400;
+    font-size: 15px;
 }
 
 /* Sidebar Toggle Button */
@@ -108,70 +143,10 @@ body {
     left: 0; /* Show sidebar */
 }
 
-.toggled .navbar {
-    left: 250px;
-    width: calc(100% - 250px); /* Adjust navbar width */
-}
-
 .toggled #page-content-wrapper {
     padding-left: 250px; /* Content adjusted to make room for sidebar */
 }
 
-/* Sidebar Collapse for Mobile */
-@media (max-width: 767.98px) {
-    .sidebar {
-        width: 150px; /* Smaller sidebar on mobile */
-        transform: translateX(-250px); /* Sidebar hidden */
-    }
-
-    .sidebar.show {
-        transform: translateX(0); /* Sidebar visible */
-    }
-
-    .main-container {
-        margin-left: 0; /* Remove margin for mobile */
-    }
-
-    #mainContent {
-        margin-left: 0;
-        padding-left: 10px; /* Adjust content padding */
-    }
-
-    .navbar-toggler {
-        margin-right: 10px;
-    }
-}
-
-/* Additional Styles for Sidebar and Content */
-.sidebar .sidebar-item.active {
-    background: #d0ff01;
-}
-
-.sidebar .sidebar-item:hover {
-    background-color: #8ba9ca;
-    color: #118d17;
-}
-
-.sidebar-heading h4 {
-    color: #2c3e50;
-}
-
-/* General layout adjustments */
-#mainContent {
-    padding-left: 20px;
-    margin-top: 20px;
-}
-
-#mainContent h2 {
-    margin: 0;
-    font-size: 24px;
-}
-
-#page-content-wrapper {
-    transition: padding-left 0.3s ease-out;
-    padding-left: 260px; /* Default padding */
-    padding-top: 50px;
-}
 
 /* Footer */
 footer {
@@ -185,3 +160,71 @@ footer {
     right: 0;
 }
 
+.container h1 {
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin-top: 2rem; /* Jarak dari atas kontainer */
+    margin-bottom: 2rem; /* Jarak antara h1 dan kartu */
+}
+
+/* Style untuk Card */
+.mapel .card {
+    background-color: #ffffff;
+    border: px solid #010101;
+    border-radius: 0.5rem;
+    width: 100%; /* Lebar card mengikuti lebar container */
+    max-width: 27rem; /* Lebar maksimum card */
+    height: auto; /* Tinggi card akan disesuaikan secara otomatis */
+    margin: 1px auto; /* Menjaga card tetap berada di tengah */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mapel .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mapel .card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.mapel .card-img-top {
+    width: 100%; /* Mengatur lebar gambar agar sesuai dengan lebar card */
+    height: 15rem; /* Mengatur tinggi gambar, sesuaikan dengan kebutuhan */
+    object-fit: contain; /* Memastikan gambar menutupi area card */
+}
+
+.mapel .card-body {
+    flex: 1; /* Mengizinkan card-body mengisi ruang yang tersisa */
+}
+
+.mapel .card-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+    padding: 10px;
+}
+
+.mapel .card-text {
+    color: #555;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+
+.container h2, p {
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: left; /* Memastikan header h2 di tengah */
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        position: fixed; /* Overlay for small screens */
+        z-index: 1000; /* Make sure it appears above content */
+        left: -250; /* Align to the left */
+    }
+}

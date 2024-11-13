@@ -34,7 +34,7 @@ $resultSubjects = $stmtSubjects->get_result();
 
     <div id="mainContent">
         <div class="container mt-4">
-            <h2 class="mb-4">Nilai Tugas Siswa</h2>
+            <h1 class="mb-4">Nilai Tugas Siswa</h1>
             <form id="nilaiForm">
                 <div class="mb-3">
                     <label for="kelas" class="form-label">Kelas</label>

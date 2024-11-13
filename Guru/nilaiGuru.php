@@ -34,7 +34,7 @@ $resultSubjects = $stmtSubjects->get_result();
 <body>
     <div id="mainContent">
         <div class="container mt-4">
-            <h2 class="mb-4">Input Nilai Siswa</h2>
+            <h1 class="mb-4">Input Nilai Siswa</h1>
             <form id="nilaiForm" method="post" action="save_nilai.php">
                 <!-- Form Pilihan Kelas dan Mata Pelajaran -->
                 <div class="mb-3">

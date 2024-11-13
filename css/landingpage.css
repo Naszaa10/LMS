@@ -10,7 +10,6 @@
 
 body {
     overflow-x: hidden;
-    background: linear-gradient(to bottom, #b3cde0, #ffffff);
     background-size: cover;
 }
 
@@ -54,9 +53,7 @@ img {
     top: 0; /* Perbaiki nilai 'top' menjadi 0 */
     width: 100%;
     z-index: 1000; /* Pastikan navbar berada di atas elemen lain */
-    box-shadow: 1px solid rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to top, #b3cde0, #ffffff); /* Warna latar belakang navbar */
-    /* border-bottom: 2px solid #000000; Garis bawah untuk navbar */
+    box-shadow: 1px solid rgba(0, 0, 0, 0.1);/* Warna latar belakang navbar */
     transition: left 0.3s ease, width 0.3s ease; /* Tambahkan transisi untuk animasi */
 }
 
@@ -181,22 +178,26 @@ h2 {
 .carousel-caption {
     position: absolute;
     bottom: 20px;
-    left: 50%;
+    left: 52%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.6); /* Latar belakang hitam transparan untuk teks */
     padding: 15px;
     border-radius: 10px;
     color: white;
     text-align: center;
+    width: 80%;
+    height: 90%;
 }
 
 .carousel-caption h5 {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
 }
 
 .carousel-caption p {
-    font-size: 10px;
+    font-size:large;
+    text-align: justify;
+    
 }
 
 /* Carousel indicators (bullets) styling */

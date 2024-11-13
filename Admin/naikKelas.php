@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Kelas Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/naikKelas.css">
+    <!-- <link rel="stylesheet" href="../css/naikKelas.css"> -->
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                             ?>
                         </select>
                     </div>
-                    <div><button type="submit" class="btn btn-primary">Tampilkan Siswa</button></div>
+                    <div class="tombol"><button type="submit" class="btn btn-primary">Tampilkan Siswa</button></div>
                 </form>
             </div>
         </div>
@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                             </select>
                         </div>
                         <input type="hidden" name="id_kelas_lama" value="<?php echo $id_kelas_terpilih; ?>">
-                        <div><button type="submit" class="btn btn-success">Update Semua Siswa ke Kelas Baru</button></div>
+                        <div class="tombol"><button type="submit" class="btn btn-success">Update Semua Siswa ke Kelas Baru</button></div>
                     </form>
                 </div>
             </div>

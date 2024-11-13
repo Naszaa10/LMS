@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    
     <style>
         body {
             background-color: #f8f9fa; /* Warna latar belakang yang lebih terang */
@@ -94,8 +95,8 @@ if (mysqli_num_rows($resultPengumuman) > 0) {
 }
 ?>
 
-<div id="mainContent" class="container-fluid mt-4">
-    <h1 class="mt-4">Dashboard Siswa</h1>
+<div id="mainContent" class="container mt-4">
+    <h2 class="mt-4">Dashboard Siswa</h2>
     <p>Selamat datang di dashboard Siswa. Di sini Anda dapat melihat informasi penting.</p>
 
     <div class="row mb-4">

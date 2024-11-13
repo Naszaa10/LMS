@@ -93,7 +93,7 @@ while ($row = $siswa_per_jurusan_result->fetch_assoc()) {
 }
 ?>
 
-<div id="mainContent" class="container-fluid mt-4">
+<div id="mainContent" class="container mt-4">
     <h1 class="mt-4">Dashboard Admin</h1>
     <p>Selamat datang di dashboard admin guru. Di sini Anda dapat mengelola semua data penting seperti guru, siswa, jurusan, dan jadwal pelajaran.</p>
     
