@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password baru jika ingin mengubah">
             </div>
 
-            <div>
+            <div style="grid-column: 2 / 3; text-align: right; padding:">
                 <button type="submit" class="btn btn-warning">Simpan</button>
                 <a href="dataSiswa.php" class="btn btn-danger">Batal</a>
             </div>

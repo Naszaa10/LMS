@@ -45,8 +45,10 @@ include '../db.php'; // Menghubungkan ke database
                         <option value="siswa">Siswa</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" id="submitBtn">Kirim Pengumuman</button>
-                <a href="lihatPengumuman.php" class="btn btn-success">Lihat Pengumuman</a>
+                <div style="grid-column: 2 / 3; text-align: right;">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Kirim Pengumuman</button>
+                    <a href="lihatPengumuman.php" class="btn btn-success">Lihat Pengumuman</a>
+                </div>
             </form>
         </div>
     </div>

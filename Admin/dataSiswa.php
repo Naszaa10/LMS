@@ -38,6 +38,15 @@ $conn->close();
     <title>Data Siswa</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="..\css\jadwal.css"> -->
+    <style>
+        .btn-warning, .btn-danger {
+            width: 60px;
+            height:32px;
+            margin: 2px;
+
+        }
+    </style>
+
 </head>
 <body>
     <?php include '../navbar/navAdmin.php'; ?>

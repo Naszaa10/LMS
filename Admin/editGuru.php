@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endwhile; ?>
                 </select>
             </div>
-            <div>
+            <div style="grid-column: 2 / 3; text-align: right;">
                 <button type="submit" class="btn btn-warning">Simpan</button>
                 <a href="dataGuru.php" class="btn btn-danger">Batal</a>
             </div>

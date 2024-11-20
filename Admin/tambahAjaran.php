@@ -50,7 +50,9 @@ if (isset($_POST['submit_ajaran'])) {
                     <input type="text" id="thn_ajaran" name="thn_ajaran" class="form-control" required>
                 </div>
 
-                <button type="submit" name="submit_ajaran" class="btn btn-primary">Tambah Tahun Ajaran</button>
+                <div style="text-align: right;">
+                    <button type="submit" name="submit_ajaran" class="btn btn-primary">Tambah Tahun Ajaran</button>
+                </div>
             </form>
         </div>
     </div>

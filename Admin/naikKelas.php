@@ -92,7 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                             ?>
                         </select>
                     </div>
-                    <div class="tombol"><button type="submit" class="btn btn-primary">Tampilkan Siswa</button></div>
+                    <div class="tombol"style="grid-column: 2 / 3; text-align: right;">
+                        <button type="submit" class="btn btn-primary">Tampilkan Siswa</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -153,7 +155,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_kelas_baru'])) {
                             </select>
                         </div>
                         <input type="hidden" name="id_kelas_lama" value="<?php echo $id_kelas_terpilih; ?>">
-                        <div class="tombol"><button type="submit" class="btn btn-success">Update Semua Siswa ke Kelas Baru</button></div>
+                        <div class="tombol" style="grid-column: 2 / 3; text-align: right;">
+                            <button type="submit" class="btn btn-success">Update Semua Siswa ke Kelas Baru</button>
+                        </>
                     </form>
                 </div>
             </div>

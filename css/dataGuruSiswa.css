@@ -62,7 +62,8 @@ body {
 .btn-primary {
     border-radius: 5px; /* Sudut membulat pada tombol */
     transition: background-color 0.3s, transform 0.3s; /* Transisi warna dan transformasi */
-    grid-column: 1 / -1; /* Memastikan tombol mengisi kolom penuh */
+    grid-column: 2 / 3;
+    text-align: right;
 }
 
 .btn-primary:hover {

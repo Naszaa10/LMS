@@ -132,7 +132,9 @@ $conn->close();
                     </div>
 
                     
-                    <div><button type="submit" class="btn btn-primary">Tambah Mata Pelajaran</button></div>
+                    <div style="grid-column: 2 / 3; text-align: right;">
+                        <button type="submit" class="btn btn-primary">Tambah Mata Pelajaran</button>
+                    </div>
                     
                 </form>
             </div>
