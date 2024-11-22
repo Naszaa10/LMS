@@ -1,7 +1,15 @@
-<?php
-session_start();
-include '../db.php'; 
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Nilai</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- <link rel="stylesheet" href="..\css\nilaiTugas.css"> -->
+</head>
+<body>
+<?php include '../navbar/navAdmin.php';
 // Fetching Kelas and Tahun Ajaran from table 'nilai'
 $sql_kelas = "SELECT DISTINCT k.id_kelas, k.nama_kelas, k.jenjang FROM nilai n JOIN kelas k ON n.id_kelas = k.id_kelas";
 $sql_tahun_ajaran = "SELECT DISTINCT ta.id_tahun_ajaran, ta.tahun_ajaran FROM nilai n JOIN tahun_ajaran ta ON n.id_tahun_ajaran = ta.id_tahun_ajaran";
@@ -62,20 +70,6 @@ if (isset($_POST['fetch_nilai'])) {
 }
 ?>
 
-
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Nilai</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- <link rel="stylesheet" href="..\css\nilaiTugas.css"> -->
-</head>
-<body>
-    <?php include '../navbar/navAdmin.php'; ?>
 
     <div class="container mt-4">
         <h1>Manage Nilai</h1>

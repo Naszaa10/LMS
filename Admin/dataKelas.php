@@ -92,17 +92,6 @@ $result = $stmt->get_result();
                 <?php endwhile; ?>
             </tbody>
         </table>
-
-        <!-- Paginasi -->
-        <nav>
-            <ul class="pagination">
-                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                        <a class="page-link" href="dataKelas.php?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
-                    </li>
-                <?php endfor; ?>
-            </ul>
-        </nav>
     </div>
     <?php include '../navbar/navFooter.php'; ?>
     <?php include '../navbar/tabelSeries.php'; ?>
