@@ -15,6 +15,9 @@ $queryGuru = "SELECT foto_profil FROM guru WHERE nip = '$nip'";
 $resultGuru = mysqli_query($conn, $queryGuru);
 $guru = mysqli_fetch_assoc($resultGuru);
 $fotoProfil = !empty($guru['foto_profil']) ? '../uploads/profile/' . $guru['foto_profil'] : 'https://via.placeholder.com/30';
+
+// Atur zona waktu ke Jakarta
+date_default_timezone_set('Asia/Jakarta');
 ?>
 
 <!DOCTYPE html>

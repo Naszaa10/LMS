@@ -9,11 +9,10 @@
 </head>
 <body>
     <!-- Top Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <!-- <button id="sidebarToggle" class="btn btn-primary me-3">☰</button> -->
+    <nav class="navbar navbar-expand-lg ">
         <img src="uploads\gambar\SMK_AF.png" alt="logoalfalah">
         <a href="index.php" class="navbar-logo">SMK<span>Al Falah</span></a>
-        <div class="container-fluid">
+        <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -39,17 +38,4 @@
             </ul>
         </div>
     </nav>
-</body>
 
-<script>
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 0) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-</script>
-
-</html>

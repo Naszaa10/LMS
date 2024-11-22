@@ -28,7 +28,7 @@ $result = $stmt->get_result();
 <body>
 <?php include '../navbar/navAdmin.php'; ?>
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <h1>Daftar Jadwal</h1>
 
     <!-- Tombol Tambah Jadwal -->

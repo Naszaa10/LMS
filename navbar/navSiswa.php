@@ -16,6 +16,9 @@ $querySiswa = "SELECT foto_profil FROM siswa WHERE nis = '$nis_siswa'";
 $resultSiswa = mysqli_query($conn, $querySiswa);
 $siswa = mysqli_fetch_assoc($resultSiswa);
 $fotoProfil = !empty($siswa['foto_profil']) ? '../uploads/profile/' . $siswa['foto_profil'] : 'https://via.placeholder.com/30';
+
+// Atur zona waktu ke Jakarta
+date_default_timezone_set('Asia/Jakarta');
 ?>
 
 <!DOCTYPE html>

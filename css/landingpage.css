@@ -10,8 +10,10 @@
 
 body {
     overflow-x: hidden;
+    background: #e9eaec !important;
     background-size: cover;
 }
+
 
 #wrapper {
     display: flex;
@@ -53,7 +55,9 @@ img {
     top: 0; /* Perbaiki nilai 'top' menjadi 0 */
     width: 100%;
     z-index: 1000; /* Pastikan navbar berada di atas elemen lain */
-    box-shadow: 1px solid rgba(0, 0, 0, 0.1);/* Warna latar belakang navbar */
+    box-shadow: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #e9eaec; /* Warna latar belakang navbar */
+    /* border-bottom: 2px solid #000000; Garis bawah untuk navbar */
     transition: left 0.3s ease, width 0.3s ease; /* Tambahkan transisi untuk animasi */
 }
 
@@ -246,8 +250,7 @@ h2 {
 
 footer {
     height: 50px;
-    background: linear-gradient(to bottom, #ffffff, #b3cde0);
-    /* background-color: #b3cde0; */
+    background-color: #e9eaec;
     color: #343a40;
     padding: 1rem;
     text-align: center;

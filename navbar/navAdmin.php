@@ -1,3 +1,16 @@
+<?php
+session_start();
+include '../db.php'; // Koneksi database
+
+// Pastikan siswa sudah login
+// if (!isset($_SESSION['admin'])) {
+//     header("Location: ../Admin/login.php");
+//     exit();
+// }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

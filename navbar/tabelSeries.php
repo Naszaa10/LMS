@@ -540,5 +540,3 @@ div.table-responsive > div.dt-container > div.row > div[class^=col-]:last-child 
 $('#example').DataTable();
 </script>
 
-
-<!-- <table id="example" class="table table-bordered"> -->

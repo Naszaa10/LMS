@@ -16,6 +16,7 @@ $querySiswa = "SELECT * FROM siswa WHERE nis = '$nis_siswa'";
 $resultSiswa = mysqli_query($conn, $querySiswa);
 $siswa = mysqli_fetch_assoc($resultSiswa);
 
+
 // Cek apakah form disubmit
 if (isset($_POST['save_changes'])) {
     // Ambil data dari form
@@ -49,11 +50,8 @@ if (isset($_POST['save_changes'])) {
 
 
         if (in_array($fileType, $allowedTypes)) {
-            // Atur zona waktu ke Jakarta
-            date_default_timezone_set('Asia/Jakarta');
-
-            // Ganti nama file dengan NIP dan timestamp
-            $newFileName = $nip . '_' . date("Ymd_His") . '_' . round(microtime(true) * 1000) . "." . $fileType;
+            // Ganti nama file dengan NIS dan timestamp
+            $newFileName = $nis_siswa . '_' . date("Ymd_His") . '_' . round(microtime(true) * 1000) . "." . $fileType;
             $targetFilePath = $targetDir . $newFileName;
 
             // Upload file ke folder
@@ -81,7 +79,6 @@ if (isset($_POST['save_changes'])) {
 
 <div id="mainContent" class="container mt-3">
     <div class="card-group"> <!-- Wrapper untuk menggabungkan kedua card -->
-        
         <!-- Sidebar (Foto Profil dan Menu) -->
         <div class="card col-md-4">
             <div class="card-header text-center">

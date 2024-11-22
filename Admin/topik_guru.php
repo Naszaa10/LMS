@@ -20,6 +20,9 @@ if ($result_mapel->num_rows == 0) {
     die("Kode mapel tidak valid.");
 }
 
+$row_mapel = $result_mapel->fetch_assoc();
+$nama_mapel = $row_mapel['nama_mapel'];
+
 // Cek apakah kelas_id ada di tabel kelas
 $query_kelas = "SELECT * FROM kelas WHERE id_kelas = ?";
 $stmt_kelas = $conn->prepare($query_kelas);
@@ -29,6 +32,10 @@ $result_kelas = $stmt_kelas->get_result();
 if ($result_kelas->num_rows == 0) {
     die("Kelas ID tidak valid.");
 }
+
+$row_kelas = $result_kelas->fetch_assoc();
+$nama_kelas = $row_kelas['jenjang'] . ' ' . $row_kelas['nama_kelas'];
+
 
 // Jika formulir ditambahkan topik disubmit
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -72,7 +79,7 @@ $result = $stmt->get_result();
 <?php include '../navbar/navAdmin.php'; ?>
 
 <div class="container mt-4">
-    <h1>Daftar Topik untuk <?php echo htmlspecialchars($kode_mapel); ?> - <?php echo htmlspecialchars($kelas_id); ?></h1>
+    <h1>Daftar Topik untuk <?php echo htmlspecialchars($nama_mapel); ?> - <?php echo htmlspecialchars($nama_kelas); ?></h1>
 
     <!-- Form untuk Menambahkan Topik Baru -->
     <form method="post" class="mb-4">
@@ -102,8 +109,7 @@ $result = $stmt->get_result();
                     <td><?php echo $no++; ?></td>
                     <td><?php echo htmlspecialchars($row['nama_topik']); ?></td>
                     <td>
-                        <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-danger">Hapus</button>
+                        <a href="lihat_materi.php?id_kelas=<?php echo $row['id_kelas']; ?>&kode_mapel=<?php echo $row['kode_mapel']; ?>&topik_id=<?php echo $row['topik_id']; ?>" class="btn btn-sm btn-primary">Lihat Materi</a>
                     </td>
                 </tr>
             <?php endwhile; ?>

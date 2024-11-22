@@ -31,17 +31,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Update password di database
             $updateQuery = "UPDATE siswa SET password = '$hashedPassword' WHERE nis = '$nis_siswa'";
             if (mysqli_query($conn, $updateQuery)) {
+                // Password berhasil diubah
                 $successMsg = "Password berhasil diubah.";
+                header("Location: profileSiswa.php?success=" . urlencode($successMsg));
+                exit(); // Pastikan untuk menghentikan eksekusi setelah redirect
             } else {
+                // Terjadi kesalahan saat mengubah password
                 $errorMsg = "Terjadi kesalahan saat mengubah password. Silakan coba lagi.";
+                header("Location: profileSiswa.php?error=" . urlencode($errorMsg));
+                exit();
             }
-        } else {
-            $errorMsg = "Password baru dan konfirmasi password tidak cocok.";
-        }
-    } else {
-        $errorMsg = "Password lama tidak sesuai.";
-    }
-}
+            } else {
+                // Password baru dan konfirmasi password tidak cocok
+                $errorMsg = "Password baru dan konfirmasi password tidak cocok.";
+                header("Location: profileSiswa.php?error=" . urlencode($errorMsg));
+                exit();
+            }
+            } else {
+                // Password lama tidak sesuai
+                $errorMsg = "Password lama tidak sesuai.";
+                header("Location: profileSiswa.php?error=" . urlencode($errorMsg));
+                exit();
+            }
+        }            
 ?>
     <div class="container mt-5">
         <div class="card">
@@ -49,12 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h4>Ganti Password</h4>
             </div>
             <div class="card-body">
-                <?php if (isset($errorMsg)): ?>
-                    <div class="alert alert-danger"><?php echo $errorMsg; ?></div>
-                <?php endif; ?>
-                <?php if (isset($successMsg)): ?>
-                    <div class="alert alert-success"><?php echo $successMsg; ?></div>
-                <?php endif; ?>
+
                 <form method="POST" action="changePassword.php">
                     <div class="mb-3">
                         <label for="currentPassword" class="form-label">Password Lama</label>
