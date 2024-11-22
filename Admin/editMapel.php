@@ -103,7 +103,9 @@ $conn->close();
         </div>
 
 
-        <div><button type="submit" class="btn btn-primary">Simpan Perubahan</button></div>
+        <div style="grid-column: 2 / 3; text-align: right;">
+            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        </div>
     </form>
     </div>
 </div>

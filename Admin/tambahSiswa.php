@@ -131,7 +131,9 @@ $conn->close();
                     <input type="text" id="angkatan" name="angkatan" class="form-control" required>
                 </div>
 
-                <div><button type="submit" name="submit_siswa" class="btn btn-primary">Tambah Akun</button></div>
+                <div style="grid-column: 2 / 3; text-align: right;">
+                    <button type="submit" name="submit_siswa" class="btn btn-primary">Tambah Akun</button>
+                </div>
             </form>
         </div>
     </div>

@@ -19,7 +19,7 @@ $result = $stmt->get_result();
         <div class="row justify-content-start">
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <a href="detail_mapel.php?kode_mapel=<?php echo $row['kode_mapel']; ?>&kelas_id=<?php echo $row['id_kelas']; ?>">
                         <div class="card custom-card">
                             <img src="../gambar/<?php echo $row['gambar']; ?>" class="card-img-top" alt="<?php echo $row['nama_mapel']; ?>">

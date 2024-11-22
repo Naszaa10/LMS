@@ -73,8 +73,11 @@ $row = $result->fetch_assoc();
             <label for="waktu_selesai">Waktu Selesai:</label>
             <input type="text" class="form-control" id="waktu_selesai" name="waktu_selesai" value="<?php echo htmlspecialchars($row['waktu_selesai']); ?>" required>
         </div>
-        <button type="submit" class="btn btn-warning">Update Jadwal</button>
-        <a href="jadwalList.php" class="btn btn-danger">Batal</a>
+        
+        <div style="grid-column: 2 / 3; text-align: right;">
+            <button type="submit" class="btn btn-warning">Update Jadwal</button>
+            <a href="jadwalList.php" class="btn btn-danger">Batal</a>
+        </div>
     </form>
 </div>
 

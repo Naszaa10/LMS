@@ -94,8 +94,12 @@ $classes = $conn->query("SELECT id_kelas, nama_kelas, jenjang FROM kelas");
             <label for="waktu_selesai">Waktu Selesai:</label>
             <input type="text" class="form-control" id="waktu_selesai" name="waktu_selesai" required>
         </div>
-        <button type="submit" class="btn btn-primary">Tambah Jadwal</button>
-        <a href="dataJadwal.php" class="btn btn-danger">Batal</a>
+
+        <div style="grid-column: 2 / 3; text-align: right;">
+            <button type="submit" class="btn btn-primary">Tambah Jadwal</button>
+            <a href="dataJadwal.php" class="btn btn-danger">Batal</a>
+        </div>
+        
     </form>
 </div>
 

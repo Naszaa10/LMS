@@ -91,8 +91,10 @@ $jurusan_result = $conn->query($jurusan_query);
                     </select>
                 </div>
 
-                <button type="submit" name="submit_kelas" class="btn btn-primary">Tambah Kelas</button>
-                <a href="dataKelas.php" class="btn btn-danger">Batal</a>
+                <div style="text-align: right;">
+                    <button type="submit" name="submit_kelas" class="btn btn-primary">Tambah Kelas</button>
+                    <a href="dataKelas.php" class="btn btn-danger">Batal</a>
+                </div>
             </form>
         </div>
     </div>

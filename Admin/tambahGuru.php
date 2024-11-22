@@ -96,7 +96,10 @@ $conn->close();
                         <?php echo $jurusan_options; ?>
                     </select>
                 </div>
-                <div><button type="submit" name="submit_guru" class="btn btn-primary">Tambah Akun</button></div>
+                
+                    <div style="grid-column: 2 / 3; text-align: right;">
+                        <button type="submit" name="submit_guru" class="btn btn-primary">Tambah Akun</button>
+                    </div>
                 
             </form>
         </div>

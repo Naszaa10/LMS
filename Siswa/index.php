@@ -99,7 +99,7 @@ $result_mapel = mysqli_query($conn, $query_mapel);
             $progres_tugas = $total_tugas > 0 ? ($total_tugas_dikumpulkan / $total_tugas) * 100 : 0;
             $progres_total = ($progres_materi + $progres_tugas) / 2;
         ?>
-            <div class="col-md-4 mb-4">
+            <div class="col-md-6 mb-3">
                 <a href="detail_mapel.php?kode_mapel=<?php echo htmlspecialchars($row_mapel['kode_mapel']); ?>" class="card-link">
                     <div class="card custom-card">
                         <?php if ($row_mapel['gambar']): ?>

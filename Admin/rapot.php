@@ -80,8 +80,9 @@ function getAllClasses() {
             </tbody>
         </table>
     </div>
-
-    <button class="btn btn-primary btn-lg" id="printBtn">Cetak Rapot</button>
+    <div style="text-align: right;">
+        <button class="btn btn-primary btn-lg" id="printBtn">Cetak Rapot</button>
+    </div>
 </div>
 
 <?php include '../navbar/navFooter.php'; ?>

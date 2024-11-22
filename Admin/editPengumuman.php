@@ -42,7 +42,9 @@ $announcement = mysqli_fetch_assoc($result);
                 <option value="siswa" <?php echo $announcement['role'] == 'siswa' ? 'selected' : ''; ?>>Siswa</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <div style="grid-column: 2 / 3; text-align: right;">
+            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        </div>
     </form>
 </div>
 

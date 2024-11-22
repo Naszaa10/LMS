@@ -131,9 +131,10 @@ if (isset($_POST['update_kelas'])) {
                         ?>
                     </select>
                 </div>
-
-                <button type="submit" name="update_kelas" class="btn btn-warning">Update Kelas</button>
-                <a href="tambah_kelas.php" class="btn btn-danger">Batal</a>
+                <div style="grid-column: 2 / 3; text-align: right;">
+                    <button type="submit" name="update_kelas" class="btn btn-warning">Update Kelas</button>
+                    <a href="tambah_kelas.php" class="btn btn-danger">Batal</a>
+                </div>
             </form>
         </div>
     </div>
